@@ -1,10 +1,15 @@
 const express = require('express')
 const dotenv = require('dotenv')
 const app = express()
+const mongoose = require('mongoose')
+
+const database =require("./config/database.js")
 
 dotenv.config()
+database.connect()
 
 const port = process.env.PORT;
+
 
 const routes = require('./routes/index.route.js')
 
@@ -15,9 +20,6 @@ app.use(express.static('public'));
 routes(app)
 
 
-app.get('/products', (req, res) => {
-  res.render('client/pages/products/index.pug')
-})
 
 
 app.listen(port, () => {
