@@ -10,8 +10,10 @@ const routes = require('./routes/index.route.js')
 
 app.set('views', './views')
 app.set('view engine', 'pug')
+app.use(express.static('public'));
 
 routes(app)
+
 
 app.get('/products', (req, res) => {
   res.render('client/pages/products/index.pug')
