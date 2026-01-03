@@ -28,7 +28,6 @@ module.exports.index = async (req, res) => {
     if(req.query.status){
         const index = filterStatus.findIndex(item => item.status == req.query.status);
         filterStatus[index].class = "active";
-        console.log(filterStatus)
     }
     else{
         filterStatus[0].class = "active";
