@@ -1,0 +1,65 @@
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+header {
+  height: 50px;
+  background: #20232a;
+  color: white;
+  line-height: 50px;
+  padding: 0 20px;
+}
+.body {
+  display: flex;
+  flex: 1;
+}
+.sider {
+  width: 200px;
+  background: #333;
+  color: white;
+  padding: 20px;
+}
+.main {
+  flex: 1;
+  padding: 20px;
+  background: #f4f4f4;
+}
+
+/* Sidebar */
+.sider .inner-menu ul {
+  list-style: none; /* Xóa dấu chấm tròn */
+  padding: 0;
+  margin: 0;
+}
+
+.sider .inner-menu ul li a {
+  color: #bdc3c7;          /* Màu chữ xám nhạt cho sang */
+  display: block;          /* Quan trọng: Biến dòng thành một "ô" */
+  padding: 12px 20px;      /* Tạo độ dày cho ô menu */
+  text-decoration: none;   /* Xóa gạch chân màu xanh */
+  border-bottom: 1px solid #454d55; /* Đường kẻ mờ phân chia các ô */
+  transition: all 0.3s;    /* Hiệu ứng mượt mà */
+}
+
+/* Hiệu ứng Hover - Khi di chuột vào ô sẽ sáng lên */
+.sider .inner-menu ul li a:hover {
+  background-color: #495057; /* Màu nền ô khi di chuột */
+  color: #ffffff;            /* Chữ trắng sáng lên */
+  padding-left: 25px;        /* Chữ hơi nhích sang phải */
+}
+
+.header .inner-logo {
+  width: 100%;
+  margin: 0;
+}
+
+.header .inner-logo img {
+  max-height: 50px;
+  max-width: 100%;
+  padding: 0;
+  margin: 0;
+  display: block;
+  object-fit: cover;
+  border-radius: 50%;
+}

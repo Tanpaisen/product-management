@@ -12,12 +12,14 @@ const port = process.env.PORT;
 
 
 const routes = require('./routes/index.route.js')
+const prefixAdmin = require('./routes/admin/index.admin.js')
 
 app.set('views', './views')
 app.set('view engine', 'pug')
 app.use(express.static('public'));
 
-routes(app)
+routes(app);
+prefixAdmin(app)
 
 
 
