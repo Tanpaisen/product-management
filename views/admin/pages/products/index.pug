@@ -26,19 +26,23 @@ block main
                 th Trạng thái
                 th Hành động
         tbody
-            tr 
-                td 1
-                td 
-                    img(
-                        src="/uploads/products/sample-product.jpg"
-                        alt="Sample Product"
-                        width="50"
-                    )
-                td Sample Product
-                td 100,000 VND
-                td 
-                    span.badge.bg-success Hoạt động
-                td 
-                    a.btn.btn-sm.btn-primary(href=`${prefixAdmin}/products/edit/1`) Sửa
-                    button.btn.btn-sm.btn-danger(data-id="1") Xóa
-            tr
+            each item,index in products
+                tr 
+                    td #{index + 1}
+                    td 
+                        img(
+                            src=item.thumbnail
+                            alt=item.title
+                            width="50"
+                        )
+                    td=item.title
+                    td #{item.price}$
+                    td 
+                        if(item.status === 'active')
+                           span.badge.bg-success Hoạt động
+                        else
+                            span.badge.bg-danger Dừng hoạt động
+                    td 
+                        a.btn.btn-sm.btn-primary(href=`${prefixAdmin}/products/edit/1`) Sửa
+                        button.btn.btn-sm.btn-danger(data-id="1") Xóa
+                tr
