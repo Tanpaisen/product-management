@@ -3,6 +3,7 @@ const dotenv = require('dotenv')
 const app = express()
 const mongoose = require('mongoose')
 
+const systemConfig = require('./config/system')
 const database =require("./config/database.js")
 
 dotenv.config()
@@ -17,6 +18,8 @@ const prefixAdmin = require('./routes/admin/index.admin.js')
 app.set('views', './views')
 app.set('view engine', 'pug')
 app.use(express.static('public'));
+
+app.locals.prefixAdmin = systemConfig.prefixAdmin
 
 routes(app);
 prefixAdmin(app)
