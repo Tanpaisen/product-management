@@ -12,7 +12,8 @@ module.exports.index = async (req, res) => {
     const filterStatus = filterStatusHelper(req.query)
 
     if(req.query){
-        
+        filterStatus.status = req.query.status;
+        find.status = filterStatus.status;
     }
     // Tìm kiếm
     const filterSearch = {
@@ -30,7 +31,7 @@ module.exports.index = async (req, res) => {
     res.render('admin/pages/products/index.pug', {
         pageTitle: "Trang quản lý sản phẩm",
         products: products,
-        filterStatus: filterStatus,
+        filterStatus: filterStatus.status,
         keyword: filterSearch.keyword,
     })
 }
