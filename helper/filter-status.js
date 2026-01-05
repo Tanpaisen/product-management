@@ -1,4 +1,4 @@
-const filterStatusHelper = (query) => {
+module.exports = (query) => {
   const filterStatus = [
     {
       name: "Tất cả",
