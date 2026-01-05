@@ -20,8 +20,8 @@ module.exports.index = async (req, res) => {
     const search = filterSearchHelper(req.query)
     
     if(req.query.keyword){
-        search.keyword = query.keyword;
-        find.title = search.keyword
+        search.keyword = req.query.keyword;
+        find.title = search.regex;
     }
 
     const products = await Product.find(find);
