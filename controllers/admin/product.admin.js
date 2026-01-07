@@ -47,3 +47,19 @@ module.exports.index = async (req, res) => {
         pageObject:pageObject,
     })
 }
+
+//[GET] /admin/products/change-status
+
+module.exports.changeStatus = async (req, res) => {
+    if(req.params){
+
+        const id = req.params.id
+        const statusChange =req.params.status
+        const originUrl = req.query._origin;
+        console.log(originUrl)
+        await Product.updateOne({ _id: id }, { status: statusChange });
+        if (originUrl) {
+            return res.redirect(originUrl);
+        }
+    }
+}

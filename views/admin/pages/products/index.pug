@@ -39,16 +39,35 @@ block main
                             td=item.title
                             td #{item.price}$
                             td 
-                                if(item.status === 'active')
-                                    span.badge.bg-success Hoạt động
+                                if(item.status === 'active')  
+                                    a(
+                                        href="javascript:;"
+                                        class="badge bg-success" 
+                                        data-status=item.status
+                                        data-id= item.id
+                                        button-change-status
+                                    ) Hoạt động
                                 else
-                                    span.badge.bg-danger Dừng hoạt động
+                                    a(
+                                        href="javascript:;"
+                                        class="badge bg-danger" 
+                                        data-status=item.status
+                                        data-id=item.id
+                                        button-change-status
+                                    ) Dừng hoạt động
                             td 
                                 a.btn.btn-sm.btn-primary(href=`${prefixAdmin}/products/edit/1`) Sửa
                                 button.btn.btn-sm.btn-danger(data-id="1") Xóa
                         tr
-        
+        form(
+            action=""
+            method="POST"
+            id="form-change"
+            data-path=`${prefixAdmin}/products/change-status`
+        )
+
         //- pagination
         +pagination(pageObject)
 
     script(src="/admin/js/script.js")
+    script(src="/admin/js/products.js")
