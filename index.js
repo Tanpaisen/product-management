@@ -2,6 +2,7 @@ const express = require('express')
 const dotenv = require('dotenv')
 const app = express()
 const mongoose = require('mongoose')
+const methodOverride = require('method-override')
 
 const systemConfig = require('./config/system')
 const database =require("./config/database.js")
@@ -14,6 +15,8 @@ const port = process.env.PORT;
 
 const routes = require('./routes/index.route.js')
 const prefixAdmin = require('./routes/admin/index.admin.js')
+
+app.use(methodOverride('_method'))
 
 app.set('views', './views')
 app.set('view engine', 'pug')

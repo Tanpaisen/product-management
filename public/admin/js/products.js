@@ -12,7 +12,7 @@ if (buttonsChangeStatus.length > 0) {
             const changeStatus = currentStatus == "active" ? "inactive" : "active"
 
             const currentUrl = window.location.href;
-            const action = `${path}/${changeStatus}/${id}?_origin=${encodeURIComponent(currentUrl)}`
+            const action = `${path}/${changeStatus}/${id}?_method=PATCH&_origin=${encodeURIComponent(currentUrl)}`
 
             formChange.action = action;
             formChange.submit();
