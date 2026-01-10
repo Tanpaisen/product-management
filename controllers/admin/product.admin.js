@@ -5,22 +5,22 @@ const paginationHelper = require('../../helper/pagination')
 
 //[GET] /admin/products
 module.exports.index = async (req, res) => {
-    
+
     const find = {
-        'deleted':false,
+        'deleted': false,
     }
 
     // Lọc
     const filterStatus = filterStatusHelper(req.query)
 
-    if(req.query.status){
+    if (req.query.status) {
         filterStatus.status = req.query.status;
         find.status = filterStatus.status;
     }
     // Tìm kiếm
     const search = filterSearchHelper(req.query)
-    
-    if(req.query.keyword){
+
+    if (req.query.keyword) {
         search.keyword = req.query.keyword;
         find.title = search.regex;
     }
@@ -44,22 +44,35 @@ module.exports.index = async (req, res) => {
         products: products,
         filterStatus: filterStatus,
         keyword: search.keyword,
-        pageObject:pageObject,
+        pageObject: pageObject,
     })
 }
 
-//[GET] /admin/products/change-status
+//[PATCH] /admin/products/change-status
 
 module.exports.changeStatus = async (req, res) => {
-    if(req.params){
+    const id = req.params.id
+    const statusChange = req.params.status
 
-        const id = req.params.id
-        const statusChange =req.params.status
-        const originUrl = req.query._origin;
-        console.log(originUrl)
-        await Product.updateOne({ _id: id }, { status: statusChange });
-        if (originUrl) {
-            return res.redirect(originUrl);
-        }
+    await Product.updateOne({ _id: id }, { status: statusChange });
+    const backUrl = req.get("Referer") || "/admin/products"; // URL mặc định nếu không tìm thấy trang trước
+    res.redirect(backUrl);
+}
+
+//[PATCH] /admin/products/change-multi
+module.exports.changeMulti = async (req, res) => {
+    const type = req.body.type;
+    const ids = req.body.ids.split(", ");
+    switch (type) {
+        case "active":
+            await Product.updateMany({ _id: { $in: ids } }, { status: "active" })
+            break;
+        case "inactive":
+            await Product.updateMany({ _id: { $in: ids } }, { status: "inactive" })
+            break;
+        default:
+            return res.status(400).send("Invalid type");
     }
+    const backUrl = req.get("Referer") || "/admin/products"; // URL mặc định nếu không tìm thấy trang trước
+    res.redirect(backUrl);
 }
