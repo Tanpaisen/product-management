@@ -85,13 +85,23 @@ block main
                                     ) Dừng hoạt động
                             td 
                                 a.btn.btn-sm.btn-primary(href=`${prefixAdmin}/products/edit/1`) Sửa
-                                button.btn.btn-sm.btn-danger(data-id="1") Xóa
+                                button.btn.btn-sm.btn-danger(
+                                    button-delete
+                                    data-id=item.id
+                                ) Xóa
                         tr
         form(
             action=""
             method="POST"
             id="form-change"
             data-path=`${prefixAdmin}/products/change-status`
+        )
+
+        form(
+            action=""
+            method="POST"
+            id="form-delete"
+            data-path=`${prefixAdmin}/products/deleteOne`
         )
 
         //- pagination

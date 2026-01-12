@@ -76,3 +76,16 @@ module.exports.changeMulti = async (req, res) => {
     const backUrl = req.get("Referer") || "/admin/products"; // URL mặc định nếu không tìm thấy trang trước
     res.redirect(backUrl);
 }
+
+//[PATCH] /admin/products/deleteOne
+module.exports.deleteOne = async (req, res) => {
+    const id = req.params.id
+    
+    //Xóa vĩnh viễn
+    // await Product.deleteOne({_id:id})
+
+    //Xóa tạm thời
+    await Product.updateOne({_id: id},{deleted:"true"});
+    const back = req.get("Referer");
+    res.redirect(back);
+}
