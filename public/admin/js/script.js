@@ -97,8 +97,7 @@ if (formChangeMulti) {
     e.preventDefault();
     const changeMulti = document.querySelector("[change-multi]");
     const inputChecked = changeMulti.querySelectorAll("input[name='id']:checked");
-    
-    if (inputChecked.length>0) {
+    if (inputChecked.length > 0) {
       let ids = [];
       const inputIds = formChangeMulti.querySelector("input[name='ids']");
       inputChecked.forEach(input => {
@@ -108,7 +107,7 @@ if (formChangeMulti) {
 
       inputIds.value = ids.join(", ");
     }
-    else{
+    else {
       alert("Vui lòng chọn 1 bản ghi")
     }
     formChangeMulti.submit();

@@ -10,6 +10,10 @@ module.exports.index = async (req, res) => {
         'deleted': false,
     }
 
+    const restoreFind = {
+        'deleted': true,
+    }
+
     // Lọc
     const filterStatus = filterStatusHelper(req.query)
 
@@ -36,16 +40,28 @@ module.exports.index = async (req, res) => {
             curentPage: 1,
         },
     );
+    if (req.query.status == 'restore') {
+        const products = await Product.find(restoreFind).limit(pageObject.limitPage).skip(pageObject.skipPage);
+        res.render('admin/pages/products/index.pug', {
+            pageTitle: "Trang quản lý sản phẩm",
+            products: products,
+            filterStatus: filterStatus,
+            keyword: search.keyword,
+            pageObject: pageObject,
+        })
+    }
+    else {
+        const products = await Product.find(find).limit(pageObject.limitPage).skip(pageObject.skipPage);
+        res.render('admin/pages/products/index.pug', {
+            pageTitle: "Trang quản lý sản phẩm",
+            products: products,
+            filterStatus: filterStatus,
+            keyword: search.keyword,
+            pageObject: pageObject,
+        })
+    }
 
-    const products = await Product.find(find).limit(pageObject.limitPage).skip(pageObject.skipPage);
 
-    res.render('admin/pages/products/index.pug', {
-        pageTitle: "Trang quản lý sản phẩm",
-        products: products,
-        filterStatus: filterStatus,
-        keyword: search.keyword,
-        pageObject: pageObject,
-    })
 }
 
 //[PATCH] /admin/products/change-status
@@ -53,8 +69,13 @@ module.exports.index = async (req, res) => {
 module.exports.changeStatus = async (req, res) => {
     const id = req.params.id
     const statusChange = req.params.status
-
-    await Product.updateOne({ _id: id }, { status: statusChange });
+    console.log(statusChange)
+    if(statusChange === 'restore') {
+        await Product.updateOne({ _id: id }, { deleted: "false", status: "active" });
+    }
+    else{
+        await Product.updateOne({ _id: id }, { status: statusChange });
+    }
     const backUrl = req.get("Referer") || "/admin/products"; // URL mặc định nếu không tìm thấy trang trước
     res.redirect(backUrl);
 }
@@ -80,12 +101,21 @@ module.exports.changeMulti = async (req, res) => {
 //[PATCH] /admin/products/deleteOne
 module.exports.deleteOne = async (req, res) => {
     const id = req.params.id
-    
+
     //Xóa vĩnh viễn
     // await Product.deleteOne({_id:id})
 
     //Xóa tạm thời
-    await Product.updateOne({_id: id},{deleted:"true"});
+    await Product.updateOne({ _id: id }, { deleted: "true", status: "restore" });
+    const back = req.get("Referer");
+    res.redirect(back);
+}
+
+//[PATCH] /admin/products/restoreOne
+module.exports.restoreOne = async (req, res) => {
+    const id = req.params.id
+
+    await Product.updateOne({ _id: id }, { deleted: "false", status: "active" });
     const back = req.get("Referer");
     res.redirect(back);
 }

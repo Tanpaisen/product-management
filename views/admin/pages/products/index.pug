@@ -75,6 +75,14 @@ block main
                                         data-id= item.id
                                         button-change-status
                                     ) Hoạt động
+                                else if(item.status === 'restore')  
+                                    a(
+                                        href="javascript:;"
+                                        class="badge bg-danger" 
+                                        data-status=item.status
+                                        data-id= item.id
+                                        button-change-status
+                                    ) Đã bị xóa
                                 else
                                     a(
                                         href="javascript:;"
@@ -84,11 +92,18 @@ block main
                                         button-change-status
                                     ) Dừng hoạt động
                             td 
-                                a.btn.btn-sm.btn-primary(href=`${prefixAdmin}/products/edit/1`) Sửa
-                                button.btn.btn-sm.btn-danger(
-                                    button-delete
-                                    data-id=item.id
-                                ) Xóa
+                                if(item.status === 'restore')
+                                    a.btn.btn-sm.btn-primary(href=`${prefixAdmin}/products/edit/1`) Sửa
+                                    button.btn.btn-sm.btn-success(
+                                        button-restore
+                                        data-id=item.id
+                                    ) Khôi phục
+                                else
+                                    a.btn.btn-sm.btn-primary(href=`${prefixAdmin}/products/edit/1`) Sửa
+                                    button.btn.btn-sm.btn-danger(
+                                        button-delete
+                                        data-id=item.id
+                                    ) Xóa
                         tr
         form(
             action=""
@@ -96,12 +111,17 @@ block main
             id="form-change"
             data-path=`${prefixAdmin}/products/change-status`
         )
-
         form(
             action=""
             method="POST"
             id="form-delete"
             data-path=`${prefixAdmin}/products/deleteOne`
+        )
+        form(
+            action=""
+            method="POST"
+            id="form-restore"
+            data-path=`${prefixAdmin}/products/restoreOne`
         )
 
         //- pagination

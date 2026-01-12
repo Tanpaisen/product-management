@@ -15,6 +15,11 @@ module.exports = (query) => {
       status: "inactive",
       class: "",
     },
+    {
+      name: "Sản phẩm đã bị xóa mềm",
+      status: "restore",
+      class: "",
+    },
   ];
 
   if (query.status) {

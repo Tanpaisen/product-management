@@ -11,4 +11,6 @@ router.patch('/change-multi', products.changeMulti)
 
 router.delete('/deleteOne/:id', products.deleteOne)
 
+router.patch('/restoreOne/:id', products.restoreOne)
+
 module.exports = router;

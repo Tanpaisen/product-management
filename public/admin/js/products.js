@@ -10,7 +10,14 @@ if (buttonsChangeStatus.length > 0) {
             const id = button.getAttribute('data-id');
             console.log(id)
 
-            const changeStatus = currentStatus == "active" ? "inactive" : "active"
+            let changeStatus
+            if (currentStatus === 'restore') {
+                changeStatus = "restore"
+            }
+            else {
+                changeStatus = currentStatus == "active" ? "inactive" : "active"
+            }
+
 
             const action = `${path}/${changeStatus}/${id}?_method=PATCH`
 
@@ -28,10 +35,27 @@ if (buttonDelete.length > 0) {
     buttonDelete.forEach(button => {
         button.addEventListener('click', () => {
             const id = button.getAttribute('data-id');
-            
+
             const action = `${path}/${id}?_method=DELETE`;
             formDelete.action = action;
             formDelete.submit();
+        })
+    })
+}
+
+const buttonRestore = document.querySelectorAll("[button-restore]");
+const formRestore = document.querySelector("#form-restore")
+
+if (buttonRestore.length > 0) {
+    const path = formRestore.getAttribute('data-path');
+    buttonRestore.forEach(button => {
+        button.addEventListener("click", () => {
+            const id = button.getAttribute("data-id")
+            
+            const action = `${path}/${id}?_method=PATCH`
+
+            formRestore.action=action;
+            formRestore.submit();
         })
     })
 }

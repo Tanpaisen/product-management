@@ -3,13 +3,16 @@ mixin formChangeMulti(path)
     form(
         action=path
         method="POST"
+        class=""
         form-change-multi
     )
         .d-flex.align-items-start
             .form-group
                 select(name="type" class="form-control")
+                    option(disabled selected) --Chọn một--
                     option(value="active") Hoạt động
                     option(value="inactive") Dừng hoạt động
+                    option(value="restore") Khôi phục
             .form-group
                 input(
                     type="text"
