@@ -117,6 +117,7 @@ module.exports.changeMulti = async (req, res) => {
                 status: "active",
                 deleted: false,
             })
+            req.flash('success', `Khôi phục thành công ${ids.length} sản phẩm!`);
             break;
         default:
             return res.status(400).send("Invalid type");
