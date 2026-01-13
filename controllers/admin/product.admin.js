@@ -40,26 +40,21 @@ module.exports.index = async (req, res) => {
             curentPage: 1,
         },
     );
+    let products
+    let pageTitle 
     if (req.query.status == 'restore') {
-        const products = await Product.find(restoreFind).limit(pageObject.limitPage).skip(pageObject.skipPage);
-        res.render('admin/pages/products/index.pug', {
-            pageTitle: "Trang quản lý sản phẩm",
-            products: products,
-            filterStatus: filterStatus,
-            keyword: search.keyword,
-            pageObject: pageObject,
-        })
+        products = await Product.find(restoreFind).limit(pageObject.limitPage).skip(pageObject.skipPage);
     }
     else {
-        const products = await Product.find(find).limit(pageObject.limitPage).skip(pageObject.skipPage);
-        res.render('admin/pages/products/index.pug', {
-            pageTitle: "Trang quản lý sản phẩm",
-            products: products,
-            filterStatus: filterStatus,
-            keyword: search.keyword,
-            pageObject: pageObject,
-        })
+        products = await Product.find(find).limit(pageObject.limitPage).skip(pageObject.skipPage)
     }
+    res.render('admin/pages/products/index.pug', {
+        pageTitle: "Trang quản lý sản phẩm",
+        products: products,
+        filterStatus: filterStatus,
+        keyword: search.keyword,
+        pageObject: pageObject,
+    })
 
 
 }
@@ -70,10 +65,10 @@ module.exports.changeStatus = async (req, res) => {
     const id = req.params.id
     const statusChange = req.params.status
     console.log(statusChange)
-    if(statusChange === 'restore') {
+    if (statusChange === 'restore') {
         await Product.updateOne({ _id: id }, { deleted: "false", status: "active" });
     }
-    else{
+    else {
         await Product.updateOne({ _id: id }, { status: statusChange });
     }
     const backUrl = req.get("Referer") || "/admin/products"; // URL mặc định nếu không tìm thấy trang trước
@@ -90,6 +85,18 @@ module.exports.changeMulti = async (req, res) => {
             break;
         case "inactive":
             await Product.updateMany({ _id: { $in: ids } }, { status: "inactive" })
+            break;
+        case "deleteMany":
+            await Product.updateMany({ _id: { $in: ids } }, { 
+                status: "restore", 
+                deleted: true,
+            })
+            break;
+        case "restoreMany":
+            await Product.updateMany({ _id: { $in: ids } }, { 
+                status: "active", 
+                deleted: false,
+            })
             break;
         default:
             return res.status(400).send("Invalid type");

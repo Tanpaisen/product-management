@@ -9,10 +9,11 @@ mixin formChangeMulti(path)
         .d-flex.align-items-start
             .form-group
                 select(name="type" class="form-control")
-                    option(disabled selected) --Chọn một--
+                    option(disabled selected) --Chọn một hành động--
                     option(value="active") Hoạt động
                     option(value="inactive") Dừng hoạt động
-                    option(value="restore") Khôi phục
+                    option(value="deleteMany") Xóa nhiều
+                    option(value="restoreMany") Khôi phục
             .form-group
                 input(
                     type="text"

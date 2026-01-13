@@ -104,11 +104,11 @@ if (formChangeMulti) {
         const id = input.value;
         ids.push(id);
       })
-
       inputIds.value = ids.join(", ");
     }
     else {
       alert("Vui lòng chọn 1 bản ghi")
+      return;
     }
     formChangeMulti.submit();
   })
