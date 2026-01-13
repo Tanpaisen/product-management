@@ -36,6 +36,10 @@ if (buttonDelete.length > 0) {
         button.addEventListener('click', () => {
             const id = button.getAttribute('data-id');
 
+            const incfm = confirm("Bạn có muốn xóa sản phẩm này")
+            if(!incfm){
+                return;
+            }
             const action = `${path}/${id}?_method=DELETE`;
             formDelete.action = action;
             formDelete.submit();

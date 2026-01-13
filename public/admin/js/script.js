@@ -95,14 +95,24 @@ const formChangeMulti = document.querySelector("[form-change-multi]");
 if (formChangeMulti) {
   formChangeMulti.addEventListener("submit", (e) => {
     e.preventDefault();
+    let changeType = formChangeMulti.type.value;
     const changeMulti = document.querySelector("[change-multi]");
     const inputChecked = changeMulti.querySelectorAll("input[name='id']:checked");
     if (inputChecked.length > 0) {
       let ids = [];
       const inputIds = formChangeMulti.querySelector("input[name='ids']");
+
+
       inputChecked.forEach(input => {
         const id = input.value;
-        ids.push(id);
+        
+        if(changeType=="position"){
+          const poisition = input.closest('tr').querySelector("input[name='position']").value;
+
+          ids.push(`${id}-${poisition}`);
+        }else{
+          ids.push(id);
+        }
       })
       inputIds.value = ids.join(", ");
     }

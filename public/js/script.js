@@ -20,35 +20,35 @@
 //   inputElement.value = counterValue;
 // });
 
-// Show Alert
-const showAlert = document.querySelector("[show-alert]");
-if (showAlert) {
-  const time = parseInt(showAlert.getAttribute("data-time"));
-  const closeAlert = showAlert.querySelector("[close-alert]");
+// // Show Alert
+// const showAlert = document.querySelector("[show-alert]");
+// if (showAlert) {
+//   const time = parseInt(showAlert.getAttribute("data-time"));
+//   const closeAlert = showAlert.querySelector("[close-alert]");
 
-  setTimeout(() => {
-    showAlert.classList.add("alert-hidden");
-  }, time);
+//   setTimeout(() => {
+//     showAlert.classList.add("alert-hidden");
+//   }, time);
 
-  closeAlert.addEventListener("click", () => {
-    showAlert.classList.add("alert-hidden");
-  });
-}
-// End Show Alert
+//   closeAlert.addEventListener("click", () => {
+//     showAlert.classList.add("alert-hidden");
+//   });
+// }
+// // End Show Alert
 
-// upload image
-const uploadImg = document.querySelector("[upload-image]");
-if (uploadImg) {
-  const uploadImgInput = document.querySelector("[upload-image-input]");
-  const uploadImgPreview = document.querySelector("[upload-image-preview]");
+// // upload image
+// const uploadImg = document.querySelector("[upload-image]");
+// if (uploadImg) {
+//   const uploadImgInput = document.querySelector("[upload-image-input]");
+//   const uploadImgPreview = document.querySelector("[upload-image-preview]");
 
-  uploadImgInput.addEventListener("change", (e) => {
+//   uploadImgInput.addEventListener("change", (e) => {
     
-    const file = e.target.files[0];
-    if (file) {
-      uploadImgPreview.src = URL.createObjectURL(file);
-    }
-  });
-}
-//end upload image
+//     const file = e.target.files[0];
+//     if (file) {
+//       uploadImgPreview.src = URL.createObjectURL(file);
+//     }
+//   });
+// }
+// //end upload image
 

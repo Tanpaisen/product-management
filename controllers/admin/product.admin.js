@@ -41,12 +41,19 @@ module.exports.index = async (req, res) => {
         },
     );
     let products
-    let pageTitle 
+    let pageTitle
     if (req.query.status == 'restore') {
-        products = await Product.find(restoreFind).limit(pageObject.limitPage).skip(pageObject.skipPage);
+        products = await Product.find(restoreFind)
+                                .sort({ position: "desc" })
+                                .limit(pageObject.limitPage)
+                                .skip(pageObject.skipPage);
     }
     else {
-        products = await Product.find(find).limit(pageObject.limitPage).skip(pageObject.skipPage)
+        products = await Product
+                                .find(find)
+                                .sort({ position: "desc" })
+                                .limit(pageObject.limitPage)
+                                .skip(pageObject.skipPage);
     }
     res.render('admin/pages/products/index.pug', {
         pageTitle: "Trang quản lý sản phẩm",
@@ -86,15 +93,23 @@ module.exports.changeMulti = async (req, res) => {
         case "inactive":
             await Product.updateMany({ _id: { $in: ids } }, { status: "inactive" })
             break;
+        case "position":
+            for (let item of ids){
+                let [id, pos] = item.split("-");
+                pos = parseInt(pos);
+
+                await Product.updateMany({ _id: id  }, { position: pos })
+            }
+            break;
         case "deleteMany":
-            await Product.updateMany({ _id: { $in: ids } }, { 
-                status: "restore", 
+            await Product.updateMany({ _id: { $in: ids } }, {
+                status: "restore",
                 deleted: true,
             })
             break;
         case "restoreMany":
-            await Product.updateMany({ _id: { $in: ids } }, { 
-                status: "active", 
+            await Product.updateMany({ _id: { $in: ids } }, {
+                status: "active",
                 deleted: false,
             })
             break;
