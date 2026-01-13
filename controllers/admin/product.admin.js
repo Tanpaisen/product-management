@@ -110,6 +110,7 @@ module.exports.changeMulti = async (req, res) => {
                 status: "restore",
                 deleted: true,
             })
+            req.flash('success', `Xóa thành công ${ids.length} sản phẩm!`);
             break;
         case "restoreMany":
             await Product.updateMany({ _id: { $in: ids } }, {
