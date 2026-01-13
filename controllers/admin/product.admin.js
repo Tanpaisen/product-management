@@ -145,6 +145,6 @@ module.exports.restoreOne = async (req, res) => {
 
     await Product.updateOne({ _id: id }, { deleted: "false", status: "active" });
     const back = req.get("Referer");
-    res.redirect(back);
     req.flash('success', 'Khôi phục thành công!');
+    res.redirect(back);
 }
