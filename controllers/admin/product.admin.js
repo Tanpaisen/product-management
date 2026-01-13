@@ -101,8 +101,8 @@ module.exports.changeMulti = async (req, res) => {
             for (let item of ids){
                 let [id, pos] = item.split("-");
                 pos = parseInt(pos);
-
                 await Product.updateMany({ _id: id  }, { position: pos })
+                req.flash('success', `Thay đổi vị trí thành công ${ids.length} sản phẩm!`);
             }
             break;
         case "deleteMany":
