@@ -134,7 +134,9 @@ module.exports.deleteOne = async (req, res) => {
     //Xóa tạm thời
     await Product.updateOne({ _id: id }, { deleted: "true", status: "restore" });
     const back = req.get("Referer");
+    req.flash('success', `Xóa thành công sản phẩm`);
     res.redirect(back);
+    
 }
 
 //[PATCH] /admin/products/restoreOne
@@ -144,4 +146,5 @@ module.exports.restoreOne = async (req, res) => {
     await Product.updateOne({ _id: id }, { deleted: "false", status: "active" });
     const back = req.get("Referer");
     res.redirect(back);
+    req.flash('success', 'Khôi phục thành công!');
 }
