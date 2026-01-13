@@ -74,9 +74,11 @@ module.exports.changeStatus = async (req, res) => {
     console.log(statusChange)
     if (statusChange === 'restore') {
         await Product.updateOne({ _id: id }, { deleted: "false", status: "active" });
+        req.flash('success', 'Khôi phục thành công!');
     }
     else {
         await Product.updateOne({ _id: id }, { status: statusChange });
+        req.flash('success', 'Thay đổi trạng thái thành công!');
     }
     const backUrl = req.get("Referer") || "/admin/products"; // URL mặc định nếu không tìm thấy trang trước
     res.redirect(backUrl);

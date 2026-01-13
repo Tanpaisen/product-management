@@ -124,3 +124,17 @@ if (formChangeMulti) {
   })
 }
 //End Form change multi
+
+//Show Alert
+const showAlert = document.querySelector('[show-alert]');
+if(showAlert){
+  const time = showAlert.getAttribute("data-time");
+
+  setTimeout(()=>{
+    showAlert.classList.add('alert-hidden')
+  },time)
+  showAlert.addEventListener("click", () => {
+      showAlert.classList.add('alert-hidden')
+    })
+}
+//End Show Alert

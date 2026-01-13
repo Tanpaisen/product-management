@@ -7,6 +7,12 @@ include ../../mixins/form-change-multi.pug
 block main
     h1 Danh sách sản phẩm
 
+    if messages.success
+        .message.info
+            .alert.alert-success(
+                show-alert 
+                data-time=5000
+            ) #{messages.success} 
     .card.mb-3
         .card-header Bộ lọc và Tìm kiếm
         .card-body
