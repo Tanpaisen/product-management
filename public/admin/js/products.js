@@ -59,8 +59,28 @@ if (buttonRestore.length > 0) {
             const action = `${path}/${id}?_method=PATCH`
 
             formRestore.action=action;
+            console.log(action)
             formRestore.submit();
         })
     })
 }
 
+const buttonDeletePerpetual = document.querySelectorAll('[button-delete-perpetual]');
+const formDeletePerpetual = document.querySelector("#form-delete-perpetual")
+if (buttonDeletePerpetual.length > 0) {
+    const path = formDeletePerpetual.getAttribute('data-path');
+    console.log(path)
+    buttonDeletePerpetual.forEach(button => {
+        button.addEventListener('click', () => {
+            const id = button.getAttribute('data-id');
+
+            const incfm = confirm("Bạn có muốn xóa vĩnh viễn sản phẩm này")
+            if(!incfm){
+                return;
+            }
+            const action = `${path}/${id}?_method=DELETE`;
+            formDeletePerpetual.action = action;
+            formDeletePerpetual.submit();
+        })
+    })
+}

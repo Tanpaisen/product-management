@@ -10,6 +10,7 @@ router.patch('/change-status/:status/:id/', products.changeStatus)
 router.patch('/change-multi', products.changeMulti)
 
 router.delete('/deleteOne/:id', products.deleteOne)
+router.delete('/delete/:id', products.delete)
 
 router.patch('/restoreOne/:id', products.restoreOne)
 

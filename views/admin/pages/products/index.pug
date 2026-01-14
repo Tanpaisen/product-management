@@ -96,11 +96,14 @@ block main
                                     ) Dừng hoạt động
                             td 
                                 if(item.status === 'restore')
-                                    a.btn.btn-sm.btn-primary(href=`${prefixAdmin}/products/edit/1`) Sửa
                                     button.btn.btn-sm.btn-success(
                                         button-restore
                                         data-id=item.id
                                     ) Khôi phục
+                                    button.btn.btn-sm.btn-danger(
+                                        button-delete-perpetual
+                                        data-id=item.id
+                                    ) Xóa vĩnh viễn
                                 else
                                     a.btn.btn-sm.btn-primary(href=`${prefixAdmin}/products/edit/1`) Sửa
                                     button.btn.btn-sm.btn-danger(
@@ -114,11 +117,19 @@ block main
             id="form-change"
             data-path=`${prefixAdmin}/products/change-status`
         )
+        //Xóa mềm 1 sp
         form(
             action=""
             method="POST"
             id="form-delete"
             data-path=`${prefixAdmin}/products/deleteOne`
+        )
+        // Xóa vĩnh viễn
+        form(
+            action=""
+            method="POST"
+            id="form-delete-perpetual"
+            data-path=`${prefixAdmin}/products/delete`
         )
         form(
             action=""

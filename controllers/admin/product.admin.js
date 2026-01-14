@@ -141,6 +141,18 @@ module.exports.deleteOne = async (req, res) => {
     res.redirect(back);
     
 }
+//[PATCH] /admin/products/delete
+module.exports.delete = async (req, res) => {
+    const id = req.params.id
+
+    //Xóa vĩnh viễn
+    await Product.deleteOne({_id:id})
+
+    const back = req.get("Referer");
+    req.flash('success', `Xóa thành công sản phẩm`);
+    res.redirect(back);
+    
+}
 
 //[PATCH] /admin/products/restoreOne
 module.exports.restoreOne = async (req, res) => {
