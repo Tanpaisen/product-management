@@ -13,4 +13,7 @@ router.delete('/deleteOne/:id', products.deleteOne)
 
 router.patch('/restoreOne/:id', products.restoreOne)
 
+router.get('/create', products.create);
+router.post('/create', products.createPost);
+
 module.exports = router;

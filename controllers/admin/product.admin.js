@@ -151,3 +151,23 @@ module.exports.restoreOne = async (req, res) => {
     req.flash('success', 'Khôi phục thành công!');
     res.redirect(back);
 }
+
+module.exports.create = (req,res) => {
+    res.render('admin/pages/products/create.pug',{
+        
+    })
+}
+
+module.exports.createPost = async (req,res) => {
+    req.body.price = parseInt(req.body.price)
+    req.body.discountPercentage = parseInt(req.body.discountPercentage)
+    req.body.stock = parseInt(req.body.stock)
+
+    const productCount = await Product.countDocuments();
+    req.body.position = productCount + 1;
+    
+    const products = new Product(req.body);
+    products.save();
+
+    res.redirect("/admin/products")
+}
