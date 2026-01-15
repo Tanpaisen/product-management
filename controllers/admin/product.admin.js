@@ -44,16 +44,16 @@ module.exports.index = async (req, res) => {
     let pageTitle
     if (req.query.status == 'restore') {
         products = await Product.find(restoreFind)
-                                .sort({ position: "desc" })
-                                .limit(pageObject.limitPage)
-                                .skip(pageObject.skipPage);
+            .sort({ position: "desc" })
+            .limit(pageObject.limitPage)
+            .skip(pageObject.skipPage);
     }
     else {
         products = await Product
-                                .find(find)
-                                .sort({ position: "desc" })
-                                .limit(pageObject.limitPage)
-                                .skip(pageObject.skipPage);
+            .find(find)
+            .sort({ position: "desc" })
+            .limit(pageObject.limitPage)
+            .skip(pageObject.skipPage);
     }
     res.render('admin/pages/products/index.pug', {
         pageTitle: "Trang quản lý sản phẩm",
@@ -98,11 +98,11 @@ module.exports.changeMulti = async (req, res) => {
             req.flash('success', `Thay đổi trạng thái thành công ${ids.length} sản phẩm!`);
             break;
         case "position":
-            for (let item of ids){
+            for (let item of ids) {
                 let [id, pos] = item.split("-");
                 pos = parseInt(pos);
-                await Product.updateMany({ _id: id  }, { position: pos })
-                
+                await Product.updateMany({ _id: id }, { position: pos })
+
             }
             req.flash('success', `Thay đổi vị trí thành công ${ids.length} sản phẩm!`);
             break;
@@ -139,19 +139,19 @@ module.exports.deleteOne = async (req, res) => {
     const back = req.get("Referer");
     req.flash('success', `Xóa thành công sản phẩm`);
     res.redirect(back);
-    
+
 }
 //[PATCH] /admin/products/delete
 module.exports.delete = async (req, res) => {
     const id = req.params.id
 
     //Xóa vĩnh viễn
-    await Product.deleteOne({_id:id})
+    await Product.deleteOne({ _id: id })
 
     const back = req.get("Referer");
     req.flash('success', `Xóa thành công sản phẩm`);
     res.redirect(back);
-    
+
 }
 
 //[PATCH] /admin/products/restoreOne
@@ -164,20 +164,21 @@ module.exports.restoreOne = async (req, res) => {
     res.redirect(back);
 }
 
-module.exports.create = (req,res) => {
-    res.render('admin/pages/products/create.pug',{
-        
+module.exports.create = (req, res) => {
+    res.render('admin/pages/products/create.pug', {
+        pageTitle: "Thêm sản phẩm",
     })
 }
 
-module.exports.createPost = async (req,res) => {
+module.exports.createPost = async (req, res) => {
     req.body.price = parseInt(req.body.price)
     req.body.discountPercentage = parseInt(req.body.discountPercentage)
     req.body.stock = parseInt(req.body.stock)
 
     const productCount = await Product.countDocuments();
     req.body.position = productCount + 1;
-    
+
+    req.body.thumbnail = `/uploads/${req.file.filename}`;
     const products = new Product(req.body);
     products.save();
 
