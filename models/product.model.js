@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
-
+const slug = require('mongoose-slug-updater');
+mongoose.plugin(slug);
 const productSchema = new mongoose.Schema({
   title: String,
   description: String,
@@ -14,6 +15,11 @@ const productSchema = new mongoose.Schema({
     default: "false",
   },
   deleteAt: Date,
+  slug: {
+    type: String,
+    slug: "title",
+    unique: true,
+  },
 }, {
   timestamps: true
 });
