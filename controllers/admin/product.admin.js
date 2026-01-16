@@ -2,7 +2,7 @@ const Product = require('../../models/product.model')
 const filterStatusHelper = require('../../helper/filter-status')
 const filterSearchHelper = require('../../helper/filter-search')
 const paginationHelper = require('../../helper/pagination')
-
+const systemConfig = require('../../config/system')
 //[GET] /admin/products
 module.exports.index = async (req, res) => {
 
@@ -173,7 +173,7 @@ module.exports.create = (req, res) => {
 
 //[POST] /admin/products/create
 module.exports.createPost = async (req, res) => {
-    
+
     req.body.price = parseInt(req.body.price)
     req.body.discountPercentage = parseInt(req.body.discountPercentage)
     req.body.stock = parseInt(req.body.stock)
@@ -189,4 +189,43 @@ module.exports.createPost = async (req, res) => {
 
     res.redirect("/admin/products")
 }
+
+//[GET] /admin/products/edit
+module.exports.edit = async (req, res) => {
+    try {
+        const find = {
+            deleted: false,
+            _id: req.params.id,
+        }
+        const product = await Product.findOne(find);
+
+        res.render('admin/pages/products/edit.pug', {
+            pageTitle: "Chỉnh sửa sản phẩm",
+            product: product,
+        })
+    }
+    catch (error) {
+        req.flash("error", "Không thể truy vấn sản phẩm này!")
+        res.redirect("back")
+    }
+}
+
+//[PATCH] /admin/products/editPatch
+module.exports.editPatch = async (req, res) => {
+
+    req.body.price = parseInt(req.body.price)
+    req.body.discountPercentage = parseInt(req.body.discountPercentage)
+    req.body.stock = parseInt(req.body.stock)
+    req.body.position = parseInt(req.body.position)
+
+    const id = req.params.id
+    try {
+        await Product.updateOne({ _id: id }, req.body)
+        req.flash("success", "Cập nhật thành công!")
+    }
+    catch (error) {
+        req.flash("error", "Cập nhật thất bại!")
+    }
+    res.redirect(`${systemConfig.prefixAdmin}/products`);
+};
 

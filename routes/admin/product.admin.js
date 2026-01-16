@@ -19,12 +19,16 @@ router.delete('/delete/:id', products.delete)
 router.patch('/restoreOne/:id', products.restoreOne)
 
 router.get('/create', products.create);
-router.post(
-    '/create', 
+router.post('/create', 
     upload.single('thumbnail'), 
     validateProduct.createPost,
     products.createPost
 );
 
+router.get('/edit/:id', products.edit);
+router.patch('/edit/:id', 
+    upload.single('thumbnail'), 
+    validateProduct.createPost,
+    products.editPatch);
 
 module.exports = router;

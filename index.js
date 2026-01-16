@@ -24,7 +24,8 @@ const port = process.env.PORT;
 
 //Body parse
 app.use(methodOverride('_method'))
-app.use(bodyParser.urlencoded())
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 //Express flash
 app.use(cookieParser('tanpaisen'));
