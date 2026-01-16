@@ -86,14 +86,20 @@ block main
           min="0"
         )
 
-      div(class="form-group")
+      div(class="form-group preview" preview-upload)
         label(for="thumbnail") Ảnh
+        img(
+          src=""
+          class="image-preview"
+          preview-upload-img
+        )
         input.form-control(
           type="file"
           class="form-control form-control-sm"
           id="thumbnail"
           name="thumbnail"
           accept="image/*"
+          preview-input-img
         )
         
 
@@ -129,3 +135,4 @@ block main
         button.btn.btn-primary(type="submit") Tạo mới
     
     script(src="/admin/js/products.js")
+    script(src="/admin/js/script.js")

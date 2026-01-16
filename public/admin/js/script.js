@@ -138,3 +138,18 @@ if(showAlert){
     })
 }
 //End Show Alert
+
+//Preview upload
+const previewUpload = document.querySelector('[preview-upload]');
+if(previewUpload){
+  const previewUploadImg = previewUpload.querySelector('img[preview-upload-img]')
+  const previewInputImg = previewUpload.querySelector('input[preview-input-img]')
+  
+  previewInputImg.addEventListener('change', (e) => {
+    if(e.target.files.length>0){
+      const src = URL.createObjectURL(e.target.files[0]);
+      previewUploadImg.src = src;
+    }
+  })
+}
+//End Preview upload
