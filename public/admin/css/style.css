@@ -103,16 +103,17 @@ header {
 
 /*Preview upload img*/
 .preview {
+    position: relative; /* CỰC KỲ QUAN TRỌNG: Để nút x căn theo khung này */
     padding: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    width: 100%;
-    max-width: auto;
-    margin: auto;
+    width: fit-content; /* Sửa lại để khung vừa khít nội dung */
+    margin: 10px 0;
     background-color: rgb(255, 255, 255);
     box-shadow: 0 0 20px rgba(170, 170, 170, 0.2);
+    border-radius: 10px;
 }
 
 .image-preview {
@@ -128,4 +129,26 @@ header {
   display: none;
 }
 
+.close-img {
+    position: absolute;
+    top: 5px;   /* Chỉnh lại vị trí cho đẹp */
+    right: 5px; /* Căn sang phải của khung .preview */
+    background: #ff4d4d; /* Màu đỏ cho dễ thấy */
+    color: white;
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    line-height: 23px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: none; 
+    border: 2px solid white;
+    font-weight: bold;
+    z-index: 10;
+}
+
+/* Khi có class show-close thì hiện nút x */
+[preview-upload].show-close .close-img {
+    display: block;
+}
 /*End Preview upload img*/

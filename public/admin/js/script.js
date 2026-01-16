@@ -144,11 +144,21 @@ const previewUpload = document.querySelector('[preview-upload]');
 if(previewUpload){
   const previewUploadImg = previewUpload.querySelector('img[preview-upload-img]')
   const previewInputImg = previewUpload.querySelector('input[preview-input-img]')
-  
+  const closeImg = previewUpload.querySelector('[close-img]')
+  console.log(closeImg)
   previewInputImg.addEventListener('change', (e) => {
+    
     if(e.target.files.length>0){
       const src = URL.createObjectURL(e.target.files[0]);
       previewUploadImg.src = src;
+      if(previewUploadImg.src){
+        previewUpload.classList.add("show-close");
+        closeImg.addEventListener('click', () => {
+          previewUploadImg.src = "";
+          previewInputImg.value = "";
+          previewUpload.classList.remove("show-close");
+        })
+      }      
     }
   })
 }
