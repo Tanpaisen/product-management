@@ -5,3 +5,9 @@ mixin messages(time)
                 show-alert 
                 data-time=time
             ) #{messages.success} 
+    else if messages.error
+        .message.info
+            .alert.alert-danger(
+                show-alert 
+                data-time=time
+            ) #{messages.error} 
