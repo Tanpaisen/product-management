@@ -10,10 +10,11 @@ block main
       each item in products
         .col-4.mb-3 
           .product-item 
-            .inner-image
-                img(src=item.thumbnail, alt=item.title)
-            .inner-content
-                h3.inner.title #{item.title}
-                .inner-price-new Giá: #{item.newPrice} VND 
-                .inner-price-old Giá cũ: #{item.price} VND   
-                .inner-discount -#{item.discountPercentage}%
+            a(href=`/products/detail/${item.slug}`)
+              .inner-image
+                  img(src=item.thumbnail, alt=item.title)
+              .inner-content
+                  h3.inner.title #{item.title}
+                  .inner-price-new Giá: #{item.newPrice} VND 
+                  .inner-price-old Giá cũ: #{item.price} VND   
+                  .inner-discount -#{item.discountPercentage}%
