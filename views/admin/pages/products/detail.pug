@@ -1,0 +1,43 @@
+extends ../../layouts/default
+block main
+
+  .m-4.d-flex.bg-light
+    .img--product
+      if (product.thumbnail)
+        img(
+          class="w-100 p-2 h-100 d-block"
+          src=product.thumbnail
+        )
+    .info--product
+      if (product.title)
+        h1(class="mb-3") #{product.title}
+
+      if (product.price)
+        div(class="mb-3") Giá: <b>#{product.price}$</b>
+
+      if (product.discountPercentage)
+        div(class="mb-3") Giảm giá: <b>#{product.discountPercentage}%</b>
+
+      if (product.stock)
+        div(class="mb-3") Còn lại: <b>#{product.stock}</b>
+
+      if (product.status)
+        div(class="mb-3")
+          span Trạng thái:
+          if (product.status === "active")
+            span(class="text-success ms-1 fw-bolder") Hoạt động
+          else
+            span(class="text-danger ms-1 fw-bolder") Dừng hoạt động
+
+      if (product.position)
+        div(class="mb-3") Vị trí: <b>#{product.position}</b>
+
+      if (product.description)
+        div(class="mb-3") !{product.description}
+
+      a(
+        href=`${prefixAdmin}/products/edit/${product.id}`
+        class="btn btn-warning mb-2"
+      ) Chỉnh sửa
+
+    script(src="/admin/js/product.js")

@@ -5,7 +5,7 @@ const storageMulter = require('../../helper/storageMulter')
 const upload = multer({ storage: storageMulter() })
 const router = express.Router();
 
-const products = require('../../controllers/admin/product.admin')
+const products = require('../../controllers/admin/product.controller')
 
 router.get('/', products.index)
 
@@ -29,6 +29,9 @@ router.get('/edit/:id', products.edit);
 router.patch('/edit/:id', 
     upload.single('thumbnail'), 
     validateProduct.createPost,
-    products.editPatch);
+    products.editPatch
+);
+
+router.get('/detail/:id', products.detail)
 
 module.exports = router;

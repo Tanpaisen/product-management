@@ -105,7 +105,8 @@ block main
                                         data-id=item.id
                                     ) Xóa vĩnh viễn
                                 else
-                                    a.btn.btn-sm.btn-primary(href=`${prefixAdmin}/products/edit/${item.id}`) Sửa
+                                    a.btn.btn-sm.btn-warning(href=`${prefixAdmin}/products/edit/${item.id}`) Sửa
+                                    a.btn.btn-sm.btn-secondary(href=`${prefixAdmin}/products/detail/${item.id}`) Chỉnh sửa
                                     button.btn.btn-sm.btn-danger(
                                         button-delete
                                         data-id=item.id

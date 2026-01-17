@@ -16,7 +16,7 @@ module.exports = (query) => {
       class: "",
     },
     {
-      name: "Sản phẩm đã bị xóa mềm",
+      name: "Thùng rác",
       status: "restore",
       class: "",
     },
