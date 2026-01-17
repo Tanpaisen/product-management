@@ -187,7 +187,8 @@ module.exports.createPost = async (req, res) => {
     const products = new Product(req.body);
     products.save();
 
-    res.redirect("/admin/products")
+    const backUrl = req.get("Referer") || "/admin/products"; // URL mặc định nếu không tìm thấy trang trước
+    res.redirect(backUrl);
 }
 
 //[GET] /admin/products/edit
@@ -206,7 +207,8 @@ module.exports.edit = async (req, res) => {
     }
     catch (error) {
         req.flash("error", "Không thể truy vấn sản phẩm này!")
-        res.redirect("back")
+        const backUrl = req.get("Referer") || "/admin/products"; // URL mặc định nếu không tìm thấy trang trước
+        res.redirect(backUrl);
     }
 }
 
@@ -226,7 +228,8 @@ module.exports.editPatch = async (req, res) => {
     catch (error) {
         req.flash("error", "Cập nhật thất bại!")
     }
-    res.redirect(`${systemConfig.prefixAdmin}/products`);
+    const backUrl = req.get("Referer") || "/admin/products"; // URL mặc định nếu không tìm thấy trang trước
+    res.redirect(backUrl);
 };
 
 //[GET] /admin/products/detail
@@ -245,6 +248,7 @@ module.exports.detail = async (req, res) => {
     }
     catch (error) {
         req.flash("error", "Không thể truy vấn sản phẩm này!")
-        res.redirect("back")
+        const backUrl = req.get("Referer") || "/admin/products"; // URL mặc định nếu không tìm thấy trang trước
+        res.redirect(backUrl);
     }
 }
