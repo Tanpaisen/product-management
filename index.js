@@ -33,9 +33,9 @@ app.use(session({ cookie: { maxAge: 60000 }}));
 app.use(flash());
 
 //File tĩnh
-app.set('views', './views')
+app.set('views', `${__dirname}/views`)
 app.set('view engine', 'pug')
-app.use(express.static('public'));
+app.use(express.static(__dirname+'/public'));
 
 //App Location Variable
 app.locals.prefixAdmin = systemConfig.prefixAdmin
