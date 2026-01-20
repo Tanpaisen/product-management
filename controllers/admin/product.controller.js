@@ -181,13 +181,10 @@ module.exports.createPost = async (req, res) => {
     const productCount = await Product.countDocuments();
     req.body.position = productCount + 1;
 
-    if (req.file.filename) {
-        req.body.thumbnail = `/uploads/${req.file.filename}`;
-    }
     const products = new Product(req.body);
     products.save();
 
-    const backUrl = req.get("Referer") || "/admin/products"; // URL mặc định nếu không tìm thấy trang trước
+    const backUrl = "/admin/products"; // URL mặc định nếu không tìm thấy trang trước
     res.redirect(backUrl);
 }
 

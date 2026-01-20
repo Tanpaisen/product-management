@@ -8,16 +8,18 @@ const flash = require('express-flash')
 const cookieParser = require('cookie-parser')
 const session = require("express-session");
 
+dotenv.config()
+
 //config
 const systemConfig = require('./config/system')
 const database =require("./config/database.js")
 
+database.connect()
 //router
 const routes = require('./routes/index.route.js')
 const routeAdmin = require('./routes/admin/index.admin.js')
 
-dotenv.config()
-database.connect()
+
 
 const port = process.env.PORT;
 
