@@ -4,6 +4,7 @@ include ../../mixins/search.pug
 include ../../mixins/pagination.pug
 include ../../mixins/form-change-multi.pug
 include ../../mixins/alert-flash.pug
+include ../../mixins/sort.pug
 
 block main
     h1 Danh sách sản phẩm
@@ -25,6 +26,7 @@ block main
                         +formChangeMulti(`${prefixAdmin}/products/change-multi?_method=PATCH`)
                     .col-2
                         a.btn.btn-outline-success(href=`${prefixAdmin}/products/create`) + Thêm mới  
+                +sort()
             table(
                 class="table table-hover table-sm"
                 change-multi
@@ -142,5 +144,4 @@ block main
         //- pagination
         +pagination(pageObject)
 
-    script(src="/admin/js/script.js")
     script(src="/admin/js/products.js")

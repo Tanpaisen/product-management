@@ -40,18 +40,30 @@ module.exports.index = async (req, res) => {
             curentPage: 1,
         },
     );
+
+    //sort
+    let sort = {};
+
+    const sortKey = req.query.sortKey;
+    const sortValue = req.query.sortValue;
+    if (sortKey && sortValue) {
+        sort[sortKey] = sortValue
+    }else{
+        sort.position = "desc"
+    }
+
     let products
     let pageTitle
     if (req.query.status == 'restore') {
         products = await Product.find(restoreFind)
-            .sort({ position: "desc" })
+            .sort(sort)
             .limit(pageObject.limitPage)
             .skip(pageObject.skipPage);
     }
     else {
         products = await Product
             .find(find)
-            .sort({ position: "desc" })
+            .sort(sort)
             .limit(pageObject.limitPage)
             .skip(pageObject.skipPage);
     }
