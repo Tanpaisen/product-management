@@ -19,7 +19,7 @@ const database =require("./config/database.js")
 database.connect()
 //router
 const routes = require('./routes/index.route.js')
-const routeAdmin = require('./routes/admin/index.admin.js')
+const routeAdmin = require('./routes/admin/index.route.js')
 
 
 

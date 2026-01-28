@@ -1,0 +1,36 @@
+extends ../../layouts/default
+block main
+
+  .m-4.d-flex.bg-light
+    .img--product
+      if (productsCategory.thumbnail)
+        img(
+          class="w-100 p-2 h-100 d-block"
+          src=productsCategory.thumbnail
+        )
+    .info--product
+      if (productsCategory.title)
+        h1(class="mb-3") #{productsCategory.title}
+
+      if (productsCategory.parentId)
+        div(class="mb-3") Mục cha: <b>#{productsCategory.parentId}$</b>
+
+      if (productsCategory.status)
+        div(class="mb-3")
+          span Trạng thái:
+          if (productsCategory.status === "active")
+            span(class="text-success ms-1 fw-bolder") Hoạt động
+          else
+            span(class="text-danger ms-1 fw-bolder") Dừng hoạt động
+
+      if (productsCategory.position)
+        div(class="mb-3") Vị trí: <b>#{productsCategory.position}</b>
+
+      if (productsCategory.description)
+        div(class="mb-3") !{productsCategory.description}
+      a(
+        href=`${prefixAdmin}/products-category/edit/${productsCategory.id}`
+        class="btn btn-warning mb-2"
+      ) Chỉnh sửa
+
+    script(src="/admin/js/product.js")

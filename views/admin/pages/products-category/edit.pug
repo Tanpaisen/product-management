@@ -1,0 +1,89 @@
+extends ../../layouts/default.pug
+
+block main
+    h1(class="mb-4 ms-2") Chỉnh sửa danh mục sản phẩm
+    div=productsCategory
+    form(
+      action=`${prefixAdmin}/products-category/edit/${productsCategory.id}?_method=PATCH`
+      id="form-edit-product"
+      method="POST"
+      enctype="multipart/form-data"
+    )
+      div(class="form-group")
+        label(for="title") Tiêu đề
+        input.form-control(
+          type="text"
+          id="title"
+          name="title"
+          value=productsCategory.title
+          required
+        )
+      .form-group.mb-2 
+        label(for="parentId") Danh mục cha
+        input.form-control(
+          type="text"
+          id="parentId"
+          name="parentId"
+        )
+      div(class="form-group")
+        label(for="desc") Mô tả
+        textarea.form-control(
+          id="desc"
+          name="description"
+          rows="5"
+          value=productsCategory.description
+        ) #{productsCategory.description}
+
+      div(class="form-group preview" preview-upload)
+        label(for="thumbnail") Ảnh
+        img(
+          src=productsCategory.thumbnail
+          class="image-preview"
+          preview-upload-img
+        )
+        span(class="close-img" close-img) x
+        input.form-control(
+          type="file"
+          class="form-control form-control-sm"
+          id="thumbnail"
+          name="thumbnail"
+          accept="image/*"
+          preview-input-img
+        )
+        
+
+      div(class="form-group")
+        label(for="position") Vị trí
+        input(
+          type="number"
+          id="position"
+          name="position"
+          placeholder="Tự động tăng"
+          min="1"
+          value=productsCategory.position
+        )
+      .form-group.form-check.form-check-inline
+        input(
+            type="radio"
+            class="form-check-input"
+            id="statusActive"
+            name="status"
+            value="active"
+            checked=(productsCategory.status=="active"?true:false)
+        )
+        label(for="statusActive" class="form-check-label") Hoạt động
+      .form-group.form-check.form-check-inline
+        input(
+            type="radio"
+            class="form-check-input"
+            id="statusInActive"
+            name="status"
+            value="inactive"
+            checked=(productsCategory.status=="inactive"?true:false)
+        )
+        label(for="statusInActive" class="form-check-label") Dừng hoạt động 
+      .form-group.mb-2 
+        button.btn.btn-primary(type="submit") Cập nhật
+    
+    script(src="/admin/js/products.js")
+    script(src="/admin/js/script.js")

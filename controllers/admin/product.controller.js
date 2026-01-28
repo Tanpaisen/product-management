@@ -3,6 +3,7 @@ const filterStatusHelper = require('../../helper/filter-status')
 const filterSearchHelper = require('../../helper/filter-search')
 const paginationHelper = require('../../helper/pagination')
 const systemConfig = require('../../config/system')
+
 //[GET] /admin/products
 module.exports.index = async (req, res) => {
 
@@ -249,7 +250,6 @@ module.exports.detail = async (req, res) => {
             _id: req.params.id
         }
         const product = await Product.findOne(find);
-        console.log(product)
         res.render('admin/pages/products/detail.pug', {
             pageTitle: product.title,
             product: product,

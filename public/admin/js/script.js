@@ -168,8 +168,7 @@ if (previewUpload) {
 const sort = document.querySelector('[sort]');
 const sortClear = sort.querySelector('[sort-clear]');
 if (sort) {
-  const sortSelect = sort.querySelector("[sort-select]")
-  const sortClear = sort.querySelector('[sort-clear]');
+  const sortSelect = sort.querySelector("[sort-select]");
   const url = new URL(window.location.href)
 
   sortSelect.addEventListener('change', (e) => {
@@ -184,11 +183,15 @@ if (sort) {
 
   const sortKey = url.searchParams.get("sortKey")
   const sortValue = url.searchParams.get("sortValue")
-
-  const sortCurrent = `${sortKey}-${sortValue}`;
-  console.log(sortCurrent)
-  const option = sortSelect.querySelector(`option[value=${sortCurrent}]`)
-  option.selected=true;
+  if (sortKey && sortValue) {
+    const sortCurrent = `${sortKey}-${sortValue}`;
+    const option = sortSelect.querySelector(`option[value=${sortCurrent}]`)
+    option.selected = true;
+  }
+  else{
+    const option = sortSelect.querySelector(`option[value="position-desc"]`)
+    option.selected = true;
+  }
 
   sortClear.addEventListener('click', () => {
     url.searchParams.delete("sortKey", sortKey)

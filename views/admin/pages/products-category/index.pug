@@ -19,15 +19,15 @@ block main
                 .col-6 
                     +search(keyword)
     .card.mb-3
-        .card-header Danh sách sản phẩm
+        .card-header Danh mục sản phẩm
             .card-body
                 .row 
                     .col-10
-                        +formChangeMulti(`${prefixAdmin}/products/change-multi?_method=PATCH`)
+                        +formChangeMulti(`${prefixAdmin}/products-category/change-multi?_method=PATCH`)
                     .col-2
-                        a.btn.btn-outline-success(href=`${prefixAdmin}/products/create`) + Thêm mới  
-                +sort()
-            table(
+                        a.btn.btn-outline-success(href=`${prefixAdmin}/products-category/create`) + Thêm mới  
+                +sort()         
+        table(
                 class="table table-hover table-sm"
                 change-multi
             )
@@ -41,12 +41,12 @@ block main
                         th STT
                         th Hình ảnh
                         th Tiêu đề
-                        th Giá
+                        th Mục cha
                         th Vị trí
                         th Trạng thái
                         th Hành động
                 tbody
-                    each item,index in products
+                    each item,index in productsCategory
                         tr 
                             td
                                 input(
@@ -62,7 +62,7 @@ block main
                                     width="50"
                                 )
                             td=item.title
-                            td #{item.price}$
+                            td=item.parentId
                             td
                                 input(
                                     type="number"
@@ -107,8 +107,8 @@ block main
                                         data-id=item.id
                                     ) Xóa vĩnh viễn
                                 else
-                                    a.btn.btn-sm.btn-warning(href=`${prefixAdmin}/products/edit/${item.id}`) Sửa
-                                    a.btn.btn-sm.btn-secondary(href=`${prefixAdmin}/products/detail/${item.id}`) Chi tiết
+                                    a.btn.btn-sm.btn-warning(href=`${prefixAdmin}/products-category/edit/${item.id}`) Sửa
+                                    a.btn.btn-sm.btn-secondary(href=`${prefixAdmin}/products-category/detail/${item.id}`) Chi tiết
                                     button.btn.btn-sm.btn-danger(
                                         button-delete
                                         data-id=item.id
@@ -118,27 +118,27 @@ block main
             action=""
             method="POST"
             id="form-change"
-            data-path=`${prefixAdmin}/products/change-status`
+            data-path=`${prefixAdmin}/products-category/change-status`
         )
         //Xóa mềm 1 sp
         form(
             action=""
             method="POST"
             id="form-delete"
-            data-path=`${prefixAdmin}/products/deleteOne`
+            data-path=`${prefixAdmin}/products-category/deleteOne`
         )
         // Xóa vĩnh viễn
         form(
             action=""
             method="POST"
             id="form-delete-perpetual"
-            data-path=`${prefixAdmin}/products/delete`
+            data-path=`${prefixAdmin}/products-category/delete`
         )
         form(
             action=""
             method="POST"
             id="form-restore"
-            data-path=`${prefixAdmin}/products/restoreOne`
+            data-path=`${prefixAdmin}/products-category/restoreOne`
         )
 
         //- pagination
