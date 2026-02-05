@@ -1,7 +1,7 @@
 const express = require('express')
 const multer = require('multer')
 
-const validateProduct = require('../../Validate/admin/product.validate')
+const validateProductCategory = require('../../Validate/admin/product.validate')
 const uploadCloud = require('../../middlewares/admin/uploadCloud');
 
 const upload = multer()
@@ -15,7 +15,7 @@ router.get('/create', productsCategory.create)
 router.post('/create',
     upload.single('thumbnail'),
     uploadCloud.upload,
-    validateProduct.createPost,
+    validateProductCategory.createPost,
     productsCategory.createPost
 )
 
@@ -32,7 +32,7 @@ router.get('/edit/:id', productsCategory.edit);
 router.patch('/edit/:id',
     upload.single('thumbnail'),
     uploadCloud.upload,
-    validateProduct.createPost,
+    validateProductCategory.createPost,
     productsCategory.editPatch
 );
 

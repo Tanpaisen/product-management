@@ -82,6 +82,7 @@ module.exports.createPost = async (req, res) => {
     const productsCategory = new ProductCategory(req.body);
     await productsCategory.save();
 
+    req.flash('success', 'Thêm danh mục sản phẩm thành công!');
     const backUrl = `${systemConfig.prefixAdmin}/products-category`; // URL mặc định nếu không tìm thấy trang trước
     res.redirect(backUrl);
 }
@@ -205,10 +206,7 @@ module.exports.changeMulti = async (req, res) => {
 //[PATCH] /admin/products-category/deleteOne
 module.exports.deleteOne = async (req, res) => {
     const id = req.params.id
-
-    //Xóa vĩnh viễn
-    // await Product.deleteOne({_id:id})
-
+    
     //Xóa tạm thời
     await ProductCategory.updateOne({ _id: id }, { deleted: "true", status: "restore" });
     const back = req.get("Referer");
