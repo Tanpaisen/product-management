@@ -18,7 +18,6 @@ module.exports.index = async (req, res) => {
             'deleted': false,
         }
     }
-    console.log(find);
 
     // Lọc
     const filterStatus = filterStatusHelper(req.query)
@@ -57,8 +56,9 @@ module.exports.index = async (req, res) => {
     } else {
         sort.position = "desc"
     }
-    const productsCategory = await ProductCategory.find(find).sort({ position: "desc" });
-    console.log(productsCategory)
+
+    const productsCategory = await ProductCategory.find(find).sort(sort);
+    
     res.render('admin/pages/products-category/index', {
         pageTitle: 'Danh mục sản phẩm',
         productsCategory: productsCategory,
@@ -69,9 +69,32 @@ module.exports.index = async (req, res) => {
 }
 
 //[GET] /admin/products-category/create
-module.exports.create = (req, res) => {
+module.exports.create = async (req, res) => {
+    const find ={
+        deleted: false,
+    }
+    //create tree
+    const createTree = (arr, parentId = "") => {
+        let tree = [];
+        arr.forEach((item) => {
+            if(item.parentId === parentId){
+                const newTree = item;
+                console.log("newTree", newTree);
+                const children = createTree(arr, item.id);
+                console.log("children", children);
+                if(children.length > 0 ){
+                    newTree.children = children;
+                }
+                tree.push(newTree);
+            }
+        })
+        return tree;
+    }
+    const records = await ProductCategory.find(find);
+    const tree = createTree(records);
     res.render('admin/pages/products-category/create.pug', {
         pageTitle: "Thêm danh mục sản phẩm",
+        records: tree,
     })
 }
 
@@ -206,7 +229,7 @@ module.exports.changeMulti = async (req, res) => {
 //[PATCH] /admin/products-category/deleteOne
 module.exports.deleteOne = async (req, res) => {
     const id = req.params.id
-    
+
     //Xóa tạm thời
     await ProductCategory.updateOne({ _id: id }, { deleted: "true", status: "restore" });
     const back = req.get("Referer");

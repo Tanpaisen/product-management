@@ -1,5 +1,6 @@
 extends ../../layouts/default.pug
 include ../../mixins/alert-flash.pug
+include ../../mixins/createTree.pug
 block main
     h1(class="mb-4 ms-2") Thêm mới danh mục sản phẩm
     form(
@@ -19,11 +20,12 @@ block main
 
       .form-group.mb-2 
         label(for="parentId") Danh mục cha
-        input.form-control(
-          type="text"
+        select.form-control(
           id="parentId"
           name="parentId"
         )
+          option(value="") -- Chon danh mục cha --
+            +createTree(records)
     
       div(class="form-group")
         label(for="desc") Mô tả
