@@ -25,6 +25,10 @@ const routeAdmin = require('./routes/admin/index.route.js')
 
 const port = process.env.PORT;
 
+//File tĩnh
+app.set('views', `${__dirname}/views`)
+app.set('view engine', 'pug')
+app.use(express.static(__dirname+'/public'));
 
 //Body parse
 app.use(methodOverride('_method'))
@@ -39,11 +43,6 @@ app.use(flash());
 //TinyMCE
 app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
 //End TinyMCE
-
-//File tĩnh
-app.set('views', `${__dirname}/views`)
-app.set('view engine', 'pug')
-app.use(express.static(__dirname+'/public'));
 
 //App Location Variable
 app.locals.prefixAdmin = systemConfig.prefixAdmin

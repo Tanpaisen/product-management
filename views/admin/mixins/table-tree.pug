@@ -1,0 +1,70 @@
+mixin tableTree(productsCategory,level=0)
+    each item in productsCategory
+        - const prefix = Array(level+1).join('--')
+        tr 
+            td
+                input(
+                    type="checkbox" 
+                    name="id"
+                    value=item.id
+                )
+            td=item.index
+            td 
+                img(
+                    src=item.thumbnail
+                    alt=item.title
+                    width="50"
+                )
+            td #{prefix} #{item.title}
+            td
+                input(
+                    type="number"
+                    value=item.position
+                    style="width: 60px"
+                    min="1"
+                    name="position"
+                )
+            td 
+                if(item.status === 'active')  
+                    a(
+                        href="javascript:;"
+                        class="badge bg-success" 
+                        data-status=item.status
+                        data-id= item.id
+                        button-change-status
+                    ) Hoạt động
+                else if(item.status === 'restore')  
+                    a(
+                        href="javascript:;"
+                        class="badge bg-danger" 
+                        data-status=item.status
+                        data-id= item.id
+                        button-change-status
+                    ) Đã bị xóa
+                else
+                    a(
+                        href="javascript:;"
+                        class="badge bg-danger" 
+                        data-status=item.status
+                        data-id=item.id
+                        button-change-status
+                    ) Dừng hoạt động
+            td 
+                if(item.status === 'restore')
+                    button.btn.btn-sm.btn-success(
+                        button-restore
+                        data-id=item.id
+                    ) Khôi phục
+                    button.btn.btn-sm.btn-danger(
+                        button-delete-perpetual
+                        data-id=item.id
+                    ) Xóa vĩnh viễn
+                else
+                    a.btn.btn-sm.btn-warning(href=`${prefixAdmin}/products-category/edit/${item.id}`) Sửa
+                    a.btn.btn-sm.btn-secondary(href=`${prefixAdmin}/products-category/detail/${item.id}`) Chi tiết
+                    button.btn.btn-sm.btn-danger(
+                        button-delete
+                        data-id=item.id
+                    ) Xóa
+        if item.children && item.children.length>0
+            +tableTree(item.children,level+1)

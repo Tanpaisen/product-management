@@ -5,6 +5,7 @@ include ../../mixins/pagination.pug
 include ../../mixins/form-change-multi.pug
 include ../../mixins/alert-flash.pug
 include ../../mixins/sort.pug
+include ../../mixins/table-tree.pug
 
 block main
     h1 Danh sách sản phẩm
@@ -46,73 +47,7 @@ block main
                         th Trạng thái
                         th Hành động
                 tbody
-                    each item,index in productsCategory
-                        tr 
-                            td
-                                input(
-                                    type="checkbox" 
-                                    name="id"
-                                    value=item.id
-                                )
-                            td #{index + 1}
-                            td 
-                                img(
-                                    src=item.thumbnail
-                                    alt=item.title
-                                    width="50"
-                                )
-                            td=item.title
-                            td
-                                input(
-                                    type="number"
-                                    value=item.position
-                                    style="width: 60px"
-                                    min="1"
-                                    name="position"
-                                )
-                            td 
-                                if(item.status === 'active')  
-                                    a(
-                                        href="javascript:;"
-                                        class="badge bg-success" 
-                                        data-status=item.status
-                                        data-id= item.id
-                                        button-change-status
-                                    ) Hoạt động
-                                else if(item.status === 'restore')  
-                                    a(
-                                        href="javascript:;"
-                                        class="badge bg-danger" 
-                                        data-status=item.status
-                                        data-id= item.id
-                                        button-change-status
-                                    ) Đã bị xóa
-                                else
-                                    a(
-                                        href="javascript:;"
-                                        class="badge bg-danger" 
-                                        data-status=item.status
-                                        data-id=item.id
-                                        button-change-status
-                                    ) Dừng hoạt động
-                            td 
-                                if(item.status === 'restore')
-                                    button.btn.btn-sm.btn-success(
-                                        button-restore
-                                        data-id=item.id
-                                    ) Khôi phục
-                                    button.btn.btn-sm.btn-danger(
-                                        button-delete-perpetual
-                                        data-id=item.id
-                                    ) Xóa vĩnh viễn
-                                else
-                                    a.btn.btn-sm.btn-warning(href=`${prefixAdmin}/products-category/edit/${item.id}`) Sửa
-                                    a.btn.btn-sm.btn-secondary(href=`${prefixAdmin}/products-category/detail/${item.id}`) Chi tiết
-                                    button.btn.btn-sm.btn-danger(
-                                        button-delete
-                                        data-id=item.id
-                                    ) Xóa
-                        tr
+                    +tableTree(productsCategory)
         form(
             action=""
             method="POST"

@@ -2,6 +2,7 @@ const ProductCategory = require('../../models/product.category.model');
 const filterStatusHelper = require('../../helper/filter-status')
 const filterSearchHelper = require('../../helper/filter-search')
 const paginationHelper = require('../../helper/pagination')
+const createTreeHelper = require('../../helper/create-tree')
 const systemConfig = require('../../config/system')
 
 //[GET] /admin/products-category
@@ -59,9 +60,12 @@ module.exports.index = async (req, res) => {
 
     const productsCategory = await ProductCategory.find(find).sort(sort);
     
+    //tree
+    const records = createTreeHelper.tree(productsCategory)
+
     res.render('admin/pages/products-category/index', {
         pageTitle: 'Danh mục sản phẩm',
-        productsCategory: productsCategory,
+        productsCategory: records,
         filterStatus: filterStatus,
         keyword: search.keyword,
         pageObject: pageObject,
@@ -73,25 +77,9 @@ module.exports.create = async (req, res) => {
     const find ={
         deleted: false,
     }
-    //create tree
-    const createTree = (arr, parentId = "") => {
-        let tree = [];
-        arr.forEach((item) => {
-            if(item.parentId === parentId){
-                const newTree = item;
-                console.log("newTree", newTree);
-                const children = createTree(arr, item.id);
-                console.log("children", children);
-                if(children.length > 0 ){
-                    newTree.children = children;
-                }
-                tree.push(newTree);
-            }
-        })
-        return tree;
-    }
+    
     const records = await ProductCategory.find(find);
-    const tree = createTree(records);
+    const tree = createTreeHelper.tree(records);
     res.render('admin/pages/products-category/create.pug', {
         pageTitle: "Thêm danh mục sản phẩm",
         records: tree,
