@@ -1,23 +1,18 @@
 const ProductCategory = require('../../models/product.category.model');
 const filterStatusHelper = require('../../helper/filter-status')
 const filterSearchHelper = require('../../helper/filter-search')
-const paginationHelper = require('../../helper/pagination')
 const createTreeHelper = require('../../helper/create-tree')
 const systemConfig = require('../../config/system')
 
 //[GET] /admin/products-category
 module.exports.index = async (req, res) => {
-    let find={};
-    if (req.query.status === 'restore') {
-        find = {
-            'deleted': true,
-            'status': 'restore',
-        }
+
+    const find = {
+        'deleted': false,
     }
-    else {
-        find = {
-            'deleted': false,
-        }
+
+    const restoreFind = {
+        'deleted': true,
     }
 
     // Lọc
@@ -35,18 +30,6 @@ module.exports.index = async (req, res) => {
         find.title = search.regex;
     }
 
-    //Pagination
-    const countProducts = await ProductCategory.countDocuments(find);
-
-    const pageObject = paginationHelper(
-        req.query,
-        countProducts,
-        {
-            limitPage: 4,
-            curentPage: 1,
-        },
-    );
-
     //sort
     let sort = {};
 
@@ -58,8 +41,18 @@ module.exports.index = async (req, res) => {
         sort.position = "desc"
     }
 
-    const productsCategory = await ProductCategory.find(find).sort(sort);
-    
+    let productsCategory
+    let pageTitle
+    if (req.query.status == 'restore') {
+        productsCategory = await ProductCategory.find(restoreFind)
+            .sort(sort)
+    }
+    else {
+        productsCategory = await ProductCategory
+            .find(find)
+            .sort(sort)
+    }
+
     //tree
     const records = createTreeHelper.tree(productsCategory)
 
@@ -68,16 +61,15 @@ module.exports.index = async (req, res) => {
         productsCategory: records,
         filterStatus: filterStatus,
         keyword: search.keyword,
-        pageObject: pageObject,
     })
 }
 
 //[GET] /admin/products-category/create
 module.exports.create = async (req, res) => {
-    const find ={
+    const find = {
         deleted: false,
     }
-    
+
     const records = await ProductCategory.find(find);
     const tree = createTreeHelper.tree(records);
     res.render('admin/pages/products-category/create.pug', {

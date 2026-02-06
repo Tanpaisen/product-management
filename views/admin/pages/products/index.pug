@@ -54,7 +54,7 @@ block main
                                     name="id"
                                     value=item.id
                                 )
-                            td #{index + 1}
+                            td #{pageObject.limitPage*(pageObject.curentPage-1)+(index+1)}
                             td 
                                 img(
                                     src=item.thumbnail
