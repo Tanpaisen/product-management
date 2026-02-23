@@ -106,20 +106,28 @@ module.exports.changeStatus = async (req, res) => {
 //[GET] /admin/products-category/edit
 module.exports.edit = async (req, res) => {
     try {
-        const find = {
+        const data = {
             deleted: false,
             _id: req.params.id,
         }
-        const productsCategory = await ProductCategory.findOne(find);
 
+        const newData = await ProductCategory.findOne(data);
+
+        const find = {
+            deleted: false,
+        }
+
+        const records = await ProductCategory.find(find);
+        const tree = createTreeHelper.tree(records);
         res.render('admin/pages/products-category/edit.pug', {
             pageTitle: "Chỉnh sửa danh mục sản phẩm",
-            productsCategory: productsCategory,
+            data: newData,
+            records: tree
         })
     }
     catch (error) {
         req.flash("error", "Không thể truy vấn sản phẩm này!")
-        const backUrl = req.get("Referer") || "/admin/products"; // URL mặc định nếu không tìm thấy trang trước
+        const backUrl = req.get("Referer") || `${systemConfig.prefixAdmin}/products-category`;
         res.redirect(backUrl);
     }
 }
@@ -140,7 +148,7 @@ module.exports.editPatch = async (req, res) => {
     catch (error) {
         req.flash("error", "Cập nhật thất bại!")
     }
-    const backUrl = req.get("Referer") || "/admin/products"; // URL mặc định nếu không tìm thấy trang trước
+    const backUrl = req.get("Referer") || `${systemConfig.prefixAdmin}/products-category`;
     res.redirect(backUrl);
 };
 
@@ -159,7 +167,7 @@ module.exports.detail = async (req, res) => {
     }
     catch (error) {
         req.flash("error", "Không thể truy vấn sản phẩm này!")
-        const backUrl = req.get("Referer") || "/admin/products"; // URL mặc định nếu không tìm thấy trang trước
+        const backUrl = req.get("Referer") || `${systemConfig.prefixAdmin}/products-category`;
         res.redirect(backUrl);
     }
 }
