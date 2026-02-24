@@ -3,7 +3,8 @@ const filterStatusHelper = require('../../helper/filter-status')
 const filterSearchHelper = require('../../helper/filter-search')
 const paginationHelper = require('../../helper/pagination')
 const systemConfig = require('../../config/system')
-
+const ProductCategory = require('../../models/product.category.model');
+const createTreeHelper = require('../../helper/create-tree')
 //[GET] /admin/products
 module.exports.index = async (req, res) => {
 
@@ -49,7 +50,7 @@ module.exports.index = async (req, res) => {
     const sortValue = req.query.sortValue;
     if (sortKey && sortValue) {
         sort[sortKey] = sortValue
-    }else{
+    } else {
         sort.position = "desc"
     }
 
@@ -93,7 +94,7 @@ module.exports.changeStatus = async (req, res) => {
         await Product.updateOne({ _id: id }, { status: statusChange });
         req.flash('success', 'Thay đổi trạng thái thành công!');
     }
-    const backUrl = req.get("Referer") || "/admin/products"; // URL mặc định nếu không tìm thấy trang trước
+    const backUrl = req.get("Referer") || `${systemConfig.prefixAdmin}/products`;
     res.redirect(backUrl);
 }
 
@@ -136,7 +137,7 @@ module.exports.changeMulti = async (req, res) => {
         default:
             return res.status(400).send("Invalid type");
     }
-    const backUrl = req.get("Referer") || "/admin/products"; // URL mặc định nếu không tìm thấy trang trước
+    const backUrl = req.get("Referer") || `${systemConfig.prefixAdmin}/products`;
     res.redirect(backUrl);
 }
 
@@ -178,9 +179,16 @@ module.exports.restoreOne = async (req, res) => {
 }
 
 //[GET] /admin/products/create
-module.exports.create = (req, res) => {
+module.exports.create = async (req, res) => {
+    const find = {
+        deleted: false,
+    }
+    const category = await ProductCategory.find(find);
+
+    const tree = createTreeHelper.tree(category)
     res.render('admin/pages/products/create.pug', {
         pageTitle: "Thêm sản phẩm",
+        category: tree
     })
 }
 
@@ -196,8 +204,9 @@ module.exports.createPost = async (req, res) => {
 
     const products = new Product(req.body);
     products.save();
+    console.log(req.body)
 
-    const backUrl = "/admin/products"; // URL mặc định nếu không tìm thấy trang trước
+    const backUrl = req.get("Referer") || `${systemConfig.prefixAdmin}/products`;
     res.redirect(backUrl);
 }
 
@@ -210,14 +219,22 @@ module.exports.edit = async (req, res) => {
         }
         const product = await Product.findOne(find);
 
+        const data = {
+            deleted: false,
+        }
+        const category = await ProductCategory.find(data);
+
+        const tree = createTreeHelper.tree(category)
+
         res.render('admin/pages/products/edit.pug', {
             pageTitle: "Chỉnh sửa sản phẩm",
             product: product,
+            tree: tree
         })
     }
     catch (error) {
         req.flash("error", "Không thể truy vấn sản phẩm này!")
-        const backUrl = req.get("Referer") || "/admin/products"; // URL mặc định nếu không tìm thấy trang trước
+        const backUrl = req.get("Referer") || `${systemConfig.prefixAdmin}/products`;
         res.redirect(backUrl);
     }
 }
@@ -238,7 +255,7 @@ module.exports.editPatch = async (req, res) => {
     catch (error) {
         req.flash("error", "Cập nhật thất bại!")
     }
-    const backUrl = req.get("Referer") || "/admin/products"; // URL mặc định nếu không tìm thấy trang trước
+    const backUrl = req.get("Referer") || `${systemConfig.prefixAdmin}/products`;
     res.redirect(backUrl);
 };
 
@@ -257,7 +274,7 @@ module.exports.detail = async (req, res) => {
     }
     catch (error) {
         req.flash("error", "Không thể truy vấn sản phẩm này!")
-        const backUrl = req.get("Referer") || "/admin/products"; // URL mặc định nếu không tìm thấy trang trước
+        const backUrl = req.get("Referer") || `${systemConfig.prefixAdmin}/products`;
         res.redirect(backUrl);
     }
 }

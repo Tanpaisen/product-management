@@ -43,22 +43,23 @@ module.exports.index = async (req, res) => {
 
     let productsCategory
     let pageTitle
+    let records
     if (req.query.status == 'restore') {
-        productsCategory = await ProductCategory.find(restoreFind)
+        productsCategory = await ProductCategory
+            .find(restoreFind)
             .sort(sort)
     }
     else {
         productsCategory = await ProductCategory
             .find(find)
             .sort(sort)
+        records = createTreeHelper.tree(productsCategory);
     }
 
-    //tree
-    const records = createTreeHelper.tree(productsCategory)
 
     res.render('admin/pages/products-category/index', {
         pageTitle: 'Danh mục sản phẩm',
-        productsCategory: records,
+        productsCategory: records || productsCategory,
         filterStatus: filterStatus,
         keyword: search.keyword,
     })

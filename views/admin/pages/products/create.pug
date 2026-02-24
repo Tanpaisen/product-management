@@ -1,5 +1,6 @@
 extends ../../layouts/default.pug
 include ../../mixins/alert-flash.pug
+include ../../mixins/select-tree.pug
 block main
     h1(class="mb-4 ms-2") Thêm mới sản phẩm
     +messages(5000)
@@ -18,6 +19,17 @@ block main
           required
         )
       div(class="form-group")
+        label(for="product_category_id") Chọn danh mục
+        select(
+        name="product_category_id"
+        id="product_category_id"
+        class="form-control form-select" 
+        )
+          option(value="") -- Chọn danh mục --
+          if(category)
+              +select-tree(category)
+
+      div(class="form-group")
         label(for="desc") Mô tả
         textarea.form-control(
           id="desc"
@@ -32,16 +44,6 @@ block main
           name="content"
           rows="5"    
         )
-        //  div(class="form-group")
-            label(for="product_category_id")
-            select(
-            name="product_category_id"
-            id="product_category_id"
-            class="form-control form-select" 
-            )
-            option(value="") -- Chọn danh mục --
-            if(category)
-                +select-tree(category)
       
         //  div(class="form-group form-check form-check-inline")
             input(

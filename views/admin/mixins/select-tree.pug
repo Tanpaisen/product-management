@@ -1,4 +1,4 @@
-mixin createTree(records, level = 1, parentId = "")
+mixin select-tree(records, level = 1, parentId = "")
     each item in records
         - const prefix = Array(level+1).join('--')
         option(
@@ -6,5 +6,5 @@ mixin createTree(records, level = 1, parentId = "")
             selected=(item.id==parentId ? true : false)
         ) #{prefix} #{item.title}
             if item.children && item.children.length > 0
-                +createTree(item.children, level + 1, parentId)
+                +select-tree(item.children, level + 1, parentId)
                

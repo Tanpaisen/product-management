@@ -1,5 +1,5 @@
 extends ../../layouts/default.pug
-include ../../mixins/createTree.pug
+include ../../mixins/select-tree.pug
 
 block main
     h1(class="mb-4 ms-2") Chỉnh sửa danh mục sản phẩm
@@ -26,7 +26,7 @@ block main
           name="parentId"
         )
           option(value="") -- Chon danh mục cha --
-            +createTree(records, 1, data.parentId)
+            +select-tree(records, 1, data.parentId)
       div(class="form-group")
         label(for="desc") Mô tả
         textarea.form-control(
