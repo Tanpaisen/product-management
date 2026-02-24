@@ -1,7 +1,10 @@
 const ProductCategory = require('../../models/product.category.model');
+
 const filterStatusHelper = require('../../helper/filter-status')
 const filterSearchHelper = require('../../helper/filter-search')
 const createTreeHelper = require('../../helper/create-tree')
+const findAllChildrenIdHelper = require('../../helper/find-childrenId')
+
 const systemConfig = require('../../config/system')
 
 //[GET] /admin/products-category
@@ -217,12 +220,14 @@ module.exports.changeMulti = async (req, res) => {
 
 //[PATCH] /admin/products-category/deleteOne
 module.exports.deleteOne = async (req, res) => {
+
     const id = req.params.id
+    const allIds = await findAllChildrenIdHelper.findAllChildrenIds(id);
 
     //Xóa tạm thời
-    await ProductCategory.updateOne({ _id: id }, { deleted: "true", status: "restore" });
+    await ProductCategory.updateMany({ _id: { $in: allIds } }, { deleted: "true", status: "restore" });
     const back = req.get("Referer");
-    req.flash('success', `Xóa thành công sản phẩm`);
+    req.flash('success', `Xóa thành công sản phẩm và các danh mục con của nó`);
     res.redirect(back);
 
 }
@@ -243,7 +248,8 @@ module.exports.delete = async (req, res) => {
 module.exports.restoreOne = async (req, res) => {
     const id = req.params.id
 
-    await ProductCategory.updateOne({ _id: id }, { deleted: "false", status: "active" });
+    const allIds = await findAllChildrenIdHelper.findAllChildrenIds(id, true);
+    await ProductCategory.updateMany({ _id: { $in: allIds } }, { deleted: "false", status: "active" });
     const back = req.get("Referer");
     req.flash('success', 'Khôi phục thành công!');
     res.redirect(back);
