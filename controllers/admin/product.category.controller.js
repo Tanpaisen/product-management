@@ -4,6 +4,7 @@ const filterStatusHelper = require('../../helper/filter-status')
 const filterSearchHelper = require('../../helper/filter-search')
 const createTreeHelper = require('../../helper/create-tree')
 const findAllChildrenIdHelper = require('../../helper/find-childrenId')
+const validateParentActiveHelper = require('../../helper/validate-parentActive')
 
 const systemConfig = require('../../config/system')
 
@@ -98,14 +99,41 @@ module.exports.createPost = async (req, res) => {
 module.exports.changeStatus = async (req, res) => {
     const status = req.params.status;
     const id = req.params.id;
-    console.log(status);
-    await ProductCategory.updateOne({ _id: id }, { status: status })
+
+    // 1. Lấy toàn bộ records để phục vụ validate và tìm con trên RAM
+    const records = await ProductCategory.find({ deleted: false });
+
+    // 2. Tìm danh mục hiện tại
+    const current = records.find(r => r.id === id);
+    if (!current) {
+        req.flash('error', 'Không tìm thấy danh mục sản phẩm!');
+        return res.redirect("back");
+    }
+
+    // 3. Xử lý logic
+    if (status === "active") {
+        const isParentOk = await validateParentActiveHelper.validateParentActive(current.parentId, records);
+
+        if (!isParentOk) {
+            req.flash('error', `Không thể kích hoạt ${current.title} do cấp cha chưa sẵn sàng!`);
+            return res.redirect("back");
+        }
+
+        // Nếu cha Ok -> Kích hoạt chính nó và đám con
+        const allIds = await findAllChildrenIdHelper.findAllChildrenIds(id);
+        await ProductCategory.updateMany({ _id: { $in: allIds } }, { status: status });
+        req.flash('success', 'Kích hoạt danh mục và các con thành công!');
+    }
+    else {
+        // TRƯỜNG HỢP INACTIVE: Không cần check cha, tắt luôn nó và đám con
+        const allIds = await findAllChildrenIdHelper.findAllChildrenIds(id);
+        await ProductCategory.updateMany({ _id: { $in: allIds } }, { status: status });
+        req.flash('success', 'Đã dừng hoạt động danh mục và các con!');
+    }
 
     const back = req.get('Referer') || `${systemConfig.prefixAdmin}/products-category`;
-    req.flash('success', 'Cập nhật trạng thái thành công');
     res.redirect(back);
-
-}
+};
 
 //[GET] /admin/products-category/edit
 module.exports.edit = async (req, res) => {
@@ -180,14 +208,43 @@ module.exports.detail = async (req, res) => {
 module.exports.changeMulti = async (req, res) => {
     const type = req.body.type;
     const ids = req.body.ids.split(", ");
+    const records = await ProductCategory.find({});
+
+    let childIds = [];
+    let isValidateParentActive = []
+
+    for (const id of ids) {
+        let allIds = []
+        const current = records.find(r => r.id === id);
+        if (current) {
+            const isOk = await validateParentActiveHelper.validateParentActive(current.parentId, records)
+            if (isOk) {
+                if (type === "restoreMany") {
+                    allIds = await findAllChildrenIdHelper.findAllChildrenIds(id, true);
+                } else {
+                    allIds = await findAllChildrenIdHelper.findAllChildrenIds(id);
+                }
+                childIds.push(...allIds);
+            } else {
+                isValidateParentActive.push(current.title);
+            }
+        }
+    }
+    childIds = [...new Set(childIds)];
     switch (type) {
         case "active":
-            await ProductCategory.updateMany({ _id: { $in: ids } }, { status: "active" })
-            req.flash('success', `Thay đổi trạng thái thành công ${ids.length} sản phẩm!`);
+        case "restoreMany":
+            if (childIds.length > 0) {
+                await ProductCategory.updateMany({ _id: { $in: childIds } }, { status: "active", deleted: false })
+                req.flash('success', `Thay đổi trạng thái thành công ${childIds.length} sản phẩm!`);
+            }
+            if (isValidateParentActive.length > 0) {
+                req.flash('error', `Không thể thay đổi trạng thái của ${isValidateParentActive.join(", ")} do cấp cha chưa ở trạng thái sẵn sàng!`);
+            }
             break;
         case "inactive":
-            await ProductCategory.updateMany({ _id: { $in: ids } }, { status: "inactive" })
-            req.flash('success', `Thay đổi trạng thái thành công ${ids.length} sản phẩm!`);
+            await ProductCategory.updateMany({ _id: { $in: childIds } }, { status: "inactive" })
+            req.flash('success', `Thay đổi trạng thái thành công ${childIds.length} sản phẩm!`);
             break;
         case "position":
             for (let item of ids) {
@@ -198,18 +255,11 @@ module.exports.changeMulti = async (req, res) => {
             req.flash('success', `Thay đổi vị trí thành công ${ids.length} sản phẩm!`);
             break;
         case "deleteMany":
-            await ProductCategory.updateMany({ _id: { $in: ids } }, {
+            await ProductCategory.updateMany({ _id: { $in: childIds } }, {
                 status: "restore",
                 deleted: true,
             })
-            req.flash('success', `Xóa thành công ${ids.length} sản phẩm!`);
-            break;
-        case "restoreMany":
-            await ProductCategory.updateMany({ _id: { $in: ids } }, {
-                status: "active",
-                deleted: false,
-            })
-            req.flash('success', `Khôi phục thành công ${ids.length} sản phẩm!`);
+            req.flash('success', `Xóa thành công ${childIds.length} sản phẩm!`);
             break;
         default:
             return res.status(400).send("Invalid type");
@@ -236,7 +286,8 @@ module.exports.delete = async (req, res) => {
     const id = req.params.id
 
     //Xóa vĩnh viễn
-    await ProductCategory.deleteOne({ _id: id })
+    const allIds = await findAllChildrenIdHelper.findAllChildrenIds(id, true);
+    await ProductCategory.deleteMany({ _id: { $in: allIds } });
 
     const back = req.get("Referer");
     req.flash('success', `Xóa thành công sản phẩm`);
@@ -248,9 +299,33 @@ module.exports.delete = async (req, res) => {
 module.exports.restoreOne = async (req, res) => {
     const id = req.params.id
 
+    const records = await ProductCategory.find({});
+
+    const current = records.find(r => r.id === id);
+
+    if (!current) {
+        req.flash('error', 'Không tìm thấy danh mục sản phẩm!');
+        const backUrl = req.get("Referer") || `${systemConfig.prefixAdmin}/products-category`;
+        return res.redirect(backUrl)
+    }
+
+    const isParentOk = await validateParentActiveHelper.validateParentActive(current.parentId, records);
+    if (!isParentOk) {
+        req.flash('error', `Không thể khôi phục ${current.title} do cấp cha chưa sẵn sàng!`);
+        const backUrl = req.get("Referer") || `${systemConfig.prefixAdmin}/products-category`;
+        return res.redirect(backUrl)
+    }
     const allIds = await findAllChildrenIdHelper.findAllChildrenIds(id, true);
-    await ProductCategory.updateMany({ _id: { $in: allIds } }, { deleted: "false", status: "active" });
-    const back = req.get("Referer");
-    req.flash('success', 'Khôi phục thành công!');
-    res.redirect(back);
+
+    await ProductCategory.updateMany(
+        { _id: { $in: allIds } },
+        {
+            deleted: false,
+            status: "active"
+        }
+    );
+
+    req.flash('success', `Khôi phục thành công ${current.title} và các danh mục con!`);
+    const backUrl = req.get("Referer") || `${systemConfig.prefixAdmin}/products-category`;
+    res.redirect("back");
 }
