@@ -8,4 +8,7 @@ router.get('/', rolesRouter.index)
 router.get('/create', rolesRouter.create)
 router.post('/create', rolesRouter.createPost)
 
+router.get('/edit/:id', rolesRouter.edit)
+router.patch('/edit/:id', rolesRouter.editPatch)
+
 module.exports = router

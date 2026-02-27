@@ -1,0 +1,26 @@
+extends ../../layouts/default.pug
+block main
+  h1.mb-4 Trang chỉnh sửa nhóm quyền
+  .card.mb-3
+    .card-header Thông tin nhóm quyền
+    .card-body
+      form(action=`${prefixAdmin}/roles/edit/${data._id}?_method=PATCH` method="POST" )
+        .form-group
+          label(for="title") Tiêu đề nhóm quyền
+          input#title.form-control(
+            type="text" 
+            name="title" 
+            value=data.title
+            required
+          )
+
+        div(class="form-group")
+            label(for="desc") Mô tả ngắn
+            textarea.form-control(
+                id="desc"
+                name="description"
+                rows="5"
+                class="textarea-tinymce"
+            ) #{data.description}
+        .form-group.mb-2 
+          button.btn.btn-primary(type="submit") Sửa
