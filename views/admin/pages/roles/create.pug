@@ -8,10 +8,38 @@ block main
       form(action=`${prefixAdmin}/roles/create` method="POST")
         .form-group
           label(for="title") Tiêu đề nhóm quyền
-          input#title.form-control(type="text" name="title" required)
+          input#title.form-control(
+            type="text" 
+            name="title" 
+            required
+            placeholder="Nhập tiêu đề nhóm quyền"
+          )
 
         .form-group
           label(for="description") Mô tả ngắn về nhóm quyền
-          textarea#description.form-control(name="description" rows="3")
-
-        button.btn.btn-primary(type="submit") Tạo nhóm quyền
+          textarea#description.form-control(
+            name="description" 
+            rows="3"
+            placeholder="Nhập mô tả ngắn về nhóm quyền"
+          )
+        .form-group.form-check.form-check-inline
+          input(
+              type="radio"
+              class="form-check-input"
+              id="statusActive"
+              name="status"
+              value="active"
+              checked
+          )
+          label(for="statusActive" class="form-check-label") Hoạt động
+        .form-group.form-check.form-check-inline
+          input(
+              type="radio"
+              class="form-check-input"
+              id="statusInActive"
+              name="status"
+              value="inactive"
+          )
+          label(for="statusInActive" class="form-check-label") Dừng hoạt động 
+        .form-group.mb-2 
+          button.btn.btn-primary(type="submit") Tạo mới

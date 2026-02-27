@@ -1,16 +1,28 @@
-//[GET] /admin/roles
+const Role = require('../../models/roles.model')
 
-module.exports.index = (req, res) => {
+const systemConfig = require('../../config/system')
+
+//[GET] /admin/roles
+module.exports.index = async (req, res) => {
+    const role = await Role.find({deleted: false})
     res.render('admin/pages/roles/index',{
         pageTitle: "Trang quản trị nhóm quyền",
+        role: role,
     })
     
 }
 
 //[GET] /admin/roles/create
-module.exports.create = (req, res) => {
+module.exports.create =  (req, res) => {
     res.render('admin/pages/roles/create',{
         pageTitle: "Trang tạo nhóm quyền mới",
     })
     
+}
+
+//[POST] /admin/roles/create
+module.exports.createPost = (req, res) => {
+    const role = new Role(req.body)
+    role.save()
+    res.redirect(`${systemConfig.prefixAdmin}/roles/create`)
 }

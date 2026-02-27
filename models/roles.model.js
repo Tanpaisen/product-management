@@ -1,14 +1,10 @@
-const mmongoose = require('mongoose')
+const mongoose = require('mongoose')
 
 const roleSchema = new mongoose.Schema({
     title: String,
     description: {
         type: String,
         default: ""
-    },
-    status: {
-        type: String,
-        default: "active"
     },
     deleted: {
         type: Boolean,
@@ -18,4 +14,6 @@ const roleSchema = new mongoose.Schema({
 }, {
     timestamps: true
 });
-const Role = mongosee.model('Role', roleSchema, 'role')
+const Role = mongoose.model('Role', roleSchema, 'role')
+
+module.exports = Role;
