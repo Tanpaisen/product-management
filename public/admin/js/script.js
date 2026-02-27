@@ -1,19 +1,21 @@
 //Button status
 const buttonsStatus = document.querySelectorAll("[button-status]");
 
-buttonsStatus.forEach((button) => {
-  let url = new URL(window.location.href);
-  button.addEventListener("click", () => {
-    const status = button.getAttribute("button-status");
+if (buttonsStatus.length > 0) {
+  buttonsStatus.forEach((button) => {
+    let url = new URL(window.location.href);
+    button.addEventListener("click", () => {
+      const status = button.getAttribute("button-status");
 
-    if (window.location.href) {
-      url.searchParams.set("status", status);
-      window.location.href = url.href;
-    } else {
-      url.searchParams.delete("status");
-    }
+      if (window.location.href) {
+        url.searchParams.set("status", status);
+        window.location.href = url.href;
+      } else {
+        url.searchParams.delete("status");
+      }
+    });
   });
-});
+}
 //End button status
 
 //Search form
@@ -166,8 +168,9 @@ if (previewUpload) {
 
 //Sort
 const sort = document.querySelector('[sort]');
-const sortClear = sort.querySelector('[sort-clear]');
+
 if (sort) {
+  const sortClear = sort.querySelector('[sort-clear]');
   const sortSelect = sort.querySelector("[sort-select]");
   const url = new URL(window.location.href)
 
@@ -188,7 +191,7 @@ if (sort) {
     const option = sortSelect.querySelector(`option[value=${sortCurrent}]`)
     option.selected = true;
   }
-  else{
+  else {
     const option = sortSelect.querySelector(`option[value="position-desc"]`)
     option.selected = true;
   }

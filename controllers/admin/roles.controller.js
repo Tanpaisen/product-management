@@ -50,3 +50,12 @@ module.exports.editPatch = async (req, res) => {
     const backUrl = req.get('Referer') || `${systemConfig.prefixAdmin}/roles`
     res.redirect(backUrl);
 }
+
+//[DELETE] /admin/roles/deleteOne/:id
+module.exports.deleteOne = async (req, res) => {
+    const id = req.params.id;
+    await Role.deleteOne({_id: id})
+
+    const backUrl = req.get('Referer') || `${systemConfig.prefixAdmin}/roles`
+    res.redirect(backUrl);
+}
