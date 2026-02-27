@@ -1,6 +1,9 @@
 extends ../../layouts/default.pug
+include ../../mixins/alert-flash.pug
+
 block main
   h1.mb-4 Trang chỉnh sửa nhóm quyền
+  +messages(5000)
   .card.mb-3
     .card-header Thông tin nhóm quyền
     .card-body

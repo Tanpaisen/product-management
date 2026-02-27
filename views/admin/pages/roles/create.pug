@@ -1,7 +1,9 @@
 extends ../../layouts/default.pug
+include ../../mixins/alert-flash.pug
+
 block main
   h1.mb-4 Trang tạo nhóm quyền mới
-
+  +messages(5000)
   .card.mb-3
     .card-header Thông tin nhóm quyền
     .card-body
@@ -22,24 +24,6 @@ block main
             rows="3"
             placeholder="Nhập mô tả ngắn về nhóm quyền"
           )
-        .form-group.form-check.form-check-inline
-          input(
-              type="radio"
-              class="form-check-input"
-              id="statusActive"
-              name="status"
-              value="active"
-              checked
-          )
-          label(for="statusActive" class="form-check-label") Hoạt động
-        .form-group.form-check.form-check-inline
-          input(
-              type="radio"
-              class="form-check-input"
-              id="statusInActive"
-              name="status"
-              value="inactive"
-          )
-          label(for="statusInActive" class="form-check-label") Dừng hoạt động 
+
         .form-group.mb-2 
           button.btn.btn-primary(type="submit") Tạo mới
