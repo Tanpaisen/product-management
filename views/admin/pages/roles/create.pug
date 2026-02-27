@@ -1,0 +1,17 @@
+extends ../../layouts/default.pug
+block main
+  h1.mb-4 Trang tạo nhóm quyền mới
+
+  .card.mb-3
+    .card-header Thông tin nhóm quyền
+    .card-body
+      form(action=`${prefixAdmin}/roles/create` method="POST")
+        .form-group
+          label(for="title") Tiêu đề nhóm quyền
+          input#title.form-control(type="text" name="title" required)
+
+        .form-group
+          label(for="description") Mô tả ngắn về nhóm quyền
+          textarea#description.form-control(name="description" rows="3")
+
+        button.btn.btn-primary(type="submit") Tạo nhóm quyền
