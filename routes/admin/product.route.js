@@ -11,6 +11,16 @@ const products = require('../../controllers/admin/product.controller')
 
 router.get('/', products.index)
 
+router.post('/upload-tinymce', 
+    upload.single('file'),     
+    uploadCloud.upload,       
+    (req, res) => {
+        res.json({ 
+            location: req.body.file 
+        });
+    }
+);
+
 router.patch('/change-status/:status/:id/', products.changeStatus)
 
 router.patch('/change-multi', products.changeMulti)

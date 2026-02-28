@@ -11,6 +11,16 @@ const productsCategory = require('../../controllers/admin/product.category.contr
 
 router.get('/', productsCategory.index)
 
+router.post('/upload-tinymce', 
+    upload.single('file'),     
+    uploadCloud.upload,       
+    (req, res) => {
+        res.json({ 
+            location: req.body.file 
+        });
+    }
+);
+
 router.get('/create', productsCategory.create)
 router.post('/create',
     upload.single('thumbnail'),
