@@ -44,6 +44,11 @@ block main
                     button-delete
                     data-id=item.id
                   ) Xóa
+                  button(
+                    class="btn btn-info btn-sm ml-1"
+                    button-detail
+                    data-id=item.id
+                  ) Chi tiết
           else
             tr
               td(colspan="4" class="text-center") Chưa có nhóm quyền nào được tạo.
@@ -53,6 +58,13 @@ block main
     method="POST"
     action=""
     data-path=`${prefixAdmin}/roles/deleteOne`
+  )
+
+  form(
+    id="form-detail"
+    method="GET"
+    action=""
+    data-path=`${prefixAdmin}/roles/detail`
   )
 
   script(src="/admin/js/role.js")

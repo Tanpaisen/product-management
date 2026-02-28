@@ -1,0 +1,13 @@
+extends ../../layouts/default.pug
+
+block main
+    h1.mb-4 Chi tiết nhóm quyền
+    .card.mb-3
+        .card-header Thông tin nhóm quyền
+        .card-body
+            div
+                strong Tiêu đề: 
+                span #{data.title}
+            div
+                strong Mô tả: 
+                span #{data.description}

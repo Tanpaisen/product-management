@@ -16,3 +16,18 @@ if (btnDeleted.length > 0) {
         })
     })
 }
+
+const btnDetail = document.querySelectorAll('[button-detail]');
+const formDetail = document.querySelector('#form-detail');
+
+if (btnDetail.length > 0) {
+    btnDetail.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const id = btn.getAttribute('data-id');
+            const path = formDetail.getAttribute('data-path');
+            const action = `${path}/${id}`;
+            formDetail.action = action;
+            formDetail.submit();
+        })
+    })
+}

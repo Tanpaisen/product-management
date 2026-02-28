@@ -84,3 +84,14 @@ module.exports.deleteOne = async (req, res) => {
         res.redirect(backUrl);
     }
 }
+
+//[GET] /admin/roles/detail/:id
+module.exports.detail = async (req, res) => {
+    const id = req.params.id;
+
+    const data = await Role.findOne({_id: id});
+    res.render('admin/pages/roles/detail', {
+        pageTitle: "Trang chi tiết nhóm quyền",
+        data: data
+    })
+}

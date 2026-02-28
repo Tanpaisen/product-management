@@ -14,4 +14,6 @@ router.patch('/edit/:id', roleValidate.createPost, rolesRouter.editPatch)
 
 router.delete('/deleteOne/:id', rolesRouter.deleteOne)
 
+router.get('/detail/:id', rolesRouter.detail)
+
 module.exports = router
