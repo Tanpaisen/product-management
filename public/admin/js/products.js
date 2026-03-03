@@ -1,7 +1,7 @@
 const buttonsChangeStatus = document.querySelectorAll("[button-change-status]")
 const formChange = document.querySelector("#form-change")
 
-if (buttonsChangeStatus.length > 0) {
+if (buttonsChangeStatus.length > 0 && formChange) {
     const path = formChange.getAttribute('data-path')
     console.log(path)
     buttonsChangeStatus.forEach((button) => {
@@ -29,7 +29,7 @@ if (buttonsChangeStatus.length > 0) {
 
 const buttonDelete = document.querySelectorAll('[button-delete]');
 const formDelete = document.querySelector("#form-delete")
-if (buttonDelete.length > 0) {
+if (buttonDelete.length > 0 && formDelete) {
     const path = formDelete.getAttribute('data-path');
     console.log(path)
     buttonDelete.forEach(button => {
@@ -50,7 +50,7 @@ if (buttonDelete.length > 0) {
 const buttonRestore = document.querySelectorAll("[button-restore]");
 const formRestore = document.querySelector("#form-restore")
 
-if (buttonRestore.length > 0) {
+if (buttonRestore.length > 0 && formRestore) {
     const path = formRestore.getAttribute('data-path');
     buttonRestore.forEach(button => {
         button.addEventListener("click", () => {
@@ -67,7 +67,7 @@ if (buttonRestore.length > 0) {
 
 const buttonDeletePerpetual = document.querySelectorAll('[button-delete-perpetual]');
 const formDeletePerpetual = document.querySelector("#form-delete-perpetual")
-if (buttonDeletePerpetual.length > 0) {
+if (buttonDeletePerpetual.length > 0 && formDeletePerpetual) {
     const path = formDeletePerpetual.getAttribute('data-path');
     console.log(path)
     buttonDeletePerpetual.forEach(button => {

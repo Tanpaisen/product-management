@@ -39,32 +39,18 @@ block main
                     class="btn btn-warning btn-sm"
                     href=`${prefixAdmin}/roles/edit/${item.id}`
                   ) Sửa
-                  button(
-                    class="btn btn-danger btn-sm ml-1"
+                  a.btn.btn-sm.btn-secondary(href=`${prefixAdmin}/roles/detail/${item.id}`) Chi tiết
+                  button.btn.btn-sm.btn-danger(
                     button-delete
                     data-id=item.id
                   ) Xóa
-                  button(
-                    class="btn btn-info btn-sm ml-1"
-                    button-detail
-                    data-id=item.id
-                  ) Chi tiết
           else
             tr
               td(colspan="4" class="text-center") Chưa có nhóm quyền nào được tạo.
 
-  form(
-    id="form-delete"
-    method="POST"
-    action=""
-    data-path=`${prefixAdmin}/roles/deleteOne`
-  )
-
-  form(
-    id="form-detail"
-    method="GET"
-    action=""
-    data-path=`${prefixAdmin}/roles/detail`
-  )
-
-  script(src="/admin/js/role.js")
+    form(
+      action=""
+      method="POST"
+      id="form-delete"
+      data-path=`${prefixAdmin}/roles/deleteOne`
+    )

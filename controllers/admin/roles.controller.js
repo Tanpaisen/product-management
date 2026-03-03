@@ -72,7 +72,7 @@ module.exports.editPatch = async (req, res) => {
 module.exports.deleteOne = async (req, res) => {
     try {
         const id = req.params.id;
-    
+
         await Role.deleteOne({ _id: id })
 
         req.flash('success', 'Xóa nhóm quyền thành công')
@@ -89,9 +89,41 @@ module.exports.deleteOne = async (req, res) => {
 module.exports.detail = async (req, res) => {
     const id = req.params.id;
 
-    const data = await Role.findOne({_id: id});
+    const data = await Role.findOne({ _id: id });
     res.render('admin/pages/roles/detail', {
         pageTitle: "Trang chi tiết nhóm quyền",
         data: data
     })
+}
+
+//[GET] /admin/roles/permissions
+module.exports.permission = async (req, res) => {
+    const data = await Role.find({ deleted: false })
+
+    res.render('admin/pages/roles/permissions.pug', {
+        pageTitle: "Trang quản lý quyền",
+        data: data
+    })
+}
+
+//[PATCH] /admin/roles/permissions
+module.exports.permissionPatch = async (req, res) => {
+    try {
+        if (req.body.permissions) {
+            const permissions = JSON.parse(req.body.permissions);
+            for (permission of permissions) {
+                const id = permission.id;
+                const permissionList = permission.permission;
+                await Role.updateOne({ _id: id }, { permissions: permissionList })
+            } 
+            req.flash('success', 'Cập nhật quyền thành công')
+            const back = req.get("Referer") || `${systemConfig.prefixAdmin}/roles/permissions`
+            res.redirect(back);
+        }
+    } catch (error) {
+        req.flash('error', 'Cập nhật quyền thất bại')
+        const back = req.get("Referer") || `${systemConfig.prefixAdmin}/roles/permissions`
+        res.redirect(back);
+    }
+
 }

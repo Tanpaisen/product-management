@@ -16,4 +16,7 @@ router.delete('/deleteOne/:id', rolesRouter.deleteOne)
 
 router.get('/detail/:id', rolesRouter.detail)
 
+router.get('/permissions', rolesRouter.permission)
+router.patch('/permissions', rolesRouter.permissionPatch)
+
 module.exports = router
