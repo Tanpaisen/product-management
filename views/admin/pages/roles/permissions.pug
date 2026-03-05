@@ -116,6 +116,34 @@ block main
           each item in data
             td(class="text-center")
               input(type="checkbox")
+        //- Nhóm: Quản lý nhóm quyền
+        tr
+          td(colspan="3")
+            b Phân quyền
+        
+        tr(data-name="roles-permissions_view")
+          td Xem
+          each item in data
+            td(class="text-center")
+              input(type="checkbox")
+        
+        tr(data-name="roles-permissions_create")
+          td Thêm mới
+          each item in data
+            td(class="text-center")
+              input(type="checkbox")
+        
+        tr(data-name="roles-permissions_edit")
+          td Chỉnh sửa
+          each item in data
+            td(class="text-center")
+              input(type="checkbox")
+        
+        tr(data-name="roles-permissions_delete")
+          td Xóa
+          each item in data
+            td(class="text-center")
+              input(type="checkbox")
            
     form(
       id="form-change-permissions"
