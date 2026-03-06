@@ -17,16 +17,17 @@ module.exports.index = async (req, res) => {
 
 }
 
-//[GET] /admin/accounts/crate
+//[GET] /admin/accounts/create
 module.exports.create = async (req, res) => {
     const roles = await Role.find();
     res.render('admin/pages/accounts/create.pug', {
         pageTitle: "Trang tạo tài khoản",
+        roles: roles,
     })
 
 }
 
-//[POST] /admin/accounts/crate
+//[POST] /admin/accounts/create
 module.exports.createPost = async (req, res) => {
     if(req.body){
         req.body.password = md5(req.body.password)
