@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-const generate = require('../helper/generateRandomString');
+const generate = require('../helper/generate');
+
 const accountShema = new mongoose.Schema({
     fullname: String,
     email: String,
@@ -20,6 +21,6 @@ const accountShema = new mongoose.Schema({
 }, {
     timestamps: true
 });
-const Account = mongoose.model('Account', accoutSchema, account)
+const Account = mongoose.model('Account', accountShema, 'accounts');
 
 module.exports = Account;

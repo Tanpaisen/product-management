@@ -1,0 +1,22 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert-flash.pug
+
+block main
+  h1.mb-4 Trang quản trị tài khoản
+  +messages(5000)
+  
+  .card.mb-3
+    .card-header Danh sách tài khoản
+    .card-body
+      .row.mb-3
+        .col-10
+          // Có thể thêm bộ lọc hoặc tìm kiếm ở đây
+        .col-2.text-right
+          a.btn.btn-outline-success(
+            href=`${prefixAdmin}/accounts/create`
+          ) + Thêm mới
+
+      table(
+        class="table table-hover table-sm"
+        checkbox-multi
+      )
