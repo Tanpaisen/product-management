@@ -23,6 +23,7 @@ block main
                 th Avatar
                 th Họ tên
                 th Email
+                th Phân quyền
                 th Trạng thái
                 th Hành động
                 th Chi tiết
@@ -46,6 +47,7 @@ block main
                     )
                   td #{item.fullname}
                   td #{item.email}
+                  td #{item.role.title}
                   td
                     if(item.status === "active")
                       a(
