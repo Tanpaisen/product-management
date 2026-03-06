@@ -1,5 +1,6 @@
 const md5 = require('md5')
 
+const Role = require('../../models/roles.model')
 const Account = require('../../models/account.model')
 
 const systemConfig = require('../../config/system')
@@ -7,14 +8,18 @@ const systemConfig = require('../../config/system')
 
 //[GET] /admin/accounts
 module.exports.index = async (req, res) => {
+    const records = await Account.find();
+    
     res.render('admin/pages/accounts/index', {
         pageTitle: "Trang quản trị tài khoản",
+        records: records,
     })
 
 }
 
 //[GET] /admin/accounts/crate
 module.exports.create = async (req, res) => {
+    const roles = await Role.find();
     res.render('admin/pages/accounts/create.pug', {
         pageTitle: "Trang tạo tài khoản",
     })
