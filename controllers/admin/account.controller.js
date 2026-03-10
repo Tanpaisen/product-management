@@ -8,7 +8,10 @@ const systemConfig = require('../../config/system')
 
 //[GET] /admin/accounts
 module.exports.index = async (req, res) => {
-    const records = await Account.find();
+    const find = {
+        deleted: false,
+    }
+    const records = await Account.find(find).select('-password -token');
     
     for(const record of records){
         const role = await Role.findOne({
