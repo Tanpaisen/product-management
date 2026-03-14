@@ -57,7 +57,7 @@ module.exports.edit = async (req, res) => {
             deleted: false,
         }
 
-        const data = await Account.findOne(find);
+        const data = await Account.findOne(find).select("-password -token");
         const roles = await Role.find();
         res.render('admin/pages/accounts/edit.pug', {
             pageTitle: "Trang tạo tài khoản",
@@ -96,7 +96,7 @@ module.exports.deleteOne = async (req, res) => {
         _id: id,
         deleted: false,
     }
-    
+
     const back = req.get('referer') || `${systemConfig.prefixAdmin}/accounts`
     if (!id) {
         req.flash("Tai khoan k ton tai");
@@ -108,4 +108,19 @@ module.exports.deleteOne = async (req, res) => {
     req.flash("Tai khoan k ton tai");
     res.redirect(back);
 
+}
+
+//[PATCH]/admin/accounts/change-status
+module.exports.changeOne = async (req, res) => {
+    const id = req.params.id;
+    const status = req.params.status;
+    const find = {
+        _id: id,
+        deleted: false
+    }
+
+    await Account.updateOne(find,{status: status});
+    // const back = req.get('referer')||`${systemConfig.prefixAdmin}/accounts`
+    req.flash("Tai khoan k ton tai");
+    res.redirect('back');
 }

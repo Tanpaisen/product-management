@@ -55,7 +55,7 @@ block main
                         class="badge bg-success fs-6"
                         data-status=item.status
                         data-id=item.id
-                        link-change-status
+                        button-change-status
                         ) Hoạt động 
                     else
                       a(
@@ -63,7 +63,7 @@ block main
                         class="badge bg-danger fs-6"
                         data-status=item.status
                         data-id=item.id
-                        link-change-status
+                        button-change-status
                         ) Dừng hoạt động
                   td
 
@@ -90,5 +90,11 @@ block main
     id="form-delete"
     method="post"
     data-path=`${prefixAdmin}/accounts/deleteOne`
+  ) 
+  form(
+    action="" 
+    id="form-change"
+    method="post"
+    data-path=`${prefixAdmin}/accounts/change-status`
   ) 
 
