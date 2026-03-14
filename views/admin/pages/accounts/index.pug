@@ -85,4 +85,10 @@ block main
                       href=`${prefixAdmin}/accounts/detail/${item.id}`
                     ) Chi tiết
 
-  script(src="/admin/js/products.js") 
+  form(
+    action="" 
+    id="form-delete"
+    method="post"
+    data-path=`${prefixAdmin}/accounts/deleteOne`
+  ) 
+

@@ -71,7 +71,7 @@ module.exports.edit = async (req, res) => {
     }
 }
 
-//[GET] /admin/accounts/create
+//[PATCH] /admin/accounts/edit
 module.exports.editPatch = async (req, res) => {
     try {
         const id = req.params.id;
@@ -87,4 +87,25 @@ module.exports.editPatch = async (req, res) => {
         const backUrl = req.get('Referer') || `${systemConfig.prefixAdmin}/accounts`
         res.redirect(backUrl);
     }
+}
+
+//[GET]/admin/accounts/deleteOne
+module.exports.deleteOne = async (req, res) => {
+    const id = req.params.id;
+    const find = {
+        _id: id,
+        deleted: false,
+    }
+    
+    const back = req.get('referer') || `${systemConfig.prefixAdmin}/accounts`
+    if (!id) {
+        req.flash("Tai khoan k ton tai");
+        res.redirect(back);
+        return;
+    }
+
+    await Account.deleteOne(find);
+    req.flash("Tai khoan k ton tai");
+    res.redirect(back);
+
 }
