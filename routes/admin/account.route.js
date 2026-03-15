@@ -21,7 +21,7 @@ router.get('/edit/:id', accountController.edit)
 router.patch('/edit/:id', 
     upload.single('avatar'),
     uploadCloud.upload,
-    validate.createPost, 
+    validate.editPatch, 
     accountController.editPatch
 )
 

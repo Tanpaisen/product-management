@@ -3,7 +3,7 @@ include ../../mixins/alert-flash.pug
 
 block main
     .m-2
-        h1(class="mb-4") Thêm mới tài khoản
+        h1(class="mb-4") Chỉnh sửa tài khoản
         
         +messages(5000)
 
@@ -33,14 +33,13 @@ block main
                     required
                 )
             div(class="form-group")
-                label(for="password") Mật khẩu *
+                label(for="password") Mật khẩu
                 input(
                     type="password"
                     class="form-control"
                     id="password"
                     name="password"
                     value=data.password
-                    required
                 )
             div(class="form-group")
                 label(for="phone") Số điện thoại
@@ -100,4 +99,4 @@ block main
                 button(
                     type="submit"
                     class="btn btn-primary"
-                ) Tạo mới
+                ) Cập nhật

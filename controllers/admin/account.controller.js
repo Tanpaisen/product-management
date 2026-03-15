@@ -37,13 +37,25 @@ module.exports.create = async (req, res) => {
 //[POST] /admin/accounts/create
 module.exports.createPost = async (req, res) => {
     if (req.body) {
-        req.body.password = md5(req.body.password)
-        const account = new Account(req.body)
-        await account.save();
+        const exitEmail = await Account.findOne({
+            email: req.body.email,
+            deleted: false,
+        })
+        if (exitEmail) {
+            req.flash('error', `Email ${req.body.email} da ton tai`)
+            res.redirect('back');
+            return;
+        }
+        else {
+            req.body.password = md5(req.body.password)
+            const account = new Account(req.body)
+            await account.save();
 
-        req.flash('success', 'Tạo tài khoản thành công')
-        const back = req.get('referer') || `${systemConfig.prefixAdmin}/accounts`
-        res.redirect(back);
+            req.flash('success', 'Tạo tài khoản thành công')
+            const back = req.get('referer') || `${systemConfig.prefixAdmin}/accounts`
+            res.redirect(back);
+        }
+
     }
 }
 
@@ -76,12 +88,30 @@ module.exports.editPatch = async (req, res) => {
     try {
         const id = req.params.id;
 
-        await Account.updateOne({ _id: id }, req.body);
+        const exitEmail = await Account.findOne({
+            _id: { $ne: id },
+            email: req.body.email,
+            deleted: false,
+        })
+        if (exitEmail) {
+            req.flash('error', `Email ${req.body.email} da ton tai`)
+            res.redirect('back');
+            return;
+        }
+        else {
+            if (req.body.password != "") {
+                delete req.body.password;
+            }
+            else {
+                req.body.password = md5(req.body.password)
+            }
+            await Account.updateOne({ _id: id }, req.body);
 
-        req.flash('success', 'Cập nhật tai khoan thành công')
-        const backUrl = req.get('Referer') || `${systemConfig.prefixAdmin}/accounts`
-        res.redirect(backUrl);
+            req.flash('success', 'Cập nhật tai khoan thành công')
+            const backUrl = req.get('Referer') || `${systemConfig.prefixAdmin}/accounts`
+            res.redirect(backUrl);
 
+        }
     } catch (error) {
         req.flash('error', 'Cập nhật tai khoan thất bại')
         const backUrl = req.get('Referer') || `${systemConfig.prefixAdmin}/accounts`
@@ -119,7 +149,7 @@ module.exports.changeOne = async (req, res) => {
         deleted: false
     }
 
-    await Account.updateOne(find,{status: status});
+    await Account.updateOne(find, { status: status });
     // const back = req.get('referer')||`${systemConfig.prefixAdmin}/accounts`
     req.flash("Tai khoan k ton tai");
     res.redirect('back');
