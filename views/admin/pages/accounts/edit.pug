@@ -1,0 +1,102 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert-flash.pug
+
+block main
+    .m-2
+        h1(class="mb-4") Chỉnh sửa tài khoản
+        
+        +messages(5000)
+
+        form(
+            action=`${prefixAdmin}/accounts/edit/${data._id}?_method=PATCH`
+            method="POST"
+            enctype="multipart/form-data"
+        )
+            div(class="form-group")
+                label(for="fullname") Họ tên *
+                input(
+                    type="text"
+                    class="form-control"
+                    id="fullname"
+                    name="fullname"
+                    value=data.fullname
+                    required
+                )
+            div(class="form-group")
+                label(for="email") Email *
+                input(
+                    type="email"
+                    class="form-control"
+                    id="email"
+                    name="email"
+                    value=data.email
+                    required
+                )
+            div(class="form-group")
+                label(for="password") Mật khẩu
+                input(
+                    type="password"
+                    class="form-control"
+                    id="password"
+                    name="password"
+                    value=data.password
+                )
+            div(class="form-group")
+                label(for="phone") Số điện thoại
+                input(
+                    type="text"
+                    class="form-control"
+                    id="phone"
+                    value=data.phone
+                    name="phone"
+                )
+            
+            .form-group.preview.mb-2(preview-upload)
+                label(for="avatar") Ảnh
+                input.form-control(
+                    type="file"
+                    class="form-control-file"
+                    id="avatar"
+                    name="avatar"
+                    accept="image/*"
+                    preview-input-img
+                )
+                img(
+                    src=data.avatar
+                    preview-upload-img
+                    class="image-preview"
+                )
+                span(class="close-img" close-img) x
+            div(class="form-group")
+                label(for="role_id") Phân quyền
+                select(name="role_id" id="role_id" class="form-control form-select")
+                    option(disabled) -- Chọn --
+                    each role in roles
+                        option(value=role.id
+                            selected=(role.id==data.role_id?true:false)
+                        ) #{role.title}
+            div(class="form-group form-check form-check-inline")
+                input(
+                    type="radio"
+                    class="form-check-input"
+                    id="statusActive"
+                    name="status"
+                    value="active"
+                    checked=(data.status=="active"?true:false)
+                )
+                label(for="statusActive" class="form-check-label") Hoạt động
+            div(class="form-group form-check form-check-inline")
+                input(
+                    type="radio"
+                    class="form-check-input"
+                    id="statusInActive"
+                    name="status"
+                    value="inactive"
+                    checked=(data.status=="inactive"?true:false)
+                )
+                label(for="statusInActive" class="form-check-label") Dừng hoạt động
+            div(class="form-group")
+                button(
+                    type="submit"
+                    class="btn btn-primary"
+                ) Cập nhật

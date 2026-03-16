@@ -64,9 +64,9 @@ block main
             class="image-preview"
           )
         div(class="form-group")
-          label(for="role_id") Phân quyền
-          select(name="role_id" id="role_id" class="form-control form-select")
-            option(disabled selected) -- Chọn --
+          label(for="role_id") Phân quyền*
+          select(name="role_id" id="role_id" class="form-control form-select" required)
+            option(disabled selected value="") -- Chọn --
             each role in roles
               option(value=role.id) #{role.title}
         div(class="form-group form-check form-check-inline")

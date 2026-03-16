@@ -17,4 +17,16 @@ router.post('/create',
     accountController.createPost
 )
 
+router.get('/edit/:id', accountController.edit)
+router.patch('/edit/:id', 
+    upload.single('avatar'),
+    uploadCloud.upload,
+    validate.editPatch, 
+    accountController.editPatch
+)
+
+router.delete('/deleteOne/:id', accountController.deleteOne)
+
+router.patch('/change-status/:status/:id', accountController.changeOne)
+
 module.exports = router;

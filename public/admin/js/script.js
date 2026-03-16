@@ -146,8 +146,9 @@ const previewUpload = document.querySelector('[preview-upload]');
 if (previewUpload) {
   const previewUploadImg = previewUpload.querySelector('img[preview-upload-img]')
   const previewInputImg = previewUpload.querySelector('input[preview-input-img]')
+
   const closeImg = previewUpload.querySelector('[close-img]')
-  console.log(closeImg)
+  
   previewInputImg.addEventListener('change', (e) => {
 
     if (e.target.files.length > 0) {
