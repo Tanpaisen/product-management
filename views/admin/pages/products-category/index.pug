@@ -8,70 +8,71 @@ include ../../mixins/sort.pug
 include ../../mixins/table-tree.pug
 
 block main
-    h1 Danh mục sản phẩm
-    +messages(5000)
-    .card.mb-3
-        .card-header Bộ lọc và Tìm kiếm
-        .card-body
-            .row
-                .col-6
-                    +filter(filterStatus)
-                .col-6 
-                    +search(keyword)
-    .card.mb-3
-        .card-header Danh mục sản phẩm
+    if(roles.permissions.includes("products-category_view"))
+        h1 Danh mục sản phẩm
+        +messages(5000)
+        .card.mb-3
+            .card-header Bộ lọc và Tìm kiếm
             .card-body
-                .row 
-                    .col-10
-                        +formChangeMulti(`${prefixAdmin}/products-category/change-multi?_method=PATCH`)
-                    .col-2
-                        a.btn.btn-outline-success(href=`${prefixAdmin}/products-category/create`) + Thêm mới  
-                +sort()         
-        table(
-                class="table table-hover table-sm"
-                change-multi
+                .row
+                    .col-6
+                        +filter(filterStatus)
+                    .col-6 
+                        +search(keyword)
+        .card.mb-3
+            .card-header Danh mục sản phẩm
+                .card-body
+                    .row 
+                        .col-10
+                            +formChangeMulti(`${prefixAdmin}/products-category/change-multi?_method=PATCH`)
+                        .col-2
+                            a.btn.btn-outline-success(href=`${prefixAdmin}/products-category/create`) + Thêm mới  
+                    +sort()         
+            table(
+                    class="table table-hover table-sm"
+                    change-multi
+                )
+                    thead
+                        tr
+                            th 
+                                input(
+                                    type="checkbox" 
+                                    name="checkall"
+                                )
+                            th STT
+                            th Hình ảnh
+                            th Tiêu đề
+                            th Vị trí
+                            th Trạng thái
+                            th Hành động
+                    tbody
+                        +tableTree(productsCategory)
+            form(
+                action=""
+                method="POST"
+                id="form-change"
+                data-path=`${prefixAdmin}/products-category/change-status`
             )
-                thead
-                    tr
-                        th 
-                            input(
-                                type="checkbox" 
-                                name="checkall"
-                            )
-                        th STT
-                        th Hình ảnh
-                        th Tiêu đề
-                        th Vị trí
-                        th Trạng thái
-                        th Hành động
-                tbody
-                    +tableTree(productsCategory)
-        form(
-            action=""
-            method="POST"
-            id="form-change"
-            data-path=`${prefixAdmin}/products-category/change-status`
-        )
-        //Xóa mềm 1 sp
-        form(
-            action=""
-            method="POST"
-            id="form-delete"
-            data-path=`${prefixAdmin}/products-category/deleteOne`
-        )
-        // Xóa vĩnh viễn
-        form(
-            action=""
-            method="POST"
-            id="form-delete-perpetual"
-            data-path=`${prefixAdmin}/products-category/delete`
-        )
-        form(
-            action=""
-            method="POST"
-            id="form-restore"
-            data-path=`${prefixAdmin}/products-category/restoreOne`
-        )
+            //Xóa mềm 1 sp
+            form(
+                action=""
+                method="POST"
+                id="form-delete"
+                data-path=`${prefixAdmin}/products-category/deleteOne`
+            )
+            // Xóa vĩnh viễn
+            form(
+                action=""
+                method="POST"
+                id="form-delete-perpetual"
+                data-path=`${prefixAdmin}/products-category/delete`
+            )
+            form(
+                action=""
+                method="POST"
+                id="form-restore"
+                data-path=`${prefixAdmin}/products-category/restoreOne`
+            )
 
 
-    script(src="/admin/js/products.js")
+        script(src="/admin/js/products.js")

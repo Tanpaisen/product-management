@@ -1,6 +1,7 @@
 const systemConfig = require('../../config/system')
 
 const Account = require('../../models/account.model')
+const Role = require('../../models/roles.model')
 
 module.exports.requireAuth = async (req, res, next) => {
     if (!req.cookies.token) {
@@ -8,11 +9,16 @@ module.exports.requireAuth = async (req, res, next) => {
         res.redirect(`${systemConfig.prefixAdmin}/auth/login`)
     }
     else {
-        const user = await Account.findOne({ token: req.cookies.token });
+        const user = await Account.findOne({ token: req.cookies.token }).select("-password");
         if (!user) {
             req.flash("error", "Bạn chưa đăng nhập!")
             res.redirect(`${systemConfig.prefixAdmin}/auth/login`)
         }
+        const roles = await Role.findOne({_id: user.role_id})
+
+        console.log(roles)
+        res.locals.user = user;
+        res.locals.roles = roles;
         next();
     }
 

@@ -141,7 +141,7 @@ module.exports.changeMulti = async (req, res) => {
     res.redirect(backUrl);
 }
 
-//[PATCH] /admin/products/deleteOne
+//[DELETE] /admin/products/deleteOne
 module.exports.deleteOne = async (req, res) => {
     const id = req.params.id
 
@@ -155,7 +155,7 @@ module.exports.deleteOne = async (req, res) => {
     res.redirect(back);
 
 }
-//[PATCH] /admin/products/delete
+//[DELETE] /admin/products/delete
 module.exports.delete = async (req, res) => {
     const id = req.params.id
 

@@ -3,13 +3,18 @@ sider.sider
     ul 
       li
         a(href='/admin/dashboard') Tổng quan
-      li
-        a(href='/admin/products-category') Danh mục sản phẩm
-      li
-        a(href='/admin/products') Danh sách sản phẩm
-      li
-        a(href='/admin/roles') Trang quản lý nhóm quyền
-      li
-        a(href='/admin/roles/permissions') Phân quyền
-      li
-        a(href='/admin/accounts') Quản lý tài khoản
+      if(roles.permissions.includes("products-category_view"))
+        li
+          a(href='/admin/products-category') Danh mục sản phẩm
+      if(roles.permissions.includes("products_view"))
+        li
+          a(href='/admin/products') Danh sách sản phẩm
+      if(roles.permissions.includes("roles_view"))
+        li
+          a(href='/admin/roles') Trang quản lý nhóm quyền
+      if(roles.permissions.includes("roles-permissions_view"))
+        li
+          a(href='/admin/roles/permissions') Phân quyền
+      if(roles.permissions.includes("accounts_view"))
+        li
+          a(href='/admin/accounts') Quản lý tài khoản

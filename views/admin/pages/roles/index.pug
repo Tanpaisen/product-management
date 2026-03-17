@@ -2,55 +2,56 @@ extends ../../layouts/default.pug
 include ../../mixins/alert-flash.pug
 
 block main
-  h1.mb-4 Trang quản trị nhóm quyền
-  +messages(5000)
-  
-  .card.mb-3
-    .card-header Danh sách nhóm quyền
-    .card-body
-      .row.mb-3
-        .col-10
-          // Có thể thêm bộ lọc hoặc tìm kiếm ở đây
-        .col-2.text-right
-          a.btn.btn-outline-success(
-            href=`${prefixAdmin}/roles/create`
-          ) + Thêm mới
+  if(roles.permissions.includes("roles_view"))
+    h1.mb-4 Trang quản trị nhóm quyền
+    +messages(5000)
+    
+    .card.mb-3
+      .card-header Danh sách nhóm quyền
+      .card-body
+        .row.mb-3
+          .col-10
+            // Có thể thêm bộ lọc hoặc tìm kiếm ở đây
+          .col-2.text-right
+            a.btn.btn-outline-success(
+              href=`${prefixAdmin}/roles/create`
+            ) + Thêm mới
 
-      table(
-        class="table table-hover table-sm"
-        checkbox-multi
-      )
-        thead
-          tr
-            th STT
-            th Tiêu đề
-            th Mô tả ngắn
-            th Hành động
-
-        tbody
-          if(role && role.length > 0)
-            each item, index in role
-              tr
-                td #{index + 1}
-                td #{item.title}
-                td !{item.description}
-                td
-                  a(
-                    class="btn btn-warning btn-sm"
-                    href=`${prefixAdmin}/roles/edit/${item.id}`
-                  ) Sửa
-                  a.btn.btn-sm.btn-secondary(href=`${prefixAdmin}/roles/detail/${item.id}`) Chi tiết
-                  button.btn.btn-sm.btn-danger(
-                    button-delete
-                    data-id=item.id
-                  ) Xóa
-          else
+        table(
+          class="table table-hover table-sm"
+          checkbox-multi
+        )
+          thead
             tr
-              td(colspan="4" class="text-center") Chưa có nhóm quyền nào được tạo.
+              th STT
+              th Tiêu đề
+              th Mô tả ngắn
+              th Hành động
 
-    form(
-      action=""
-      method="POST"
-      id="form-delete"
-      data-path=`${prefixAdmin}/roles/deleteOne`
-    )
+          tbody
+            if(role && role.length > 0)
+              each item, index in role
+                tr
+                  td #{index + 1}
+                  td #{item.title}
+                  td !{item.description}
+                  td
+                    a(
+                      class="btn btn-warning btn-sm"
+                      href=`${prefixAdmin}/roles/edit/${item.id}`
+                    ) Sửa
+                    a.btn.btn-sm.btn-secondary(href=`${prefixAdmin}/roles/detail/${item.id}`) Chi tiết
+                    button.btn.btn-sm.btn-danger(
+                      button-delete
+                      data-id=item.id
+                    ) Xóa
+            else
+              tr
+                td(colspan="4" class="text-center") Chưa có nhóm quyền nào được tạo.
+
+      form(
+        action=""
+        method="POST"
+        id="form-delete"
+        data-path=`${prefixAdmin}/roles/deleteOne`
+      )
