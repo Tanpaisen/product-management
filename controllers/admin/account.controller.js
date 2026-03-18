@@ -26,7 +26,7 @@ module.exports.index = async (req, res) => {
 
 //[GET] /admin/accounts/create
 module.exports.create = async (req, res) => {
-    const roles = await Role.find();
+    const roles = await Role.find({deleted: false});
     res.render('admin/pages/accounts/create.pug', {
         pageTitle: "Trang tạo tài khoản",
         roles: roles,
@@ -70,9 +70,9 @@ module.exports.edit = async (req, res) => {
         }
 
         const data = await Account.findOne(find).select("-password -token");
-        const roles = await Role.find();
+        const roles = await Role.find({deleted: false});
         res.render('admin/pages/accounts/edit.pug', {
-            pageTitle: "Trang tạo tài khoản",
+            pageTitle: "Trang chỉnh sửa tài khoản",
             roles: roles,
             data: data
         })

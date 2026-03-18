@@ -19,8 +19,8 @@ block main
             )
               thead
                 tr
-                  th 
-                    input(class="form-check-input" type="checkbox" name="checkAll")
+                    th 
+                      input(class="form-check-input" type="checkbox" name="checkAll")
                   th STT
                   th Avatar
                   th Họ tên
@@ -32,13 +32,14 @@ block main
               tbody
                 each item, index in records
                   tr
-                    td
-                      input(
-                        class="form-check-input" 
-                        type="checkbox"
-                        name="id" 
-                        value=item.id
-                      )  
+                    if(role.permissions.includes("accounts_edit"))
+                      td
+                        input(
+                          class="form-check-input" 
+                          type="checkbox"
+                          name="id" 
+                          value=item.id
+                        )  
                     td #{index+1}
                     td
                       img(
@@ -49,33 +50,46 @@ block main
                       )
                     td #{item.fullname}
                     td #{item.email}
-                    td #{item.role.title}
                     td
-                      if(item.status === "active")
-                        a(
-                          href="javascript:;" 
-                          class="badge bg-success fs-6"
-                          data-status=item.status
-                          data-id=item.id
-                          button-change-status
-                          ) Hoạt động 
-                      else
-                        a(
-                          href="javascript:;" 
-                          class="badge bg-danger fs-6"
-                          data-status=item.status
-                          data-id=item.id
-                          button-change-status
-                          ) Dừng hoạt động
+                      if(item.role) 
+                        div #{item.role.title}
+                    if(role.permissions.includes("accounts_edit"))
+                      td
+                        if(item.status === "active")
+                          a(
+                            href="javascript:;" 
+                            class="badge bg-success fs-6"
+                            data-status=item.status
+                            data-id=item.id
+                            button-change-status
+                            ) Hoạt động 
+                        else
+                          a(
+                            href="javascript:;" 
+                            class="badge bg-danger fs-6"
+                            data-status=item.status
+                            data-id=item.id
+                            button-change-status
+                            ) Dừng hoạt động
+                    else
+                      td
+                        if(item.status === "active")
+                          span(
+                            class="badge bg-success fs-6"
+                            ) Hoạt động 
+                        else
+                          span(
+                            class="badge bg-danger fs-6"
+                            ) Dừng hoạt động
                     td
-
-                      if(item.id)
+                      if(item.id && role.permissions.includes("accounts_edit"))
                         a(
                         class="btn btn-warning btn-sm"
                         href=`${prefixAdmin}/accounts/edit/${item.id}`
                         ) Sửa
                       else
                         i(class="bi bi-dash-circle-fill")
+                          
                       button(
                         class="btn btn-danger btn-sm ms-1" 
                         data-id=item.id

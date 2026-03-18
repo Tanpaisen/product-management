@@ -74,7 +74,7 @@ module.exports.deleteOne = async (req, res) => {
     try {
         const id = req.params.id;
 
-        await Role.deleteOne({ _id: id })
+        await Role.updateOne({ _id: id },{deleted: true})
 
         req.flash('success', 'Xóa nhóm quyền thành công')
         const backUrl = req.get('Referer') || `${systemConfig.prefixAdmin}/roles`
