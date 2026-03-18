@@ -2,29 +2,30 @@ extends ../../layouts/default.pug
 include ../../mixins/alert-flash.pug
 
 block main
-  h1.mb-4 Trang tạo nhóm quyền mới
-  +messages(5000)
-  .card.mb-3
-    .card-header Thông tin nhóm quyền
-    .card-body
-      form(action=`${prefixAdmin}/roles/create` method="POST")
-        .form-group
-          label(for="title") Tiêu đề nhóm quyền
-          input#title.form-control(
-            type="text" 
-            name="title" 
-            required
-            placeholder="Nhập tiêu đề nhóm quyền"
-          )
+  if(role.permissions.includes("roles_create"))
+    h1.mb-4 Trang tạo nhóm quyền mới
+    +messages(5000)
+    .card.mb-3
+      .card-header Thông tin nhóm quyền
+      .card-body
+        form(action=`${prefixAdmin}/roles/create` method="POST")
+          .form-group
+            label(for="title") Tiêu đề nhóm quyền
+            input#title.form-control(
+              type="text" 
+              name="title" 
+              required
+              placeholder="Nhập tiêu đề nhóm quyền"
+            )
 
-        .form-group
-          label(for="description") Mô tả ngắn về nhóm quyền
-          textarea#description.form-control(
-            class="textarea-tinymce"
-            name="description" 
-            rows="3"
-            placeholder="Nhập mô tả ngắn về nhóm quyền"
-          )
+          .form-group
+            label(for="description") Mô tả ngắn về nhóm quyền
+            textarea#description.form-control(
+              class="textarea-tinymce"
+              name="description" 
+              rows="3"
+              placeholder="Nhập mô tả ngắn về nhóm quyền"
+            )
 
-        .form-group.mb-2 
-          button.btn.btn-primary(type="submit") Tạo mới
+          .form-group.mb-2 
+            button.btn.btn-primary(type="submit") Tạo mới

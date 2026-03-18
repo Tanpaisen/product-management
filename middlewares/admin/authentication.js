@@ -14,11 +14,11 @@ module.exports.requireAuth = async (req, res, next) => {
             req.flash("error", "Bạn chưa đăng nhập!")
             res.redirect(`${systemConfig.prefixAdmin}/auth/login`)
         }
-        const roles = await Role.findOne({_id: user.role_id})
+        const role = await Role.findOne({_id: user.role_id}).select("permissions")
 
-        console.log(roles)
+        console.log(role)
         res.locals.user = user;
-        res.locals.roles = roles;
+        res.locals.role = role;
         next();
     }
 

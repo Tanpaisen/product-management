@@ -4,10 +4,10 @@ const systemConfig = require('../../config/system')
 
 //[GET] /admin/roles
 module.exports.index = async (req, res) => {
-    const role = await Role.find({ deleted: false })
+    const roles = await Role.find({ deleted: false })
     res.render('admin/pages/roles/index', {
         pageTitle: "Trang quản trị nhóm quyền",
-        role: role,
+        roles: roles,
     })
 
 }

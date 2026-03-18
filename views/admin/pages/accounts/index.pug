@@ -1,7 +1,7 @@
 extends ../../layouts/default.pug
 
 block main
-  if(roles.permissions.includes("accounts_view"))
+  if(role.permissions.includes("accounts_view"))
     .m-2
       .card-title.mb-1
         h1.ms-2 Danh sách tài khoản
@@ -10,8 +10,9 @@ block main
           .card-body
             .row
               .col-10
-                .col-2
-                  a.btn.btn-outline-success(href=`${prefixAdmin}/accounts/create`) + Thêm mới
+                if(role.permissions.includes("accounts_create"))
+                  .col-2
+                    a.btn.btn-outline-success(href=`${prefixAdmin}/accounts/create`) + Thêm mới
             
             table.table.table-hover.table-sm.mt-4(
               checkbox-multi
