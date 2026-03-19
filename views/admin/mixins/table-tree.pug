@@ -2,12 +2,13 @@ mixin tableTree(productsCategory,level=0)
     each item in productsCategory
         - const prefix = Array(level+1).join('--')
         tr 
-            td
-                input(
-                    type="checkbox" 
-                    name="id"
-                    value=item.id
-                )
+            if(role.permissions.includes("products-category_edit"))
+                td
+                    input(
+                        type="checkbox" 
+                        name="id"
+                        value=item.id
+                    )
             td #{item.index}
             td 
                 img(
@@ -25,30 +26,44 @@ mixin tableTree(productsCategory,level=0)
                     name="position"
                 )
             td 
-                if(item.status === 'active')  
-                    a(
-                        href="javascript:;"
-                        class="badge bg-success" 
-                        data-status=item.status
-                        data-id= item.id
-                        button-change-status
-                    ) Hoạt động
-                else if(item.status === 'restore')  
-                    a(
-                        href="javascript:;"
-                        class="badge bg-danger" 
-                        data-status=item.status
-                        data-id= item.id
-                        button-change-status
-                    ) Đã bị xóa
+                if(role.permissions.includes("products-category_edit"))
+                    if(item.status === 'active')  
+                        a(
+                            href="javascript:;"
+                            class="badge bg-success" 
+                            data-status=item.status
+                            data-id= item.id
+                            button-change-status
+                        ) Hoạt động
+                    else if(item.status === 'restore')  
+                        a(
+                            href="javascript:;"
+                            class="badge bg-danger" 
+                            data-status=item.status
+                            data-id= item.id
+                            button-change-status
+                        ) Đã bị xóa
+                    else
+                        a(
+                            href="javascript:;"
+                            class="badge bg-danger" 
+                            data-status=item.status
+                            data-id=item.id
+                            button-change-status
+                        ) Dừng hoạt động
                 else
-                    a(
-                        href="javascript:;"
-                        class="badge bg-danger" 
-                        data-status=item.status
-                        data-id=item.id
-                        button-change-status
-                    ) Dừng hoạt động
+                    if(item.status === 'active')  
+                        span(
+                            class="badge bg-success" 
+                        ) Hoạt động
+                    else if(item.status === 'restore')  
+                        span(
+                            class="badge bg-danger" 
+                        ) Đã bị xóa
+                    else
+                        span(
+                            class="badge bg-danger" 
+                        ) Dừng hoạt động
             td 
                 if(item.status === 'restore')
                     button.btn.btn-sm.btn-success(
@@ -60,7 +75,8 @@ mixin tableTree(productsCategory,level=0)
                         data-id=item.id
                     ) Xóa vĩnh viễn
                 else
-                    a.btn.btn-sm.btn-warning(href=`${prefixAdmin}/products-category/edit/${item.id}`) Sửa
+                    if(role.permissions.includes("products-category_edit"))
+                        a.btn.btn-sm.btn-warning(href=`${prefixAdmin}/products-category/edit/${item.id}`) Sửa
                     a.btn.btn-sm.btn-secondary(href=`${prefixAdmin}/products-category/detail/${item.id}`) Chi tiết
                     button.btn.btn-sm.btn-danger(
                         button-delete

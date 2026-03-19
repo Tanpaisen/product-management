@@ -263,7 +263,6 @@ module.exports.editPatch = async (req, res) => {
 module.exports.detail = async (req, res) => {
     try {
         const find = {
-            deleted: false,
             _id: req.params.id
         }
         const product = await Product.findOne(find);

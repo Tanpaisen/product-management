@@ -11,3 +11,8 @@ block main
             div
                 strong Mô tả: 
                 span #{data.description}
+            if(role.permissions.includes("roles_edit"))
+                a(
+                    href=`${prefixAdmin}/roles/edit/${data._id}`
+                    class="btn btn-warning mb-2"
+                ) Chỉnh sửa

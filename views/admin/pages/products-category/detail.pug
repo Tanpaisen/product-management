@@ -28,9 +28,10 @@ block main
 
       if (productsCategory.description)
         div(class="mb-3") !{productsCategory.description}
-      a(
-        href=`${prefixAdmin}/products-category/edit/${productsCategory.id}`
-        class="btn btn-warning mb-2"
-      ) Chỉnh sửa
+      if(role.permissions.includes("products-category_edit"))
+        a(
+          href=`${prefixAdmin}/products-category/edit/${productsCategory.id}`
+          class="btn btn-warning mb-2"
+        ) Chỉnh sửa
 
     script(src="/admin/js/product.js")

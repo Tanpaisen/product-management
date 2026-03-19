@@ -2,6 +2,7 @@ extends ../../layouts/default.pug
 include ../../mixins/select-tree.pug
 
 block main
+  if(role.permissions.includes("products-category_edit"))
     h1(class="mb-4 ms-2") Chỉnh sửa danh mục sản phẩm
   
     form(
@@ -90,3 +91,7 @@ block main
     
     script(src="/admin/js/products.js")
     script(src="/admin/js/script.js")
+  else
+    .alert.alert-warning
+      p Tài khoản của bạn hiện chưa được cấp quyền truy cập. 
+      p Vui lòng liên hệ quản trị viên để khôi phục dữ liệu nhóm quyền.

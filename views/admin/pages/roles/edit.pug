@@ -2,28 +2,33 @@ extends ../../layouts/default.pug
 include ../../mixins/alert-flash.pug
 
 block main
-  h1.mb-4 Trang chỉnh sửa nhóm quyền
-  +messages(5000)
-  .card.mb-3
-    .card-header Thông tin nhóm quyền
-    .card-body
-      form(action=`${prefixAdmin}/roles/edit/${data._id}?_method=PATCH` method="POST" )
-        .form-group
-          label(for="title") Tiêu đề nhóm quyền
-          input#title.form-control(
-            type="text" 
-            name="title" 
-            value=data.title
-            required
-          )
+  if(role.permissions.includes("roles_edit"))
+    h1.mb-4 Trang chỉnh sửa nhóm quyền
+    +messages(5000)
+    .card.mb-3
+      .card-header Thông tin nhóm quyền
+      .card-body
+        form(action=`${prefixAdmin}/roles/edit/${data._id}?_method=PATCH` method="POST" )
+          .form-group
+            label(for="title") Tiêu đề nhóm quyền
+            input#title.form-control(
+              type="text" 
+              name="title" 
+              value=data.title
+              required
+            )
 
-        div(class="form-group")
-            label(for="desc") Mô tả ngắn
-            textarea.form-control(
-                id="desc"
-                name="description"
-                rows="5"
-                class="textarea-tinymce"
-            ) #{data.description}
-        .form-group.mb-2 
-          button.btn.btn-primary(type="submit") Sửa
+          div(class="form-group")
+              label(for="desc") Mô tả ngắn
+              textarea.form-control(
+                  id="desc"
+                  name="description"
+                  rows="5"
+                  class="textarea-tinymce"
+              ) #{data.description}
+          .form-group.mb-2 
+            button.btn.btn-primary(type="submit") Sửa
+  else
+    .alert.alert-warning
+      p Tài khoản của bạn hiện chưa được cấp quyền truy cập. 
+      p Vui lòng liên hệ quản trị viên để khôi phục dữ liệu nhóm quyền.

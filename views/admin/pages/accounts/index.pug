@@ -19,6 +19,7 @@ block main
             )
               thead
                 tr
+                  if(role.permissions.includes("accounts_edit"))
                     th 
                       input(class="form-check-input" type="checkbox" name="checkAll")
                   th STT
@@ -113,4 +114,7 @@ block main
       method="post"
       data-path=`${prefixAdmin}/accounts/change-status`
     ) 
-
+  else
+    .alert.alert-warning
+        p Tài khoản của bạn hiện chưa được cấp quyền truy cập. 
+        p Vui lòng liên hệ quản trị viên để khôi phục dữ liệu nhóm quyền.

@@ -23,8 +23,9 @@ block main
             .card-header Danh sách sản phẩm
                 .card-body
                     .row 
-                        .col-10
-                            +formChangeMulti(`${prefixAdmin}/products/change-multi?_method=PATCH`)
+                        if(role.permissions.includes("products_edit"))
+                            .col-10
+                                +formChangeMulti(`${prefixAdmin}/products/change-multi?_method=PATCH`)
                         if(role.permissions.includes("products_create"))
                             .col-2
                                 a.btn.btn-outline-success(href=`${prefixAdmin}/products/create`) + Thêm mới  
@@ -35,11 +36,12 @@ block main
                 )
                     thead
                         tr
-                            th 
-                                input(
-                                    type="checkbox" 
-                                    name="checkall"
-                                )
+                            if(role.permissions.includes("products_edit"))
+                                th 
+                                    input(
+                                        type="checkbox" 
+                                        name="checkall"
+                                    )
                             th STT
                             th Hình ảnh
                             th Tiêu đề
@@ -50,12 +52,13 @@ block main
                     tbody
                         each item,index in products
                             tr 
-                                td
-                                    input(
-                                        type="checkbox" 
-                                        name="id"
-                                        value=item.id
-                                    )
+                                if(role.permissions.includes("products_edit"))
+                                    td
+                                        input(
+                                            type="checkbox" 
+                                            name="id"
+                                            value=item.id
+                                        )
                                 td #{pageObject.limitPage*(pageObject.curentPage-1)+(index+1)}
                                 td 
                                     img(
@@ -74,30 +77,44 @@ block main
                                         name="position"
                                     )
                                 td 
-                                    if(item.status === 'active')  
-                                        a(
-                                            href="javascript:;"
-                                            class="badge bg-success" 
-                                            data-status=item.status
-                                            data-id= item.id
-                                            button-change-status
-                                        ) Hoạt động
-                                    else if(item.status === 'restore')  
-                                        a(
-                                            href="javascript:;"
-                                            class="badge bg-danger" 
-                                            data-status=item.status
-                                            data-id= item.id
-                                            button-change-status
-                                        ) Đã bị xóa
+                                    if(role.permissions.includes("products_edit"))
+                                        if(item.status === 'active')  
+                                            a(
+                                                href="javascript:;"
+                                                class="badge bg-success" 
+                                                data-status=item.status
+                                                data-id= item.id
+                                                button-change-status
+                                            ) Hoạt động
+                                        else if(item.status === 'restore')  
+                                            a(
+                                                href="javascript:;"
+                                                class="badge bg-danger" 
+                                                data-status=item.status
+                                                data-id= item.id
+                                                button-change-status
+                                            ) Đã bị xóa
+                                        else
+                                            a(
+                                                href="javascript:;"
+                                                class="badge bg-danger" 
+                                                data-status=item.status
+                                                data-id=item.id
+                                                button-change-status
+                                            ) Dừng hoạt động
                                     else
-                                        a(
-                                            href="javascript:;"
-                                            class="badge bg-danger" 
-                                            data-status=item.status
-                                            data-id=item.id
-                                            button-change-status
-                                        ) Dừng hoạt động
+                                        if(item.status === 'active')  
+                                            span(
+                                                class="badge bg-success" 
+                                            ) Hoạt động
+                                        else if(item.status === 'restore')  
+                                            span(
+                                                class="badge bg-danger" 
+                                            ) Đã bị xóa
+                                        else
+                                            span(
+                                                class="badge bg-danger" 
+                                            ) Dừng hoạt động
                                 td 
                                     if(item.status === 'restore')
                                         button.btn.btn-sm.btn-success(
@@ -109,7 +126,8 @@ block main
                                             data-id=item.id
                                         ) Xóa vĩnh viễn
                                     else
-                                        a.btn.btn-sm.btn-warning(href=`${prefixAdmin}/products/edit/${item.id}`) Sửa
+                                        if(role.permissions.includes("products_edit"))
+                                            a.btn.btn-sm.btn-warning(href=`${prefixAdmin}/products/edit/${item.id}`) Sửa
                                         a.btn.btn-sm.btn-secondary(href=`${prefixAdmin}/products/detail/${item.id}`) Chi tiết
                                         button.btn.btn-sm.btn-danger(
                                             button-delete
@@ -147,3 +165,7 @@ block main
             +pagination(pageObject)
 
         script(src="/admin/js/products.js")
+    else
+        .alert.alert-warning
+            p Tài khoản của bạn hiện chưa được cấp quyền truy cập. 
+            p Vui lòng liên hệ quản trị viên để khôi phục dữ liệu nhóm quyền.

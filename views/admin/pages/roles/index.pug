@@ -37,10 +37,11 @@ block main
                   td #{item.title}
                   td !{item.description}
                   td
-                    a(
-                      class="btn btn-warning btn-sm"
-                      href=`${prefixAdmin}/roles/edit/${item.id}`
-                    ) Sửa
+                    if(role.permissions.includes("roles_edit"))
+                      a(
+                        class="btn btn-warning btn-sm"
+                        href=`${prefixAdmin}/roles/edit/${item.id}`
+                      ) Sửa
                     a.btn.btn-sm.btn-secondary(href=`${prefixAdmin}/roles/detail/${item.id}`) Chi tiết
                     button.btn.btn-sm.btn-danger(
                       button-delete
@@ -56,3 +57,7 @@ block main
         id="form-delete"
         data-path=`${prefixAdmin}/roles/deleteOne`
       )
+  else
+    .alert.alert-warning
+      p Tài khoản của bạn hiện chưa được cấp quyền truy cập. 
+      p Vui lòng liên hệ quản trị viên để khôi phục dữ liệu nhóm quyền.

@@ -23,8 +23,9 @@ block main
             .card-header Danh mục sản phẩm
                 .card-body
                     .row 
-                        .col-10
-                            +formChangeMulti(`${prefixAdmin}/products-category/change-multi?_method=PATCH`)
+                        if(role.permissions.includes("products-category_edit"))
+                            .col-10
+                                +formChangeMulti(`${prefixAdmin}/products-category/change-multi?_method=PATCH`)
                         if(role.permissions.includes("products-category_create"))
                             .col-2
                                 a.btn.btn-outline-success(href=`${prefixAdmin}/products-category/create`) + Thêm mới  
@@ -35,11 +36,12 @@ block main
                 )
                     thead
                         tr
-                            th 
-                                input(
-                                    type="checkbox" 
-                                    name="checkall"
-                                )
+                            if(role.permissions.includes("products-category_edit"))
+                                th 
+                                    input(
+                                        type="checkbox" 
+                                        name="checkall"
+                                    )
                             th STT
                             th Hình ảnh
                             th Tiêu đề
@@ -77,3 +79,7 @@ block main
 
 
         script(src="/admin/js/products.js")
+    else
+        .alert.alert-warning
+            p Tài khoản của bạn hiện chưa được cấp quyền truy cập. 
+            p Vui lòng liên hệ quản trị viên để khôi phục dữ liệu nhóm quyền.

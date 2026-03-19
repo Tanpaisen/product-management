@@ -2,6 +2,7 @@ extends ../../layouts/default.pug
 include ../../mixins/alert-flash.pug
 
 block main
+    if(role.permissions.includes("accounts_edit"))
         .m-2
             h1(class="mb-4") Chỉnh sửa tài khoản
             
@@ -104,3 +105,7 @@ block main
                 p Vui lòng tạo nhóm quyền trước khi cập nhật tài khoản
                 p
                     a(href=`/${prefixAdmin}/roles/create` class="btn btn-secondary") Tạo nhóm quyền
+    else
+        .alert.alert-warning
+            p Tài khoản của bạn hiện chưa được cấp quyền truy cập. 
+            p Vui lòng liên hệ quản trị viên để khôi phục dữ liệu nhóm quyền.
