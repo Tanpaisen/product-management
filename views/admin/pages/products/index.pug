@@ -23,7 +23,7 @@ block main
             .card-header Danh sách sản phẩm
                 .card-body
                     .row 
-                        if(role.permissions.includes("products_edit"))
+                        if(role.permissions.includes("products_edit") && role.permissions.includes("products_delete"))
                             .col-10
                                 +formChangeMulti(`${prefixAdmin}/products/change-multi?_method=PATCH`)
                         if(role.permissions.includes("products_create"))
@@ -36,7 +36,7 @@ block main
                 )
                     thead
                         tr
-                            if(role.permissions.includes("products_edit"))
+                            if(role.permissions.includes("products_edit") && role.permissions.includes("products_delete"))
                                 th 
                                     input(
                                         type="checkbox" 
@@ -52,7 +52,7 @@ block main
                     tbody
                         each item,index in products
                             tr 
-                                if(role.permissions.includes("products_edit"))
+                                if(role.permissions.includes("products_edit") && role.permissions.includes("products_delete"))
                                     td
                                         input(
                                             type="checkbox" 
@@ -117,22 +117,25 @@ block main
                                             ) Dừng hoạt động
                                 td 
                                     if(item.status === 'restore')
-                                        button.btn.btn-sm.btn-success(
-                                            button-restore
-                                            data-id=item.id
-                                        ) Khôi phục
-                                        button.btn.btn-sm.btn-danger(
-                                            button-delete-perpetual
-                                            data-id=item.id
-                                        ) Xóa vĩnh viễn
+                                        if(role.permissions.includes("products_edit") && role.permissions.includes("products_delete"))
+                                            button.btn.btn-sm.btn-success(
+                                                button-restore
+                                                data-id=item.id
+                                            ) Khôi phục
+                                            button.btn.btn-sm.btn-danger(
+                                                button-delete-perpetual
+                                                data-id=item.id
+                                            ) Xóa vĩnh viễn
+                                        a.btn.btn-sm.btn-secondary(href=`${prefixAdmin}/products/detail/${item.id}`) Chi tiết
                                     else
                                         if(role.permissions.includes("products_edit"))
                                             a.btn.btn-sm.btn-warning(href=`${prefixAdmin}/products/edit/${item.id}`) Sửa
                                         a.btn.btn-sm.btn-secondary(href=`${prefixAdmin}/products/detail/${item.id}`) Chi tiết
-                                        button.btn.btn-sm.btn-danger(
-                                            button-delete
-                                            data-id=item.id
-                                        ) Xóa
+                                        if(role.permissions.includes("products_delete"))
+                                            button.btn.btn-sm.btn-danger(
+                                                button-delete
+                                                data-id=item.id
+                                            ) Xóa
                             tr
             form(
                 action=""

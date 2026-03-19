@@ -23,7 +23,7 @@ block main
             .card-header Danh mục sản phẩm
                 .card-body
                     .row 
-                        if(role.permissions.includes("products-category_edit"))
+                        if(role.permissions.includes("products-category_edit") && role.permissions.includes("products-category_delete"))
                             .col-10
                                 +formChangeMulti(`${prefixAdmin}/products-category/change-multi?_method=PATCH`)
                         if(role.permissions.includes("products-category_create"))
@@ -36,7 +36,7 @@ block main
                 )
                     thead
                         tr
-                            if(role.permissions.includes("products-category_edit"))
+                            if(role.permissions.includes("products-category_edit") && role.permissions.includes("products-category_delete"))
                                 th 
                                     input(
                                         type="checkbox" 

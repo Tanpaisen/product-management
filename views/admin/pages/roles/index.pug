@@ -43,10 +43,11 @@ block main
                         href=`${prefixAdmin}/roles/edit/${item.id}`
                       ) Sửa
                     a.btn.btn-sm.btn-secondary(href=`${prefixAdmin}/roles/detail/${item.id}`) Chi tiết
-                    button.btn.btn-sm.btn-danger(
-                      button-delete
-                      data-id=item.id
-                    ) Xóa
+                    if(role.permissions.includes("roles_delete"))
+                      button.btn.btn-sm.btn-danger(
+                        button-delete
+                        data-id=item.id
+                      ) Xóa
             else
               tr
                 td(colspan="4" class="text-center") Chưa có nhóm quyền nào được tạo.

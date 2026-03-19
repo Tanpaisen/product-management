@@ -2,7 +2,7 @@ mixin tableTree(productsCategory,level=0)
     each item in productsCategory
         - const prefix = Array(level+1).join('--')
         tr 
-            if(role.permissions.includes("products-category_edit"))
+            if(role.permissions.includes("products-category_edit") && role.permissions.includes("products-category_delete"))
                 td
                     input(
                         type="checkbox" 
@@ -66,21 +66,24 @@ mixin tableTree(productsCategory,level=0)
                         ) Dừng hoạt động
             td 
                 if(item.status === 'restore')
-                    button.btn.btn-sm.btn-success(
-                        button-restore
-                        data-id=item.id
-                    ) Khôi phục
-                    button.btn.btn-sm.btn-danger(
-                        button-delete-perpetual
-                        data-id=item.id
-                    ) Xóa vĩnh viễn
+                    if(role.permissions.includes("products-category_delete"))
+                        button.btn.btn-sm.btn-success(
+                            button-restore
+                            data-id=item.id
+                        ) Khôi phục
+                        button.btn.btn-sm.btn-danger(
+                            button-delete-perpetual
+                            data-id=item.id
+                        ) Xóa vĩnh viễn
+                    a.btn.btn-sm.btn-secondary(href=`${prefixAdmin}/products-category/detail/${item.id}`) Chi tiết
                 else
                     if(role.permissions.includes("products-category_edit"))
                         a.btn.btn-sm.btn-warning(href=`${prefixAdmin}/products-category/edit/${item.id}`) Sửa
                     a.btn.btn-sm.btn-secondary(href=`${prefixAdmin}/products-category/detail/${item.id}`) Chi tiết
-                    button.btn.btn-sm.btn-danger(
-                        button-delete
-                        data-id=item.id
-                    ) Xóa
+                    if(role.permissions.includes("products-category_delete"))
+                        button.btn.btn-sm.btn-danger(
+                            button-delete
+                            data-id=item.id
+                        ) Xóa
         if item.children && item.children.length>0
             +tableTree(item.children,level+1)

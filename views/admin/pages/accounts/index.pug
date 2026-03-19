@@ -19,7 +19,7 @@ block main
             )
               thead
                 tr
-                  if(role.permissions.includes("accounts_edit"))
+                  if(role.permissions.includes("accounts_edit") && role.permissions.includes("accounts_delete"))
                     th 
                       input(class="form-check-input" type="checkbox" name="checkAll")
                   th STT
@@ -33,7 +33,7 @@ block main
               tbody
                 each item, index in records
                   tr
-                    if(role.permissions.includes("accounts_edit"))
+                    if(role.permissions.includes("accounts_edit")  && role.permissions.includes("accounts_delete"))
                       td
                         input(
                           class="form-check-input" 
@@ -90,12 +90,13 @@ block main
                         ) Sửa
                       else
                         i(class="bi bi-dash-circle-fill")
-                          
-                      button(
-                        class="btn btn-danger btn-sm ms-1" 
-                        data-id=item.id
-                        button-delete
-                      ) Xóa
+
+                      if(item.id && role.permissions.includes("accounts_delete"))    
+                        button(
+                          class="btn btn-danger btn-sm ms-1" 
+                          data-id=item.id
+                          button-delete
+                        ) Xóa
                     td
                       a(
                         class="btn btn-secondary btn-sm"
