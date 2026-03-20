@@ -1,4 +1,5 @@
 const ProductCategory = require('../../models/product.category.model');
+const Account = require('../../models/account.model')
 
 const filterStatusHelper = require('../../helper/filter-status')
 const filterSearchHelper = require('../../helper/filter-search')
@@ -52,14 +53,28 @@ module.exports.index = async (req, res) => {
         productsCategory = await ProductCategory
             .find(restoreFind)
             .sort(sort)
+        for(const data of productsCategory){
+        const user = await Account.findOne({_id: data.user_id})
+        if(user){
+            data.fullname = user.fullname;
+        }
+    }
     }
     else {
         productsCategory = await ProductCategory
             .find(find)
             .sort(sort)
         records = createTreeHelper.tree(productsCategory);
+
+        for (const data of records) {
+            const user = await Account.findOne({ _id: data.createdBy.user_id })
+            if (user) {
+                data.fullname = user.fullname;
+            }
+        }
     }
 
+    
 
     res.render('admin/pages/products-category/index', {
         pageTitle: 'Danh mục sản phẩm',
@@ -87,6 +102,11 @@ module.exports.create = async (req, res) => {
 module.exports.createPost = async (req, res) => {
     const count = await ProductCategory.countDocuments();
     req.body.position = count + 1;
+    const user = await Account.findOne()
+    req.body.createdBy = {
+        user_id: res.locals.user.id,
+    }
+
     const productsCategory = new ProductCategory(req.body);
     await productsCategory.save();
 

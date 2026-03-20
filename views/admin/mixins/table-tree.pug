@@ -1,3 +1,4 @@
+include ./moment.pug
 mixin tableTree(productsCategory,level=0)
     each item in productsCategory
         - const prefix = Array(level+1).join('--')
@@ -64,6 +65,9 @@ mixin tableTree(productsCategory,level=0)
                         span(
                             class="badge bg-danger" 
                         ) Dừng hoạt động
+            td  #{item.fullname}
+            td  
+                +formatDayTime(item.createdBy.createdAt)
             td 
                 if(item.status === 'restore')
                     if(role.permissions.includes("products-category_delete"))
