@@ -14,6 +14,13 @@ const productSchema = new mongoose.Schema({
   thumbnail: String,
   status: String,
   position: Number,
+  createBy: {
+    user_id: String,
+    createAt: {
+      type: Date,
+      default: Date.now,
+    },
+  },
   deleted: {
     type: Boolean,
     default: "false",

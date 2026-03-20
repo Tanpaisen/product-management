@@ -1,10 +1,14 @@
 const Product = require('../../models/product.model')
+const ProductCategory = require('../../models/product.category.model');
+const Account = require('../../models/account.model');
+
 const filterStatusHelper = require('../../helper/filter-status')
 const filterSearchHelper = require('../../helper/filter-search')
 const paginationHelper = require('../../helper/pagination')
 const systemConfig = require('../../config/system')
-const ProductCategory = require('../../models/product.category.model');
 const createTreeHelper = require('../../helper/create-tree')
+
+
 //[GET] /admin/products
 module.exports.index = async (req, res) => {
 
@@ -68,6 +72,14 @@ module.exports.index = async (req, res) => {
             .sort(sort)
             .limit(pageObject.limitPage)
             .skip(pageObject.skipPage);
+    }
+
+    //Lấy ra dữ liệu người tạo sản phẩm
+    for ( const product of products){
+        const user = await Account.findOne({_id: product.createBy.user_id})
+        if(user){
+            product.fullname = user.fullname;
+        }
     }
     res.render('admin/pages/products/index.pug', {
         pageTitle: "Trang quản lý sản phẩm",
@@ -201,6 +213,9 @@ module.exports.createPost = async (req, res) => {
 
     const productCount = await Product.countDocuments();
     req.body.position = productCount + 1;
+    req.body.createBy ={
+        user_id: res.locals.user.id,
+    } 
 
     const products = new Product(req.body);
     products.save();

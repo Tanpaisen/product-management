@@ -1,0 +1,12 @@
+mixin formatTime(time)
+    span #{moment(time).format('LT')}
+        //10:50 PM
+mixin formatDay(time)
+    span #{moment(time).format("MMM Do YY")}
+        // Mar 19th 26
+mixin formatDayTime(time)
+    span #{moment(time).format('MMMM Do YYYY, h:mm:ss a')}
+        // March 19th 2026, 10:16:56 pm
+mixin formatFromNow(time)
+    span #{moment(time).fromNow()}
+        // 18 minutes ago

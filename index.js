@@ -11,6 +11,7 @@ const cookieParser = require('cookie-parser')
 const session = require("express-session");
 
 dotenv.config()
+const moment = require('moment');
 
 //config
 const systemConfig = require('./config/system')
@@ -46,6 +47,7 @@ app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce
 
 //App Location Variable
 app.locals.prefixAdmin = systemConfig.prefixAdmin
+app.locals.moment = moment;
 
 //Routes
 routes(app);
