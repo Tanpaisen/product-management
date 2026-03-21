@@ -25,7 +25,10 @@ const productSchema = new mongoose.Schema({
     type: Boolean,
     default: "false",
   },
-  deleteAt: Date,
+  deletedBy: {
+    user_id: String,
+    deletedAt: Date,
+  },
   slug: {
     type: String,
     slug: "title",

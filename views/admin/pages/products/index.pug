@@ -50,7 +50,6 @@ block main
                             th Vị trí
                             th Trạng thái
                             th Người tạo
-                            th Ngày tạo
                             th Hành động
                     tbody
                         each item,index in products
@@ -118,9 +117,15 @@ block main
                                             span(
                                                 class="badge bg-danger" 
                                             ) Dừng hoạt động
-                                td #{item.fullname}
-                                td  
-                                    +formatDay(item.createBy.createAt)
+                                td 
+                                    if(item.status === 'restore')
+                                        p #{item.deletedName}
+                                        p 
+                                           +formatDay(item.deletedBy.deletedAt)
+                                    else 
+                                        p #{item.fullname}
+                                        p 
+                                           +formatDay(item.createBy.createAt)
                                 td 
                                     if(item.status === 'restore')
                                         if(role.permissions.includes("products_edit") && role.permissions.includes("products_delete"))

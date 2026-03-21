@@ -74,13 +74,20 @@ module.exports.index = async (req, res) => {
             .skip(pageObject.skipPage);
     }
 
-    //Lấy ra dữ liệu người tạo sản phẩm
+    //Lấy ra dữ liệu nlog lich su sản phẩm
     for ( const product of products){
         const user = await Account.findOne({_id: product.createBy.user_id})
         if(user){
             product.fullname = user.fullname;
         }
+
+        const userDeleted = await Account.findOne({_id: product.deletedBy.user_id})
+        if(userDeleted){
+            product.deletedName = userDeleted.fullname;
+        }
     }
+
+
     res.render('admin/pages/products/index.pug', {
         pageTitle: "Trang quản lý sản phẩm",
         products: products,
@@ -133,9 +140,14 @@ module.exports.changeMulti = async (req, res) => {
             req.flash('success', `Thay đổi vị trí thành công ${ids.length} sản phẩm!`);
             break;
         case "deleteMany":
+            const deletedBy = {
+                user_id: res.locals.user.id,
+                deletedAt: new Date(),
+            }
             await Product.updateMany({ _id: { $in: ids } }, {
                 status: "restore",
                 deleted: true,
+                deletedBy: deletedBy,
             })
             req.flash('success', `Xóa thành công ${ids.length} sản phẩm!`);
             break;
@@ -157,11 +169,12 @@ module.exports.changeMulti = async (req, res) => {
 module.exports.deleteOne = async (req, res) => {
     const id = req.params.id
 
-    //Xóa vĩnh viễn
-    // await Product.deleteOne({_id:id})
-
+    const deletedBy = {
+        user_id: res.locals.user.id,
+        deletedAt: new Date(),
+    }
     //Xóa tạm thời
-    await Product.updateOne({ _id: id }, { deleted: "true", status: "restore" });
+    await Product.updateOne({ _id: id }, { deleted: "true", status: "restore", deletedBy: deletedBy});
     const back = req.get("Referer");
     req.flash('success', `Xóa thành công sản phẩm`);
     res.redirect(back);

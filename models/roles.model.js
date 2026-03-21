@@ -7,6 +7,13 @@ const roleSchema = new mongoose.Schema({
         default: ""
     },
     permissions: Array,
+    createdBy: {
+        user_id: String,
+        createdAt: {
+            type: Date,
+            default: Date.now,
+        }
+    },
     deleted: {
         type: Boolean,
         default: false,
