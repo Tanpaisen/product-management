@@ -200,7 +200,7 @@ ul {
 /* product-detail */
 .product-detail .inner-thumb img {
   width: 100%;
-  height: auto;
+height: auto;
 }
 
 .product-detail .inner-title {
@@ -561,7 +561,7 @@ input#amount {
 }
 
 .box-user.accepted [btn-accept-friend] {
-  display: none;
+display: none;
 }
 
 .box-user.accepted [btn-refuse-friend] {

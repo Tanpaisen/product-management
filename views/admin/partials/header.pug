@@ -1,14 +1,18 @@
 header.header
   .container-fluid
     .row.align-items-center
-      .col-9
+      .col-8
         
         .inner-logo
             a(href=`${prefixAdmin}/dashboard`) 
                img(src="/images/logo.jpg", alt="Website Logo")
 
-      .col-3                
+      .col-4                
         div(class="text-right")
+          a(
+            href=`${prefixAdmin}/my-account`
+            class="btn btn-primary btn-sm"
+          ) #{user.fullname}
           a(
             href=`${prefixAdmin}/auth/logout`
             class="btn btn-danger btn-sm"
