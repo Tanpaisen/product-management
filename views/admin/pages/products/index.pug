@@ -50,6 +50,7 @@ block main
                             th Vị trí
                             th Trạng thái
                             th Người tạo
+                            th Người chỉnh sửa
                             th Hành động
                     tbody
                         each item,index in products
@@ -126,6 +127,10 @@ block main
                                         p #{item.fullname}
                                         p 
                                            +formatDay(item.createBy.createAt)
+                                td 
+                                    p #{item.updateName}
+                                    p 
+                                        +formatDay(item.updateBy.updateAt)
                                 td 
                                     if(item.status === 'restore')
                                         if(role.permissions.includes("products_edit") && role.permissions.includes("products_delete"))
