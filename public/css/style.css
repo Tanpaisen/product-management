@@ -172,29 +172,33 @@ ul {
   background: #eae9e9;
   min-width: 180px;
   display: none;
+  z-index: 999;
 }
 
 .sub-menu ul li {
   padding: 10px;
   border-bottom: 1px solid #ddd;
+  position: relative; /* để chứa menu con */
 }
 
 .sub-menu:hover > ul {
   display: block;
 }
 
-.sub-menu ul li {
-  position: relative;
-}
-
 .sub-menu ul li ul {
+  position: absolute;
   left: 100%;
   top: 0;
+  display: none;
+  background: #eae9e9;
+  min-width: 180px;
+  z-index: 999; /* đảm bảo nổi lên trên */
 }
 
 .sub-menu ul li:hover > ul {
   display: block;
 }
+
 /* End sub-menu */
 
 /* product-detail */
