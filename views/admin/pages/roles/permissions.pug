@@ -163,7 +163,35 @@ block main
             each item in data
               td(class="text-center")
                 input(type="checkbox")
-            
+
+          //- Nhóm: Bài viết
+          tr
+            td(colspan="3")
+              b Tài khoản
+          
+          tr(data-name="blogs_view")
+            td Xem
+            each item in data
+              td(class="text-center")
+                input(type="checkbox")
+          
+          tr(data-name="blogs_create")
+            td Thêm mới
+            each item in data
+              td(class="text-center")
+                input(type="checkbox")
+          
+          tr(data-name="blogs_edit")
+            td Chỉnh sửa
+            each item in data
+              td(class="text-center")
+                input(type="checkbox")
+          
+          tr(data-name="blogs_delete")
+            td Xóa
+            each item in data
+              td(class="text-center")
+                input(type="checkbox")
       form(
         id="form-change-permissions"
         method="POST"

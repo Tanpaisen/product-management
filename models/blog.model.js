@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const blogSchema = new mongoose.Schema({
     title: String,
-    thumbnail: String,
+    featuredImage: String,
     description: String,
     content: String,
     status: String,
@@ -11,6 +11,7 @@ const blogSchema = new mongoose.Schema({
         type: Number,
         default: 0,
     },
+    position: Number,
     // comments: [
     //     {
     //         author: { type: String, required: true },

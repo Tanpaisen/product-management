@@ -1,0 +1,74 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert-flash.pug
+block main
+    if(role.permissions.includes("blogs_create"))
+        h1 Tạo bài viết mới
+        +messages(5000)
+        form(action=`${prefixAdmin}/blogs/create`, method="POST", enctype="multipart/form-data")
+            .mb-3
+            label(for="title") Tiêu đề*
+            input.form-control(
+                type="text", 
+                name="title", 
+                id="title", 
+                required
+                )
+
+            .mb-3
+            label(for="featuredImage") Poster
+            input.form-control(
+                type="file", 
+                name="featuredImage", 
+                id="featuredImage"
+                )
+
+            .mb-3
+            label(for="description") Mô tả ngắn
+            textarea.form-control(
+                name="description", 
+                id="description", 
+                rows="3"
+                )
+
+            .mb-3
+            label(for="content") Nội dung chi tiết
+            textarea.form-control(
+                name="content", 
+                id="content", 
+                rows="8"
+                )
+
+            .mb-3
+            label(for="blog_category") Danh mục
+            select.form-select(
+                name="blog_category", 
+                id="blog_category"
+                required
+            )
+                option(value="Tin tức") Tin tức
+                option(value="Công nghệ") Công nghệ
+                option(value="Frontend") Frontend
+
+            div(class="form-group")
+                label(for="position") Vị trí
+                input(
+                type="number"
+                id="position"
+                name="position"
+                placeholder="Tự động tăng"
+                min="1"
+                )
+
+            .mb-3
+            label(for="status") Trạng thái
+            select.form-select(name="status", id="status")
+                option(value="active") Hoạt động
+                option(value="inactive") Dừng hoạt động
+                option(value="draft") Nháp
+
+            button.btn.btn-success(type="submit") Lưu bài viết
+            a.btn.btn-secondary(href=`${prefixAdmin}/blogs`) Hủy
+    else
+            .alert.alert-warning
+                p Tài khoản của bạn hiện chưa được cấp quyền truy cập. 
+                p Vui lòng liên hệ quản trị viên để khôi phục dữ liệu nhóm quyền.
