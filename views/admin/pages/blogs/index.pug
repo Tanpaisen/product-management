@@ -1,0 +1,46 @@
+extends ../../layouts/default.pug
+
+block main
+  h1 Danh sách bài viết
+
+  .card.mb-3
+    .card-header Bộ lọc và Tìm kiếm
+    .card-body
+      button.btn.btn-sm.btn-outline-success.active Tất cả
+      button.btn.btn-sm.btn-outline-success Hoạt động
+      button.btn.btn-sm.btn-outline-success Dừng hoạt động
+    .card-body
+        .row 
+            //if(role.permissions.includes("blogs_edit") && role.permissions.includes("blogs_delete"))
+            .col-10
+                //
+            //if(role.permissions.includes("blogs_create"))
+            .col-2
+                a.btn.btn-outline-success(href=`${prefixAdmin}/blogs/create`) + Thêm mới  
+        table.table.table-hover.table-sm
+            thead
+            tr
+                th STT
+                th Tiêu đề
+                th Tóm tắt
+                th Trạng thái
+                th Hành động
+            tbody
+                tr
+                    td 1
+                    td Bài viết mẫu
+                    td Đây là tóm tắt ngắn gọn của bài viết mẫu
+                    td 
+                        span.badge.bg-success Hoạt động
+                    td
+                        a.btn.btn-sm.btn-primary(href=`${prefixAdmin}/blogs/edit/1`) Sửa
+                        button.btn.btn-sm.btn-danger(data-id="1") Xóa
+                tr
+                    td 2
+                    td Bài viết khác
+                    td Nội dung tóm tắt của bài viết khác
+                    td 
+                        span.badge.bg-danger Dừng hoạt động
+                    td
+                        a.btn.btn-sm.btn-primary(href=`${prefixAdmin}/blogs/edit/2`) Sửa
+                        button.btn.btn-sm.btn-danger(data-id="2") Xóa
