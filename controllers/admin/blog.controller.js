@@ -51,3 +51,32 @@ module.exports.deleteOne = async (req, res) => {
         res.redirect('back')
     }
 }
+
+
+//[GET] admin/blogs/edit/:id
+module.exports.edit = async (req, res) => {
+    const blog = await Blog.findOne({_id: req.params.id, deleted: false})
+
+    console.log(blog)
+    res.render('admin/pages/blogs/edit.pug', {
+        pageTitle: 'Chỉnh sửa bài viết',
+        blog: blog,
+    })
+}
+//[PATCH] admin/blogs/edit/:id
+module.exports.editPatch = async (req, res) => {
+    try {
+        const id = req.params.id;
+        req.body.position = parseInt(req.body.position)
+
+
+        console.log(req.body)
+        await Blog.updateOne({_id: id},req.body)
+
+        req.flash('success', 'Cập nhật bài viết thành công!')
+        res.redirect("back");
+    } catch {
+        req.flash('error', 'Cập nhật bài viết không thành công!')
+        res.redirect('back')
+    }
+}

@@ -31,4 +31,12 @@ router.post('/create',
 
 router.delete('/deleteOne/:id', blogController.deleteOne)
 
+router.get('/edit/:id', blogController.edit)
+router.patch('/edit/:id', 
+    upload.single('featuredImage'),
+    uploadCloud.upload,
+    blogValidate.createPost,
+    blogController.editPatch
+)
+
 module.exports = router;
