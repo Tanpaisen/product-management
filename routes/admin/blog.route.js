@@ -29,4 +29,6 @@ router.post('/create',
     blogController.createPost
 )
 
+router.delete('/deleteOne/:id', blogController.deleteOne)
+
 module.exports = router;

@@ -17,6 +17,7 @@ module.exports.create = async (req, res) => {
         pageTitle: 'Trang thêm bài viết',
     })
 }
+
 //[POST] admin/blogs/create
 module.exports.createPost = async (req, res) => {
     try {
@@ -32,6 +33,21 @@ module.exports.createPost = async (req, res) => {
         res.redirect("back");
     } catch {
         req.flash('error', 'Thêm bài viết không thành công!')
+        res.redirect('back')
+    }
+}
+
+//[DELETE] admin/blogs/deleteOne/:id
+module.exports.deleteOne = async (req, res) => {
+    try {
+        const id = req.params.id;
+
+        await Blog.updateOne({_id: id},{deleted: true, status: "restore"})
+
+        req.flash('success', 'Xóa bài viết thành công!')
+        res.redirect("back");
+    } catch {
+        req.flash('error', 'Xóa bài viết không thành công!')
         res.redirect('back')
     }
 }
