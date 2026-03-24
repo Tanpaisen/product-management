@@ -39,4 +39,6 @@ router.patch('/edit/:id',
     blogController.editPatch
 )
 
+router.get('/detail/:id', blogController.detail)
+
 module.exports = router;

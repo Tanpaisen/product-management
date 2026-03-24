@@ -1,0 +1,50 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert-flash.pug
+
+block main
+  h1 Chi tiết bài viết
+  +messages(5000)
+
+  .card.mb-3
+    .card-header #{blog.title}
+    .card-body
+      if blog.featuredImage
+        img(src=blog.featuredImage, alt=blog.title, style="max-width:300px; height:auto; margin-bottom:15px;")
+      else
+        span.text-muted Không có poster
+
+      p
+        strong Mô tả ngắn: 
+        | #{blog.description}
+
+      p
+        strong Nội dung chi tiết:
+      .content !{blog.content}
+
+      p
+        strong Danh mục: 
+        | #{blog.blog_category}
+
+      p
+        strong Vị trí: 
+        | #{blog.position}
+
+      p
+        strong Trạng thái: 
+        if blog.status == "active"
+          span.badge.bg-success Hoạt động
+        else if blog.status == "inactive"
+          span.badge.bg-danger Dừng hoạt động
+        else if blog.status == "draft"
+          span.badge.bg-warning Nháp
+
+    //-   p
+    //-     strong Người tạo: 
+    //-     | #{blog.author}
+
+    //-   p
+    //-     strong Ngày tạo: 
+    //-     | #{blog.createdAt.toLocaleDateString()}
+
+  a.btn.btn-primary(href=`${prefixAdmin}/blogs/edit/${blog.id}`) Sửa
+  a.btn.btn-secondary(href=`${prefixAdmin}/blogs`) Quay lại danh sách

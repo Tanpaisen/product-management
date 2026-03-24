@@ -57,7 +57,6 @@ module.exports.deleteOne = async (req, res) => {
 module.exports.edit = async (req, res) => {
     const blog = await Blog.findOne({_id: req.params.id, deleted: false})
 
-    console.log(blog)
     res.render('admin/pages/blogs/edit.pug', {
         pageTitle: 'Chỉnh sửa bài viết',
         blog: blog,
@@ -79,4 +78,15 @@ module.exports.editPatch = async (req, res) => {
         req.flash('error', 'Cập nhật bài viết không thành công!')
         res.redirect('back')
     }
+}
+
+//[GET] admin/blogs/detail/:id
+module.exports.detail = async (req, res) => {
+    const blog = await Blog.findOne({_id: req.params.id, deleted: false})
+
+    console.log(blog)
+    res.render('admin/pages/blogs/detail.pug', {
+        pageTitle: 'Chỉnh sửa bài viết',
+        blog: blog,
+    })
 }
