@@ -1,0 +1,90 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert-flash.pug
+block main
+  if(role.permissions.includes("blogs-category_edit"))
+    h1(class="mb-4 ms-2") Cập nhật danh mục sản phẩm
+    form(
+      action=`${prefixAdmin}/blogs-category/edit/${data.id}?_method=PATCH`
+      id="form-create-product"
+      method="POST"
+      enctype="multipart/form-data"
+    )
+      div(class="form-group")
+        label(for="title") Tiêu đề
+        input.form-control(
+          type="text"
+          id="title"
+          name="title"
+          value=data.title
+          required
+        )
+
+      .form-group.mb-2 
+        label(for="parentId") Danh mục cha
+        select.form-control(
+          id="parentId"
+          name="parentId"
+        )
+          option(value="") -- Chon danh mục cha --
+            
+    
+      div(class="form-group")
+        label(for="desc") Mô tả
+        textarea.form-control(
+          id="desc"
+          name="description"
+          rows="5"
+          class="textarea-tinymce"
+        ) #{data.desciption}
+       
+      div(class="form-group preview" preview-upload)
+        label(for="featuredImage") Ảnh
+        img(
+          src=data.featuredImage
+          class="image-preview"
+          preview-upload-img
+        ) 
+        span(class="close-img" close-img) x
+        input.form-control(
+          type="file"
+          class="form-control form-control-sm"
+          id="featuredImage"
+          name="featuredImage"
+          accept="image/*"
+          preview-input-img
+        ) 
+        
+
+      div(class="form-group")
+        label(for="position") Vị trí
+        input(
+          type="number"
+          id="position"
+          name="position"
+          value=data.position
+          placeholder="Tự động tăng"
+          min="1"
+        )
+      .form-group.form-check.form-check-inline
+        input(
+            type="radio"
+            class="form-check-input"
+            id="statusActive"
+            name="status"
+            value="active"
+            checked
+        )
+        label(for="statusActive" class="form-check-label") Hoạt động
+      .form-group.form-check.form-check-inline
+        input(
+            type="radio"
+            class="form-check-input"
+            id="statusInActive"
+            name="status"
+            value="inactive"
+        )
+        label(for="statusInActive" class="form-check-label") Dừng hoạt động 
+      .form-group.mb-2 
+        button.btn.btn-primary(type="submit") Cập nhật
+    
+    script(src="/admin/js/products.js")

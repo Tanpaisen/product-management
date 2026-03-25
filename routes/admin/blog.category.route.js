@@ -26,6 +26,15 @@ router.post('/create',
     upload.single('featuredImage'),
     uploadCloud.upload,
     blogValidate.createPost,
-    blogCategoryController.createPost)
+    blogCategoryController.createPost
+);
+
+router.get('/edit/:id', blogCategoryController.edit)
+router.patch('/edit/:id', 
+    upload.single('featuredImage'),
+    uploadCloud.upload,
+    blogValidate.createPost,
+    blogCategoryController.editPatch
+);
 
 module.exports = router;
