@@ -21,6 +21,11 @@ router.post('/upload-tinymce',
     }
 );
 
-
+router.get('/create', blogCategoryController.create)
+router.post('/create', 
+    upload.single('featuredImage'),
+    uploadCloud.upload,
+    blogValidate.createPost,
+    blogCategoryController.createPost)
 
 module.exports = router;
