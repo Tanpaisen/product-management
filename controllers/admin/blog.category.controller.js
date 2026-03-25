@@ -67,3 +67,13 @@ module.exports.editPatch = async (req, res) => {
     }
     
 }
+
+//[DELETE]/admin/blogs-category/deleteOne/:id
+module.exports.deleteOne = async (req, res) => {
+    const id = req.params.id;
+
+    await BlogCategory.updateOne({_id: id},{deleted: true, status: "restore"})
+
+    req.flash('success','Xóa thành công')
+    res.redirect('back')
+}

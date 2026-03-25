@@ -37,4 +37,5 @@ router.patch('/edit/:id',
     blogCategoryController.editPatch
 );
 
+router.delete('/deleteOne/:id', blogCategoryController.deleteOne)
 module.exports = router;

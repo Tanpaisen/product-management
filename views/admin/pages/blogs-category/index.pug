@@ -28,8 +28,15 @@ block main
                     td
                         if(role.permissions.includes("blogs-category_edit"))
                             a.btn.btn-sm.btn-primary(href=`${prefixAdmin}/blogs-category/edit/${item.id}`) Sửa
-                        button.btn.btn-sm.btn-danger(type="button") Xóa
+                        if(role.permissions.includes("blogs-category_delete"))
+                            button.btn.btn-sm.btn-danger(data-id=item.id button-delete) Xóa
                         a.btn.btn-sm.btn-secondary(href=`${prefixAdmin}/blogs-category/detail/${item.id}`) Chi tiết
+    form(
+        data-path=`${prefixAdmin}/blogs-category/deleteOne`
+        action=""
+        id="form-delete"
+        method="POST"    
+    )
   else
         .alert.alert-warning
             p Tài khoản của bạn hiện chưa được cấp quyền truy cập. 
