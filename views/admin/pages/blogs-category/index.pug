@@ -1,0 +1,50 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert-flash.pug
+
+block main
+  if(role.permissions.includes("blogs_view"))
+    h1 Danh mục bài viết
+    +messages(5000)
+
+    a.btn.btn-success(href=`${prefixAdmin}/blogs-category/create`) Thêm danh mục mới
+
+    table.table.table-bordered.mt-3
+        thead
+        tr
+            th Tên danh mục
+            th Mô tả
+            th Trạng thái
+            th Vị trí
+            th Hành động
+        tbody
+        tr
+            td Tin tức
+            td Các bài viết cập nhật tin tức mới nhất
+            td 
+                span.badge.bg-success Hoạt động
+            td 1
+            td
+                a.btn.btn-sm.btn-primary(href=`${prefixAdmin}/blogs-category/edit/1`) Sửa
+                button.btn.btn-sm.btn-danger(type="button") Xóa
+        tr
+            td Công nghệ
+            td Chia sẻ kiến thức và xu hướng công nghệ
+            td 
+                span.badge.bg-success Hoạt động
+            td 2
+            td
+                a.btn.btn-sm.btn-primary(href=`${prefixAdmin}/blogs-category/edit/2`) Sửa
+                button.btn.btn-sm.btn-danger(type="button") Xóa
+        tr
+            td Backend
+            td Kiến thức về lập trình phía server
+            td 
+                span.badge.bg-secondary Không hoạt động
+            td 3
+            td
+                a.btn.btn-sm.btn-primary(href=`${prefixAdmin}/blogs-category/edit/3`) Sửa
+                button.btn.btn-sm.btn-danger(type="button") Xóa
+  else
+        .alert.alert-warning
+            p Tài khoản của bạn hiện chưa được cấp quyền truy cập. 
+            p Vui lòng liên hệ quản trị viên để khôi phục dữ liệu nhóm quyền.

@@ -9,6 +9,9 @@ sider.sider
       if(role.permissions.includes("products_view"))
         li
           a(href='/admin/products') Danh sách sản phẩm
+      if(role.permissions.includes("blogs-category_view"))
+        li
+          a(href='/admin/blogs-category') Quản lý danh mục bài viết 
       if(role.permissions.includes("blogs_view"))
         li
           a(href='/admin/blogs') Quản lý bài viết 
