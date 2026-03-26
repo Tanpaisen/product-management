@@ -1,10 +1,21 @@
 const BlogCategory = require('../../models/blog.category.model')
+
 const createTreeHelper = require('../../helper/create-tree')
+const searchHelper = require('../../helper/filter-search')
+
 
 //[GET] admin/blogs-category/
 module.exports.index = async (req, res) => {
 
-    const blogsCategory = await BlogCategory.find({ deleted: false })
+    const find = {
+        deleted: false,
+    }
+    //Tim kiem
+    const search = searchHelper(req.query)
+    if(search){
+        find.title = search.regex
+    }
+    const blogsCategory = await BlogCategory.find(find)
 
     const tree = createTreeHelper.tree(blogsCategory)
 

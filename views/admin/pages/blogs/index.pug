@@ -7,9 +7,27 @@ block main
         .card.mb-3
             .card-header Bộ lọc và Tìm kiếm
             .card-body
-                button.btn.btn-sm.btn-outline-success.active Tất cả
-                button.btn.btn-sm.btn-outline-success Hoạt động
-                button.btn.btn-sm.btn-outline-success Dừng hoạt động
+                .row
+                    .col-6
+                            //- each item in filterStatus
+                            button.btn.btn-sm.btn-outline-success.active Tất cả
+                            button.btn.btn-sm.btn-outline-success Hoạt động
+                            button.btn.btn-sm.btn-outline-success Dừng hoạt động
+                    .col-6 
+                        form(id="form-search")
+                            .input-group
+                                input(
+                                    type="text"
+                                    placeholder="Nhập từ khóa"
+                                    name="keyword"
+                                    class="form-control"
+                                    value=keyword
+                                )
+                                .input-group-append
+                                    button(
+                                        class="btn btn-success"
+                                        type="submit"
+                                    ) Tìm
             .card-body
                 .row 
                     //if(role.permissions.includes("blogs_edit") && role.permissions.includes("blogs_delete"))
