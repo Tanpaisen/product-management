@@ -77,3 +77,15 @@ module.exports.deleteOne = async (req, res) => {
     req.flash('success','Xóa thành công')
     res.redirect('back')
 }
+
+//[GET] admin/blogs-category/detail/:id
+module.exports.detail = async (req, res) => {
+
+    const id = req.params.id;
+
+    const data = await BlogCategory.findOne({ _id: id, deleted: false })
+    res.render('admin/pages/blogs-category/detail.pug', {
+        pageTitle: 'Thêm mới danh mục bài viết',
+        data: data,
+    })
+}

@@ -1,0 +1,37 @@
+extends ../../layouts/default
+block main
+
+  .m-4.d-flex.bg-light
+    .img--product
+      if (data.thumbnail)
+        img(
+          class="w-100 p-2 h-100 d-block"
+          src=data.thumbnail
+        )
+    .info--product
+      if (data.title)
+        h1(class="mb-3") #{data.title}
+
+      if (data.parentId)
+        div(class="mb-3") Mục cha: <b>#{data.parentId}$</b>
+
+      if (data.status)
+        div(class="mb-3")
+          span Trạng thái:
+          if (data.status === "active")
+            span(class="text-success ms-1 fw-bolder") Hoạt động
+          else
+            span(class="text-danger ms-1 fw-bolder") Dừng hoạt động
+
+      if (data.position)
+        div(class="mb-3") Vị trí: <b>#{data.position}</b>
+
+      if (data.description)
+        div(class="mb-3") !{data.description}
+      if(role.permissions.includes("blogs-category_edit"))
+        a(
+          href=`${prefixAdmin}/products-category/edit/${data.id}`
+          class="btn btn-warning mb-2"
+        ) Chỉnh sửa
+
+    script(src="/admin/js/product.js")
