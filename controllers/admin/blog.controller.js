@@ -1,4 +1,7 @@
 const Blog = require('../../models/blog.model')
+const createTreeHelper = require('../../helper/create-tree')
+
+const BlogCategory = require('../../models/blog.category.model')
 
 //[GET] admin/blogs/
 module.exports.index = async (req, res) => {
@@ -13,8 +16,11 @@ module.exports.index = async (req, res) => {
 //[GET] admin/blogs/create
 module.exports.create = async (req, res) => {
 
+    const records = await BlogCategory.find({deleted: false})
+    const tree = createTreeHelper.tree(records)
     res.render('admin/pages/blogs/create.pug', {
         pageTitle: 'Trang thêm bài viết',
+        records: records,
     })
 }
 
@@ -57,9 +63,12 @@ module.exports.deleteOne = async (req, res) => {
 module.exports.edit = async (req, res) => {
     const blog = await Blog.findOne({_id: req.params.id, deleted: false})
 
+    const records = await BlogCategory.find({deleted: false})
+    const tree = createTreeHelper.tree(records)
     res.render('admin/pages/blogs/edit.pug', {
         pageTitle: 'Chỉnh sửa bài viết',
         blog: blog,
+        records: tree,
     })
 }
 //[PATCH] admin/blogs/edit/:id

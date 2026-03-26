@@ -54,9 +54,19 @@ module.exports.edit = async (req, res) => {
     const id = req.params.id;
 
     const data = await BlogCategory.findOne({ _id: id, deleted: false })
+
+    const childrenIds = await findAllChildrenIdHelper.findAllChildrenIds(req.params.id, false);
+    const find = {
+        deleted: false,
+        _id: { $nin: childrenIds }
+    }
+
+    const records = await ProductCategory.find(find);
+    const tree = createTreeHelper.tree(records);
     res.render('admin/pages/blogs-category/edit.pug', {
         pageTitle: 'Thêm mới danh mục bài viết',
         data: data,
+        tree: tree,
     })
 }
 

@@ -165,8 +165,10 @@ module.exports.edit = async (req, res) => {
 
         const newData = await ProductCategory.findOne(data);
 
+        const childrenIds = await findAllChildrenIdHelper.findAllChildrenIds(req.params.id, false);
         const find = {
             deleted: false,
+            _id: { $nin: childrenIds }
         }
 
         const records = await ProductCategory.find(find);

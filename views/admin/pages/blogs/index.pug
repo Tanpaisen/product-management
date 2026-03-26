@@ -24,7 +24,6 @@ block main
                         th STT
                         th Tiêu đề
                         th Poster
-                        th Danh mục
                         th Tóm tắt
                         th Trạng thái
                         th Vị trí
@@ -37,7 +36,6 @@ block main
                                 td #{item.title}
                                 td 
                                     img(src=item.featuredImage, alt=item.title, style="width:80px; height:auto;")
-                                td #{item.blog_category}
                                 td #{item.description}
                                 td 
                                     if(item.status == "active")

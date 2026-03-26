@@ -6,7 +6,7 @@ const blogSchema = new mongoose.Schema({
     description: String,
     content: String,
     status: String,
-    blog_category: String,
+    blog_category_id: String,
     views: {
         type: Number,
         default: 0,

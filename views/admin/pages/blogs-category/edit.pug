@@ -1,8 +1,11 @@
 extends ../../layouts/default.pug
 include ../../mixins/alert-flash.pug
+include ../../mixins/select-tree.pug
+
 block main
   if(role.permissions.includes("blogs-category_edit"))
     h1(class="mb-4 ms-2") Cập nhật danh mục sản phẩm
+    +messages(5000)
     form(
       action=`${prefixAdmin}/blogs-category/edit/${data.id}?_method=PATCH`
       id="form-create-product"
@@ -25,7 +28,8 @@ block main
           id="parentId"
           name="parentId"
         )
-          option(value="") -- Chon danh mục cha --
+          option(value="") -- Chọn danh mục cha --
+          +select-tree(tree)
             
     
       div(class="form-group")

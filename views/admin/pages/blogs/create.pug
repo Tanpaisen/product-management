@@ -1,5 +1,7 @@
 extends ../../layouts/default.pug
 include ../../mixins/alert-flash.pug
+include ../../mixins/select-tree.pug
+
 block main
     if(role.permissions.includes("blogs_create"))
         h1 Tạo bài viết mới
@@ -30,6 +32,15 @@ block main
                     accept="image/*"
                     preview-input-img
                 )
+            .mb-3
+                label(for="blog_category_id") Danh mục
+                select.form-select(
+                    name="blog_category_id", 
+                    id="blog_category_id"
+                    required
+                )
+                    option(value="" diable selected) Chọn danh mục
+                    +select-tree(records)
 
             .mb-3
                 label(for="description") Mô tả ngắn
@@ -46,17 +57,6 @@ block main
                     id="content", 
                     rows="8"
                     )
-
-            .mb-3
-                label(for="blog_category") Danh mục
-                select.form-select(
-                    name="blog_category", 
-                    id="blog_category"
-                    required
-                )
-                    option(value="Tin tức") Tin tức
-                    option(value="Công nghệ") Công nghệ
-                    option(value="Frontend") Frontend
 
             div(class="form-group")
                 label(for="position") Vị trí
