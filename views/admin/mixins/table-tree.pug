@@ -65,9 +65,10 @@ mixin tableTree(productsCategory,level=0)
                         span(
                             class="badge bg-danger" 
                         ) Dừng hoạt động
-            td  #{item.fullname}
-            td  
-                +formatDayTime(item.createdBy.createdAt)
+            if(item.createdBy)
+                td  #{item.fullname}
+                td  
+                    +formatDayTime(item.createdBy.createdAt)
             td 
                 if(item.status === 'restore')
                     if(role.permissions.includes("products-category_delete"))

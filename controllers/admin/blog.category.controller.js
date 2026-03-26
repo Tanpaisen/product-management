@@ -1,21 +1,28 @@
 const BlogCategory = require('../../models/blog.category.model')
+const createTreeHelper = require('../../helper/create-tree')
 
 //[GET] admin/blogs-category/
 module.exports.index = async (req, res) => {
 
     const blogsCategory = await BlogCategory.find({ deleted: false })
 
+    const tree = createTreeHelper.tree(blogsCategory)
+
     res.render('admin/pages/blogs-category/index.pug', {
         pageTitle: 'Trang quản lý danh mục bài viết',
-        blogsCategory: blogsCategory,
+        blogsCategory: tree,
     })
 }
 
 //[GET] admin/blogs-category/create
 module.exports.create = async (req, res) => {
 
+    const blogsCategory = await BlogCategory.find({ deleted: false })
+    const tree = createTreeHelper.tree(blogsCategory)
+
     res.render('admin/pages/blogs-category/create.pug', {
         pageTitle: 'Thêm mới danh mục bài viết',
+        blogsCategory: tree,
     })
 }
 
@@ -29,6 +36,7 @@ module.exports.createPost = async (req, res) => {
             const countBlogCategory = await BlogCategory.countDocuments()
             req.body.position = countBlogCategory + 1
         }
+
         const blogsCategory = new BlogCategory(req.body)
         blogsCategory.save()
 
@@ -57,24 +65,24 @@ module.exports.editPatch = async (req, res) => {
     try {
         req.body.position = parseInt(req.body.position)
 
-        await BlogCategory.updateOne({_id: req.params.id},req.body)
+        await BlogCategory.updateOne({ _id: req.params.id }, req.body)
 
-        req.flash('success','Cập nhật danh mục bài viết thành công')
+        req.flash('success', 'Cập nhật danh mục bài viết thành công')
         res.redirect('back')
-    }catch{
-        req.flash('error','Cập nhật danh mục bài viết thất bại')
+    } catch {
+        req.flash('error', 'Cập nhật danh mục bài viết thất bại')
         res.redirect('back')
     }
-    
+
 }
 
 //[DELETE]/admin/blogs-category/deleteOne/:id
 module.exports.deleteOne = async (req, res) => {
     const id = req.params.id;
 
-    await BlogCategory.updateOne({_id: id},{deleted: true, status: "restore"})
+    await BlogCategory.updateOne({ _id: id }, { deleted: true, status: "restore" })
 
-    req.flash('success','Xóa thành công')
+    req.flash('success', 'Xóa thành công')
     res.redirect('back')
 }
 
