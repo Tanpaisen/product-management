@@ -1,6 +1,7 @@
 extends ../../layouts/default.pug
 include ../../mixins/alert-flash.pug
 include ../../mixins/table-tree.pug
+include ../../mixins/filter-status.pug
 
 block main
   if(role.permissions.includes("blogs-category_view"))
@@ -8,54 +9,51 @@ block main
     +messages(5000)
     .card.mb-3
             .card-header Bộ lọc và Tìm kiếm
-            .card-body
-                .row
-                    .col-6
-                            //- each item in filterStatus
-                            button.btn.btn-sm.btn-outline-success.active Tất cả
-                            button.btn.btn-sm.btn-outline-success Hoạt động
-                            button.btn.btn-sm.btn-outline-success Dừng hoạt động
-                    .col-6 
-                        form(id="form-search")
-                            .input-group
-                                input(
-                                    type="text"
-                                    placeholder="Nhập từ khóa"
-                                    name="keyword"
-                                    class="form-control"
-                                    value=keyword
-                                )
-                                .input-group-append
-                                    button(
-                                        class="btn btn-success"
-                                        type="submit"
-                                    ) Tìm
-            .card-body
-                .row 
-                    .col-10
-                    if(role.permissions.includes("blogs-category_create"))
-                        .col-2 
-                            a.btn.btn-success(href=`${prefixAdmin}/blogs-category/create`) Thêm danh mục mới
+                .card-body
+                    .row
+                        .col-6
+                            +filter(filterStatus)
+                        .col-6 
+                            form(id="form-search")
+                                .input-group
+                                    input(
+                                        type="text"
+                                        placeholder="Nhập từ khóa"
+                                        name="keyword"
+                                        class="form-control"
+                                        value=keyword
+                                    )
+                                    .input-group-append
+                                        button(
+                                            class="btn btn-success"
+                                            type="submit"
+                                        ) Tìm
+                .card-body
+                    .row 
+                        .col-10
+                        if(role.permissions.includes("blogs-category_create"))
+                            .col-2 
+                                a.btn.btn-success(href=`${prefixAdmin}/blogs-category/create`) Thêm danh mục mới
 
-                    table.table.table-bordered.mt-3
-                        thead
-                            tr
-                                if(role.permissions.includes("blogs-category_edit") && role.permissions.includes("products-category_delete"))
-                                                th 
-                                                    input(
-                                                        type="checkbox" 
-                                                        name="checkall"
-                                                    )
-                                th STT
-                                th Hình ảnh
-                                th Tiêu đề
-                                th Vị trí
-                                th Trạng thái
-                                th Người tạo
-                                th Ngày tạo
-                                th Hành động
-                        tbody
-                            +tableTree(blogsCategory,"","blogs-category")
+                        table.table.table-bordered.mt-3
+                            thead
+                                tr
+                                    if(role.permissions.includes("blogs-category_edit") && role.permissions.includes("products-category_delete"))
+                                                    th 
+                                                        input(
+                                                            type="checkbox" 
+                                                            name="checkall"
+                                                        )
+                                    th STT
+                                    th Hình ảnh
+                                    th Tiêu đề
+                                    th Vị trí
+                                    th Trạng thái
+                                    th Người tạo
+                                    th Ngày tạo
+                                    th Hành động
+                            tbody
+                                +tableTree(blogsCategory,"","blogs-category")
     form(
         data-path=`${prefixAdmin}/blogs-category/deleteOne`
         action=""

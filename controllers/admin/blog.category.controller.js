@@ -2,7 +2,7 @@ const BlogCategory = require('../../models/blog.category.model')
 
 const createTreeHelper = require('../../helper/create-tree')
 const searchHelper = require('../../helper/filter-search')
-
+const filterStatusHelper = require('../../helper/filter-status')
 
 //[GET] admin/blogs-category/
 module.exports.index = async (req, res) => {
@@ -12,9 +12,18 @@ module.exports.index = async (req, res) => {
     }
     //Tim kiem
     const search = searchHelper(req.query)
-    if(search){
+    if(req.query.status){
         find.title = search.regex
     }
+
+    //Lọc
+    const filterStatus = filterStatusHelper(req.query)
+
+    const status = req.query.status
+    if (status) {
+        find.status = status
+    }
+    
     const blogsCategory = await BlogCategory.find(find)
 
     const tree = createTreeHelper.tree(blogsCategory)
@@ -22,6 +31,7 @@ module.exports.index = async (req, res) => {
     res.render('admin/pages/blogs-category/index.pug', {
         pageTitle: 'Trang quản lý danh mục bài viết',
         blogsCategory: tree,
+        filterStatus: filterStatus,
     })
 }
 

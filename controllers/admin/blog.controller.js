@@ -3,7 +3,7 @@ const BlogCategory = require('../../models/blog.category.model')
 
 const createTreeHelper = require('../../helper/create-tree')
 const searchHelper = require('../../helper/filter-search')
-
+const filterStatusHelper = require('../../helper/filter-status')
 
 //[GET] admin/blogs/
 module.exports.index = async (req, res) => {
@@ -13,13 +13,25 @@ module.exports.index = async (req, res) => {
 
     //Tìm kiếm
     const search = searchHelper(req.query)
-    if (search) {
+
+    if (req.query.keyword) {
         find.title = search.regex
     }
+
+    //Lọc
+    const filterStatus = filterStatusHelper(req.query)
+
+    const status = req.query.status
+    if (status) {
+        find.status = status
+    }
+
     const blogs = await Blog.find(find)
+    console.log(blogs)
     res.render('admin/pages/blogs/index.pug', {
         pageTitle: 'Trang quản lý bài viết',
         blogs: blogs,
+        filterStatus: filterStatus,
     })
 }
 

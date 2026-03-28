@@ -1,81 +1,79 @@
 extends ../../layouts/default.pug
 include ../../mixins/alert-flash.pug
+include ../../mixins/filter-status.pug
+
 block main
     if(role.permissions.includes("blogs_view"))
         h1 Danh sách bài viết
         +messages(5000)
         .card.mb-3
             .card-header Bộ lọc và Tìm kiếm
-            .card-body
-                .row
-                    .col-6
-                            //- each item in filterStatus
-                            button.btn.btn-sm.btn-outline-success.active Tất cả
-                            button.btn.btn-sm.btn-outline-success Hoạt động
-                            button.btn.btn-sm.btn-outline-success Dừng hoạt động
-                    .col-6 
-                        form(id="form-search")
-                            .input-group
-                                input(
-                                    type="text"
-                                    placeholder="Nhập từ khóa"
-                                    name="keyword"
-                                    class="form-control"
-                                    value=keyword
-                                )
-                                .input-group-append
-                                    button(
-                                        class="btn btn-success"
-                                        type="submit"
-                                    ) Tìm
-            .card-body
-                .row 
-                    //if(role.permissions.includes("blogs_edit") && role.permissions.includes("blogs_delete"))
-                    .col-10
-                        //
-                    if(role.permissions.includes("blogs_create"))
-                        .col-2
-                            a.btn.btn-outline-success(href=`${prefixAdmin}/blogs/create`) + Thêm mới  
-                table.table.table-hover.table-sm
-                    thead
-                    tr
-                        th STT
-                        th Tiêu đề
-                        th Poster
-                        th Tóm tắt
-                        th Trạng thái
-                        th Vị trí
-                        th Người tạo
-                        th Hành động
-                    tbody
-                        each item,index in blogs
-                            tr
-                                td #{index+1}
-                                td #{item.title}
-                                td 
-                                    img(src=item.featuredImage, alt=item.title, style="width:80px; height:auto;")
-                                td #{item.description}
-                                td 
-                                    if(item.status == "active")
-                                        span.badge.bg-success Hoạt động
-                                    if(item.status == "inactive")
-                                        span.badge.bg-danger Không hoạt động
-                                td
+                .card-body
+                    .row
+                        .col-6
+                            +filter(filterStatus)
+                                
+                        .col-6 
+                            form(id="form-search")
+                                .input-group
                                     input(
-                                        type="number"
-                                        value=item.position
-                                        style="width: 60px"
-                                        min="1"
-                                        name="position"
+                                        type="text"
+                                        placeholder="Nhập từ khóa"
+                                        name="keyword"
+                                        class="form-control"
+                                        value=keyword
                                     )
-                                td
-                                //Người tạo
-                                td
-                                    if(role.permissions.includes("blogs_edit"))
-                                        a.btn.btn-sm.btn-primary(href=`${prefixAdmin}/blogs/edit/${item.id}`) Sửa
-                                    if(role.permissions.includes("blogs_create"))
-                                        button.btn.btn-sm.btn-danger(data-id=item.id button-delete) Xóa
-                                    a.btn.btn-sm.btn-secondary(href=`${prefixAdmin}/blogs/detail/${item.id}`) Chi tiết
+                                    .input-group-append
+                                        button(
+                                            class="btn btn-success"
+                                            type="submit"
+                                        ) Tìm
+                .card-body
+                    .row 
+                        //if(role.permissions.includes("blogs_edit") && role.permissions.includes("blogs_delete"))
+                        .col-10
+                            //
+                        if(role.permissions.includes("blogs_create"))
+                            .col-2
+                                a.btn.btn-outline-success(href=`${prefixAdmin}/blogs/create`) + Thêm mới  
+                    table.table.table-hover.table-sm
+                        thead
+                            tr
+                                th STT
+                                th Tiêu đề
+                                th Poster
+                                th Tóm tắt
+                                th Trạng thái
+                                th Vị trí
+                                th Người tạo
+                                th Hành động
+                        tbody
+                            if blogs && blogs.length
+                                each item,index in blogs
+                                    tr
+                                        td #{index+1}
+                                        td #{item.title}
+                                        td 
+                                            img(src=item.featuredImage, alt=item.title, style="width:80px; height:auto;")
+                                        td #{item.description}
+                                        td 
+                                            if (item.status == "active")
+                                                span.badge.bg-success Hoạt động
+                                            else
+                                                span.badge.bg-danger Không hoạt động
+                                        td
+                                            input(type="number" value=item.position style="width:60px" min="1" name="position")
+                                        td #{item.createdBy}
+                                        td
+                                            if role.permissions.includes("blogs_edit")
+                                                a.btn.btn-sm.btn-primary(href=`${prefixAdmin}/blogs/edit/${item.id}`) Sửa
+                                            if role.permissions.includes("blogs_delete")
+                                                button.btn.btn-sm.btn-danger(data-id=item.id button-delete) Xóa
+                                            a.btn.btn-sm.btn-secondary(href=`${prefixAdmin}/blogs/detail/${item.id}`) Chi tiết
+                            else
+                                tr
+                                    td(colspan="8") Không có dữ liệu
+
 
         form(
             action=""

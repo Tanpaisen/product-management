@@ -24,8 +24,7 @@ module.exports.index = async (req, res) => {
     const filterStatus = filterStatusHelper(req.query)
 
     if (req.query.status) {
-        filterStatus.status = req.query.status;
-        find.status = filterStatus.status;
+        find.status = req.query.status;
     }
     // Tìm kiếm
     const search = filterSearchHelper(req.query)
