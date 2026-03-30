@@ -1,5 +1,5 @@
-const homePage = require('./client/index.home');
-const productPage = require('./client/index.products')
+const homePage = require('./client/home.route');
+const productPage = require('./client/products.route')
 
 const categoryMiddleware = require('../middlewares/client/category.middlewre')
 
