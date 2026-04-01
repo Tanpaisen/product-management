@@ -23,7 +23,13 @@ module.exports.index = async (req, res) => {
 
     const status = req.query.status
     if (status) {
-        find.status = status
+        if (status != "restore") {
+            find.status = status
+        }
+        else {
+            find.status = status
+            find.deleted = true
+        }
     }
 
     const blogs = await Blog.find(find)
@@ -161,16 +167,36 @@ module.exports.changeMulti = async (req, res) => {
     res.redirect('back')
 }
 
-//[PATCH] admin/blogs/change-status/:id
+//[PATCH] admin/blogs/change-status/:status/:id
 module.exports.changeStatus = async (req, res) => {
     try {
         const status = req.params.status;
         const id = req.params.id;
-        await Blog.updateOne({ _id: id }, { status: status })
+
+        if (status == "restore") {
+            await Blog.updateOne({ _id: id }, { status: "active", deleted: false })
+        } else {
+            await Blog.updateOne({ _id: id }, { status: status })
+        }
+
         req.flash('success', 'Chuyển trạng thái bài viết thành công')
         res.redirect('back')
     } catch {
         req.flash('error', 'Chuyển trạng thái bài viết thất bại')
+        res.redirect('back')
+    }
+}
+
+//[PATCH] admin/blogs/restore/:id
+module.exports.restore = async (req, res) => {
+    try {
+        const id = req.params.id;
+
+        await Blog.updateOne({_id: id},{status: "active", deleted: false})
+        req.flash('success','Khôi phục thành công');
+        res.redirect('back');
+    } catch {
+        req.flash('error', 'Khôi phục thất bại')
         res.redirect('back')
     }
 }
