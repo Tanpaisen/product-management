@@ -151,14 +151,14 @@ module.exports.changeMulti = async (req, res) => {
             req.flash('success', `Cập nhật thành công ${ids.length} bài viết`)
             break;
         }
-        case 'daleteMany': {
-            req.flash('success', `Cập nhật thành công ${ids.length} bài viết`)
+        case 'deleteMany': {
             await Blog.updateMany({ _id: { $in: ids } }, { status: "restore", deleted: true })
+            req.flash('success', `Cập nhật thành công ${ids.length} bài viết`)
             break;
         }
-        case 'restore': {
-            req.flash('success', `Cập nhật thành công ${ids.length} bài viết`)
+        case 'restoreMany': {
             await Blog.updateMany({ _id: { $in: ids } }, { status: "active", deleted: false })
+            req.flash('success', `Cập nhật thành công ${ids.length} bài viết`)
             break;
         }
         default:
@@ -197,6 +197,20 @@ module.exports.restore = async (req, res) => {
         res.redirect('back');
     } catch {
         req.flash('error', 'Khôi phục thất bại')
+        res.redirect('back')
+    }
+}
+
+//[DELETE] admin/blogs/delete/:id
+module.exports.deletePerpetual = async (req, res) => {
+    try {
+        const id = req.params.id;
+
+        await Blog.deleteOne({_id: id})
+        req.flash('success','Xóa vĩnh viễn bài viết thành công');
+        res.redirect('back');
+    } catch {
+        req.flash('error', 'Xóa vĩnh viễn bài viết thất bại')
         res.redirect('back')
     }
 }

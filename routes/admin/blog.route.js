@@ -47,4 +47,6 @@ router.patch('/change-status/:status/:id', blogController.changeStatus)
 
 router.patch('/restore/:id', blogController.restore)
 
+router.delete('/delete/:id', blogController.deletePerpetual)
+
 module.exports = router;
