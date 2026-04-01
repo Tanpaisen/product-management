@@ -58,10 +58,36 @@ block main
                                             img(src=item.featuredImage, alt=item.title, style="width:80px; height:auto;")
                                         td #{item.description}
                                         td 
-                                            if (item.status == "active")
-                                                span.badge.bg-success Hoạt động
+                                            if(role.permissions.includes("blogs_edit"))
+                                                if(item.status === 'active')  
+                                                    a(
+                                                        href="javascript:;"
+                                                        class="badge bg-success" 
+                                                        data-status=item.status
+                                                        data-id= item.id
+                                                        button-change-status
+                                                    ) Hoạt động
+                                                else if(item.status === 'restore')  
+                                                    a(
+                                                        href="javascript:;"
+                                                        class="badge bg-danger" 
+                                                        data-status=item.status
+                                                        data-id= item.id
+                                                        button-change-status
+                                                    ) Đã bị xóa
+                                                else
+                                                    a(
+                                                        href="javascript:;"
+                                                        class="badge bg-danger" 
+                                                        data-status=item.status
+                                                        data-id=item.id
+                                                        button-change-status
+                                                    ) Dừng hoạt động
                                             else
-                                                span.badge.bg-danger Không hoạt động
+                                                if (item.status == "active")
+                                                    span.badge.bg-success Hoạt động
+                                                else
+                                                    span.badge.bg-danger Không hoạt động
                                         td
                                             input(type="number" value=item.position style="width:60px" min="1" name="position")
                                         td #{item.createdBy}
@@ -81,6 +107,12 @@ block main
             method="POST"
             id="form-delete"
             data-path=`${prefixAdmin}/blogs/deleteOne`
+            )
+        form(
+            action=""
+            method="POST"
+            id="form-change"
+            data-path=`${prefixAdmin}/blogs/change-status`
             )
     else
         .alert.alert-warning
