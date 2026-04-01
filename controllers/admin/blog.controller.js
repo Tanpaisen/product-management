@@ -27,7 +27,7 @@ module.exports.index = async (req, res) => {
     }
 
     const blogs = await Blog.find(find)
-    console.log(blogs)
+    
     res.render('admin/pages/blogs/index.pug', {
         pageTitle: 'Trang quản lý bài viết',
         blogs: blogs,
@@ -99,8 +99,6 @@ module.exports.editPatch = async (req, res) => {
         const id = req.params.id;
         req.body.position = parseInt(req.body.position)
 
-
-        console.log(req.body)
         await Blog.updateOne({ _id: id }, req.body)
 
         req.flash('success', 'Cập nhật bài viết thành công!')
@@ -120,4 +118,45 @@ module.exports.detail = async (req, res) => {
         pageTitle: 'Chỉnh sửa bài viết',
         blog: blog,
     })
+}
+
+//[GET] admin/blogs/change-multi
+module.exports.changeMulti = async (req, res) => {
+    const ids = req.body.ids.split(', ')
+    const type = req.body.type
+    
+    switch(type){
+        case 'active':{
+            req.flash('success',`Cập nhật thành công ${ids.length} bài viết`)
+            await Blog.updateMany({_id: {$in: ids}},{status: "active"})
+            break;
+        }
+        case 'inactive':{
+            req.flash('success',`Cập nhật thành công ${ids.length} bài viết`)
+            await Blog.updateMany({_id: {$in: ids}},{status: "inactive"})
+            break;
+        }
+        case 'position':{
+            for(const item of ids){
+                const [id, pos] = item.split('-');
+                const position = parseInt(pos)
+                await Blog.updateOne({_id: id},{position: position})
+            }
+            req.flash('success',`Cập nhật thành công ${ids.length} bài viết`)
+            break;
+        }
+        case 'daleteMany':{
+            req.flash('success',`Cập nhật thành công ${ids.length} bài viết`)
+            await Blog.updateMany({_id: {$in: ids}},{status: "restore", deleted: true})
+            break;
+        }
+        case 'restore':{
+            req.flash('success',`Cập nhật thành công ${ids.length} bài viết`)
+            await Blog.updateMany({_id: {$in: ids}},{status: "active", deleted: false})
+            break;
+        }
+        default: 
+             return res.status(400).send("Invalid type");
+    }
+    res.redirect('back')
 }

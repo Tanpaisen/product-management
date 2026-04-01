@@ -1,7 +1,8 @@
 extends ../../layouts/default.pug
 include ../../mixins/alert-flash.pug
 include ../../mixins/filter-status.pug
-
+include ../../mixins/search.pug
+include ../../mixins/form-change-multi.pug
 block main
     if(role.permissions.includes("blogs_view"))
         h1 Danh sách bài viết
@@ -14,31 +15,24 @@ block main
                             +filter(filterStatus)
                                 
                         .col-6 
-                            form(id="form-search")
-                                .input-group
-                                    input(
-                                        type="text"
-                                        placeholder="Nhập từ khóa"
-                                        name="keyword"
-                                        class="form-control"
-                                        value=keyword
-                                    )
-                                    .input-group-append
-                                        button(
-                                            class="btn btn-success"
-                                            type="submit"
-                                        ) Tìm
+                            +search()
                 .card-body
                     .row 
-                        //if(role.permissions.includes("blogs_edit") && role.permissions.includes("blogs_delete"))
-                        .col-10
-                            //
+                        if(role.permissions.includes("blogs_edit") && role.permissions.includes("blogs_delete"))
+                            .col-10
+                                +formChangeMulti(`${prefixAdmin}/blogs/change-multi?_method=PATCH`)
                         if(role.permissions.includes("blogs_create"))
                             .col-2
                                 a.btn.btn-outline-success(href=`${prefixAdmin}/blogs/create`) + Thêm mới  
-                    table.table.table-hover.table-sm
+                    table.table.table-hover.table-sm(change-multi)
                         thead
                             tr
+                                if(role.permissions.includes("products_edit") && role.permissions.includes("products_delete"))
+                                    th 
+                                        input(
+                                            type="checkbox" 
+                                            name="checkall"
+                                        )
                                 th STT
                                 th Tiêu đề
                                 th Poster
@@ -51,6 +45,13 @@ block main
                             if blogs && blogs.length
                                 each item,index in blogs
                                     tr
+                                        if(role.permissions.includes("products_edit") && role.permissions.includes("products_delete"))
+                                            td
+                                                input(
+                                                    type="checkbox" 
+                                                    name="id"
+                                                    value=item.id
+                                                )
                                         td #{index+1}
                                         td #{item.title}
                                         td 

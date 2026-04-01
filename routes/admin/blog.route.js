@@ -41,4 +41,6 @@ router.patch('/edit/:id',
 
 router.get('/detail/:id', blogController.detail)
 
+router.patch('/change-multi', blogController.changeMulti)
+
 module.exports = router;

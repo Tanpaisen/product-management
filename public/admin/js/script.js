@@ -109,9 +109,9 @@ if (formChangeMulti) {
         const id = input.value;
 
         if (changeType == "position") {
-          const poisition = input.closest('tr').querySelector("input[name='position']").value;
+          const position = input.closest('tr').querySelector("input[name='position']").value;
 
-          ids.push(`${id}-${poisition}`);
+          ids.push(`${id}-${position}`);
         } else {
           ids.push(id);
         }
