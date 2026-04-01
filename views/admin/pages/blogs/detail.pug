@@ -35,7 +35,7 @@ block main
           span.badge.bg-success Hoạt động
         else if blog.status == "inactive"
           span.badge.bg-danger Dừng hoạt động
-        else if blog.status == "draft"
+        else if blog.status == "restore"
           span.badge.bg-warning Nháp
 
     //-   p
@@ -45,6 +45,6 @@ block main
     //-   p
     //-     strong Ngày tạo: 
     //-     | #{blog.createdAt.toLocaleDateString()}
-
-  a.btn.btn-primary(href=`${prefixAdmin}/blogs/edit/${blog.id}`) Sửa
+  if blog.deleted == false
+    a.btn.btn-primary(href=`${prefixAdmin}/blogs/edit/${blog.id}`) Sửa
   a.btn.btn-secondary(href=`${prefixAdmin}/blogs`) Quay lại danh sách

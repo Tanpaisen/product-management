@@ -117,9 +117,8 @@ module.exports.editPatch = async (req, res) => {
 
 //[GET] admin/blogs/detail/:id
 module.exports.detail = async (req, res) => {
-    const blog = await Blog.findOne({ _id: req.params.id, deleted: false })
+    const blog = await Blog.findOne({ _id: req.params.id })
 
-    console.log(blog)
     res.render('admin/pages/blogs/detail.pug', {
         pageTitle: 'Chỉnh sửa bài viết',
         blog: blog,
