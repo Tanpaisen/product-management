@@ -5,10 +5,11 @@ include ../../mixins/products-layout.pug
 block main
     h1 Trang chủ
     .container.my-3
-        .row
-            .col-12
-                +box-head('Danh sách sản phẩm nổi bật')
-        +products-grid(productsFeatured)
+        if(productsFeatured.length>0)
+            .row
+                .col-12
+                    +box-head('Danh sách sản phẩm nổi bật')
+            +products-grid(productsFeatured)
 
         .row
             .col-12
