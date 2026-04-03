@@ -11,7 +11,7 @@ module.exports.index = async (req,res) => {
     const search = findSearchHelper(req.query)
     if(search){
         find.title = search.regex
-        products = await Product.find(find)
+        products = await Product.find(find).sort({ position: "desc" });
     }
     res.render('client/pages/search/index.pug',{
         products: products
