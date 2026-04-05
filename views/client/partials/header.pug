@@ -7,7 +7,7 @@ header.header
         .inner-logo
           a(href="/")
             img(src="/images/logo.jpg", alt="Website Logo")
-      .col-4.header-item
+      .col-5.header-item
         form(id="form-search" action="/search")
           .input-group
               input(
@@ -30,5 +30,7 @@ header.header
               a(href="/products") Sản phẩm
               span.toggle-submenu
               +sub-menu(productsCategory, "products")
+            li
+              a(href="/cart") Giỏ hàng (#{cart ? cart.totalQuantity : '0'})
               
 
