@@ -1,8 +1,11 @@
 extends ../../layouts/default.pug
 include ../../mixins/select-tree.pug
+include ../../mixins/alert-flash.pug
+
 block main
     if(role.permissions.includes("products_edit"))
       h1(class="mb-4 ms-2") Chỉnh sửa sản phẩm
+      +messages(5000)
       form(
         action=`${prefixAdmin}/products/edit/${product.id}?_method=PATCH`
         id="form-edit-product"
@@ -65,8 +68,9 @@ block main
             id="content"
             name="content"
             rows="5" 
+            value=product.content
             class="textarea-tinymce"   
-        )
+        )  #{product.content}
         div(class="form-group")
           label(for="price") Giá
           input(

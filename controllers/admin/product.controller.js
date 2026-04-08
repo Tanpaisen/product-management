@@ -287,18 +287,18 @@ module.exports.edit = async (req, res) => {
 
 //[PATCH] /admin/products/editPatch
 module.exports.editPatch = async (req, res) => {
-
-    req.body.price = parseInt(req.body.price)
-    req.body.discountPercentage = parseInt(req.body.discountPercentage)
-    req.body.stock = parseInt(req.body.stock)
-    req.body.position = parseInt(req.body.position)
-
-    const updateBy = {
-        user_id: res.locals.user.id,
-        updateAt: new Date(),
-    }
-    const id = req.params.id
     try {
+        req.body.price = parseInt(req.body.price)
+        req.body.discountPercentage = parseInt(req.body.discountPercentage)
+        req.body.stock = parseInt(req.body.stock)
+        req.body.position = parseInt(req.body.position)
+
+        const updateBy = {
+            user_id: res.locals.user.id,
+            updateAt: new Date(),
+        }
+        const id = req.params.id
+
         await Product.updateOne(
             { _id: id },
             {
@@ -306,12 +306,12 @@ module.exports.editPatch = async (req, res) => {
                 $push: { updateBy: updateBy }
             })
         req.flash("success", "Cập nhật thành công!")
+        res.redirect('back');
     }
     catch (error) {
         req.flash("error", "Cập nhật thất bại!")
+        res.redirect('back');
     }
-    const backUrl = req.get("Referer") || `${systemConfig.prefixAdmin}/products`;
-    res.redirect(backUrl);
 };
 
 //[GET] /admin/products/detail
