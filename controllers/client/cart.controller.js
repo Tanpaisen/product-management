@@ -16,7 +16,6 @@ module.exports.index = async (req, res) => {
     
     cart.totalPrice = cart.products.reduce((sum, product) => sum + product.totalPrice,0)
 
-    console.log(cart)
     res.render('client/pages/cart/index',{
         pageTitle: 'Giỏ hàng',
         cartDetail: cart
@@ -55,5 +54,20 @@ module.exports.addPost = async (req, res) => {
         })
     }
     req.flash('success','Thêm vào giỏ hàng thành công')
+    res.redirect('back')
+}
+
+//[GET] /cart/delete/:product_id
+module.exports.delete = async (req, res) => {
+    const cartId = req.cookies.cartId;
+    const productId = req.params.product_id;
+
+    await Cart.updateOne({_id: cartId},{
+        $pull: {
+            products: {product_id: productId}
+        }
+    })
+
+    req.flash('success','Xóa sản phẩm thành công!')
     res.redirect('back')
 }
