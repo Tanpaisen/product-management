@@ -27,11 +27,11 @@ module.exports.detail = async (req,res) => {
         status: "active",
     }
     const product = await Product.findOne(find)
-    const newProduct = priceHelper.newPriceProduct(product)
-    console.log(newProduct.newPrice)
+    const newPrice = priceHelper.newPriceProduct(product)
+    product.newPrice = newPrice
     res.render("client/pages/products/detail",{
         pageTitle: product.title,
-        product: newProduct,
+        product: product,
     })
 }
 

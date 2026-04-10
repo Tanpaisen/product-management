@@ -9,4 +9,6 @@ router.post('/add/:id', cartController.addPost)
 
 router.get('/delete/:product_id', cartController.delete)
 
+router.get('/update-quantity/:productId/:newQuantity', cartController.updateQuantity)
+
 module.exports = router;

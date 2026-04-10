@@ -20,7 +20,10 @@ block main
                 each item, index in cartDetail.products
                     tr
                         td #{index+1}
-                        td #{item.productInfo.title}
+
+                        td 
+                            a(href=`/products/detail/${item.productInfo.slug}`)
+                                span #{item.productInfo.title}
                         td 
                             img(src=item.productInfo.thumbnail, alt=item.productInfo.title, style="width:80px; height:auto;")
                         td #{item.productInfo.price} $
@@ -33,7 +36,7 @@ block main
                                 data-id=item.product_id
                                 class="update-quantity"
                             )
-                        td 1111 $
+                        td #{item.totalPrice} $
                         td
                             a.btn.btn-sm.btn-danger(href=`/cart/delete/${item.product_id}`) Xóa
         .card.mt-3
@@ -43,3 +46,4 @@ block main
     else
         .alert.alert-info
             p Giỏ hàng của bạn hiện đang trống.
+    script(src="js/cart.js") 
