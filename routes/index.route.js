@@ -2,6 +2,7 @@ const homePage = require('./client/home.route');
 const productPage = require('./client/products.route')
 const searchPage = require('./client/search.route')
 const cartPage = require('./client/cart.route')
+const checkoutPage = require('./client/checkout.route')
 
 const categoryMiddleware = require('../middlewares/client/category.middlewre')
 const cartMiddleware = require('../middlewares/client/cart.middleware')
@@ -19,4 +20,5 @@ module.exports = (app) => {
 
     app.use('/cart', cartPage);
 
+    app.use('/checkout', checkoutPage);
 }
