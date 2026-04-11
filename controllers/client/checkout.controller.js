@@ -71,3 +71,21 @@ module.exports.order = async (req, res) => {
     }
 
 }
+
+module.exports.orderSuccess = async (req, res) => {
+    const orderId = req.params.orderId
+
+    const order = await Order.findOne({ _id: orderId })
+    for(const product of order.productInfo){
+        const productInfo = await Product.findOne({_id: product.product_id}).select('title thumbnail')
+        
+        product.productInfo = productInfo
+        product.newPrice = priceHelper.newPriceProduct(product)
+        product.totalPrice = product.newPrice*product.quantity
+    }
+    order.totalPrice = order.productInfo.reduce((sum, product) => sum+product.totalPrice,0)
+    res.render('client/pages/checkout/success.pug', {
+        pageTitle: 'Trang thanh toán',
+        order: order
+    })
+}
