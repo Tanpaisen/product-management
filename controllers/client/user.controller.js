@@ -1,6 +1,10 @@
 const md5 = require('md5')
 
 const User = require('../../models/user.model')
+const ForgotPassword = require('../../models/forgot-password.model')
+
+
+const generateHelper = require('../../helper/generate')
 
 //[GET]/user/register
 module.exports.register = (req, res) => {
@@ -69,4 +73,36 @@ module.exports.loginPost = async (req, res) => {
 module.exports.logout = (req, res) => {
     res.clearCookie('tokenUser')
     res.redirect('/user/login')
+}
+
+//[GET]/user/password/forgot
+module.exports.forgotPassword = (req, res) => {
+    res.render('client/pages/auth/forgot-password', {
+        pageTitle: 'Trang quên mật khẩu',
+    })
+}
+
+//[POST]/user/password/forgot
+module.exports.forgotPasswordPost = async (req, res) => {
+    const existUser = await User.findOne({email: req.body.email})
+
+    if(!existUser){
+        req.flash('error','Email không đúng hoặc không tồn tại!')
+        res.redirect('back')
+        return;
+    }
+    else{
+        const otp = generateHelper.generateRandomNumber(6)
+        const objectForgot = {
+            email: req.body.email,
+            otp: otp,
+            expireAt: Date.now()
+        }
+        const forgotPassword = new ForgotPassword(objectForgot)
+        forgotPassword.save()
+        
+
+        //Neu lay duoc ma thi lam gi do
+    }
+    res.send('ok')
 }
