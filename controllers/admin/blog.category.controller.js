@@ -3,13 +3,14 @@ const BlogCategory = require('../../models/blog.category.model')
 const createTreeHelper = require('../../helper/create-tree')
 const searchHelper = require('../../helper/filter-search')
 const filterStatusHelper = require('../../helper/filter-status')
+const paginationHelper = require('../../helper/pagination')
 
 //[GET] admin/blogs-category/
 module.exports.index = async (req, res) => {
     let find = {
         deleted: false
     }
-    
+
 
 
     //Tim kiem
@@ -30,8 +31,21 @@ module.exports.index = async (req, res) => {
             }
         }
     }
+    //pagination
+    const countProducts = await BlogCategory.countDocuments({ deleted: false })
+    const pageObject = paginationHelper(
+        req.query,
+        countProducts,
+        {
+            limitPage: 8,
+            curentPage: 1,
+        }
+    )
+    //End pagination
 
     const blogsCategory = await BlogCategory.find(find)
+        .limit(pageObject.limitPage)
+        .skip(pageObject.skipPage)
     console.log(blogsCategory)
     let tree
     if (req.query.status != 'restore') {
@@ -42,6 +56,7 @@ module.exports.index = async (req, res) => {
         pageTitle: 'Trang quản lý danh mục bài viết',
         blogsCategory: tree || blogsCategory,
         filterStatus: filterStatus,
+        pageObject: pageObject,
     })
 }
 
