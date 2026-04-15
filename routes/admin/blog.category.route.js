@@ -41,4 +41,6 @@ router.delete('/deleteOne/:id', blogCategoryController.deleteOne)
 
 router.get('/detail/:id', blogCategoryController.detail);
 
+router.patch('/change-multi', blogCategoryController.changeMulti);
+
 module.exports = router;

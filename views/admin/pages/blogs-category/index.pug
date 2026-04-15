@@ -2,6 +2,8 @@ extends ../../layouts/default.pug
 include ../../mixins/alert-flash.pug
 include ../../mixins/table-tree.pug
 include ../../mixins/filter-status.pug
+include ../../mixins/form-change-multi.pug
+
 
 block main
   if(role.permissions.includes("blogs-category_view"))
@@ -30,20 +32,22 @@ block main
                                         ) Tìm
                 .card-body
                     .row 
-                        .col-10
+                        if(role.permissions.includes("blogs-category_create") && role.permissions.includes("blogs-category_delete"))
+                            .col-10
+                                +formChangeMulti(`${prefixAdmin}/blogs-category/change-multi?_method=PATCH`)
                         if(role.permissions.includes("blogs-category_create"))
                             .col-2 
                                 a.btn.btn-success(href=`${prefixAdmin}/blogs-category/create`) Thêm danh mục mới
 
-                        table.table.table-bordered.mt-3
+                        table.table.table-bordered.mt-3(change-multi)
                             thead
                                 tr
                                     if(role.permissions.includes("blogs-category_edit") && role.permissions.includes("products-category_delete"))
-                                                    th 
-                                                        input(
-                                                            type="checkbox" 
-                                                            name="checkall"
-                                                        )
+                                        th 
+                                            input(
+                                                type="checkbox" 
+                                                name="checkall"
+                                            )
                                     th STT
                                     th Hình ảnh
                                     th Tiêu đề

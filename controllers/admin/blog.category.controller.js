@@ -6,13 +6,15 @@ const filterStatusHelper = require('../../helper/filter-status')
 
 //[GET] admin/blogs-category/
 module.exports.index = async (req, res) => {
-
-    const find = {
-        deleted: false,
+    let find = {
+        deleted: false
     }
+    
+
+
     //Tim kiem
     const search = searchHelper(req.query)
-    if(req.query.status){
+    if (req.query.status) {
         find.title = search.regex
     }
 
@@ -21,16 +23,24 @@ module.exports.index = async (req, res) => {
 
     const status = req.query.status
     if (status) {
-        find.status = status
+        if (status == 'restore') {
+            find = {
+                status: 'restore',
+                deleted: true,
+            }
+        }
     }
-    
-    const blogsCategory = await BlogCategory.find(find)
 
-    const tree = createTreeHelper.tree(blogsCategory)
+    const blogsCategory = await BlogCategory.find(find)
+    console.log(blogsCategory)
+    let tree
+    if (req.query.status != 'restore') {
+        tree = createTreeHelper.tree(blogsCategory)
+    }
 
     res.render('admin/pages/blogs-category/index.pug', {
         pageTitle: 'Trang quản lý danh mục bài viết',
-        blogsCategory: tree,
+        blogsCategory: tree || blogsCategory,
         filterStatus: filterStatus,
     })
 }
@@ -127,4 +137,49 @@ module.exports.detail = async (req, res) => {
         pageTitle: 'Thêm mới danh mục bài viết',
         data: data,
     })
+}
+
+//[PATCH]/admin/blogs-category/change-multi/
+module.exports.changeMulti = async (req, res) => {
+    const type = req.body.type;
+    const ids = req.body.ids.split(', ')
+
+    switch (type) {
+        case 'active': {
+            await BlogCategory.updateMany({ _id: { $in: ids } }, { status: 'active' })
+            req.flash('success', `Sửa thành công ${ids.length} bài viết!`)
+            break;
+        }
+        case 'inactive': {
+            await BlogCategory.updateMany({ _id: { $in: ids } }, { status: 'inactive' })
+            req.flash('success', `Sửa thành công ${ids.length} bài viết!`)
+            break;
+        }
+        case 'position': {
+            console.log(ids)
+            for (const item of ids) {
+                console.log(item)
+                const [id, position] = item.split('-')
+                await BlogCategory.updateOne({ _id: id }, { position: position })
+            }
+            req.flash('success', `Sửa thành công ${ids.length} bài viết!`)
+            break;
+        }
+        case 'deleteMany': {
+            await BlogCategory.updateMany({ _id: { $in: ids } }, { status: 'restore', deleted: true })
+            req.flash('success', `Xóa thành công ${ids.length} bài viết!`)
+            break;
+        }
+        case 'restoreMany': {
+            await BlogCategory.updateMany({ _id: { $in: ids } }, { status: 'active', deleted: false })
+            req.flash('success', `Khôi thành công ${ids.length} bài viết!`)
+            break;
+        }
+        default: {
+            req.flash('error', `Vui lòng chọn 1 lựa chọn!`)
+            break;
+        }
+    }
+
+    res.redirect('back')
 }
