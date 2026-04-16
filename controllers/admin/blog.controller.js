@@ -4,6 +4,7 @@ const BlogCategory = require('../../models/blog.category.model')
 const createTreeHelper = require('../../helper/create-tree')
 const searchHelper = require('../../helper/filter-search')
 const filterStatusHelper = require('../../helper/filter-status')
+const paginationHelper = require('../../helper/pagination')
 
 //[GET] admin/blogs/
 module.exports.index = async (req, res) => {
@@ -32,12 +33,29 @@ module.exports.index = async (req, res) => {
         }
     }
 
-    const blogs = await Blog.find(find)
+    //pagination
+    const count = await Blog.countDocuments({ deleted: false })
+    const pageObject = paginationHelper(
+        req.query,
+        count,
+        {
+            limitPage: 8,
+            curentPage: 1,
+        }
+    )
+    //End pagination
+
+
+    const blogs = await Blog
+        .find(find)
+        .limit(pageObject.limitPage)
+        .skip(pageObject.skipPage)
 
     res.render('admin/pages/blogs/index.pug', {
         pageTitle: 'Trang quản lý bài viết',
         blogs: blogs,
         filterStatus: filterStatus,
+        pageObject: pageObject
     })
 }
 
@@ -191,8 +209,8 @@ module.exports.restore = async (req, res) => {
     try {
         const id = req.params.id;
 
-        await Blog.updateOne({_id: id},{status: "active", deleted: false})
-        req.flash('success','Khôi phục thành công');
+        await Blog.updateOne({ _id: id }, { status: "active", deleted: false })
+        req.flash('success', 'Khôi phục thành công');
         res.redirect('back');
     } catch {
         req.flash('error', 'Khôi phục thất bại')
@@ -205,8 +223,8 @@ module.exports.deletePerpetual = async (req, res) => {
     try {
         const id = req.params.id;
 
-        await Blog.deleteOne({_id: id})
-        req.flash('success','Xóa vĩnh viễn bài viết thành công');
+        await Blog.deleteOne({ _id: id })
+        req.flash('success', 'Xóa vĩnh viễn bài viết thành công');
         res.redirect('back');
     } catch {
         req.flash('error', 'Xóa vĩnh viễn bài viết thất bại')

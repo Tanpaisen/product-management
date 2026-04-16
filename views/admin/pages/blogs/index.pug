@@ -3,6 +3,8 @@ include ../../mixins/alert-flash.pug
 include ../../mixins/filter-status.pug
 include ../../mixins/search.pug
 include ../../mixins/form-change-multi.pug
+include ../../mixins/pagination.pug
+
 block main
     if(role.permissions.includes("blogs_view"))
         h1 Danh sách bài viết
@@ -113,7 +115,7 @@ block main
                                 tr
                                     td(colspan="8") Không có dữ liệu
 
-
+            +pagination(pageObject)
         form(
             action=""
             method="POST"
