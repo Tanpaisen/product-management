@@ -46,7 +46,7 @@ module.exports.index = async (req, res) => {
     const blogsCategory = await BlogCategory.find(find)
         .limit(pageObject.limitPage)
         .skip(pageObject.skipPage)
-    console.log(blogsCategory)
+
     let tree
     if (req.query.status != 'restore') {
         tree = createTreeHelper.tree(blogsCategory)
@@ -136,7 +136,24 @@ module.exports.editPatch = async (req, res) => {
 module.exports.deleteOne = async (req, res) => {
     const id = req.params.id;
 
+    const category = await BlogCategory.findOne({ _id: id })
+
     await BlogCategory.updateOne({ _id: id }, { deleted: true, status: "restore" })
+
+    if (!category.parentId) {
+        await BlogCategory.updateMany(
+            { parentId: category._id },
+            { $set: { parentId: "" } }
+        );
+    }
+    else {
+        await BlogCategory.updateMany(
+            { parentId: category._id },
+            { $set: { parentId: category.parentId } }
+        );
+    }
+
+
 
     req.flash('success', 'Xóa thành công')
     res.redirect('back')
@@ -196,5 +213,17 @@ module.exports.changeMulti = async (req, res) => {
         }
     }
 
+    res.redirect('back')
+}
+
+//[DELETE] admin/blogs-category/delete/:id
+module.exports.delete = async (req, res) => {
+
+    const id = req.params.id;
+
+
+
+    await BlogCategory.deleteOne({ _id: id })
+    req.flash('success', 'Xóa vĩnh viễn sản phẩm')
     res.redirect('back')
 }

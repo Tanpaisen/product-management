@@ -66,6 +66,12 @@ block main
         id="form-delete"
         method="POST"    
     )
+    form(
+        data-path=`${prefixAdmin}/blogs-category/delete`
+        action=""
+        id="form-delete-perpetual"
+        method="POST"    
+    )
   else
         .alert.alert-warning
             p Tài khoản của bạn hiện chưa được cấp quyền truy cập. 

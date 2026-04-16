@@ -39,6 +39,8 @@ router.patch('/edit/:id',
 
 router.delete('/deleteOne/:id', blogCategoryController.deleteOne)
 
+router.delete('/delete/:id', blogCategoryController.delete)
+
 router.get('/detail/:id', blogCategoryController.detail);
 
 router.patch('/change-multi', blogCategoryController.changeMulti);
