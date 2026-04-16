@@ -4,6 +4,8 @@ include ../../mixins/filter-status.pug
 include ../../mixins/search.pug
 include ../../mixins/form-change-multi.pug
 include ../../mixins/pagination.pug
+include ../../mixins/sort.pug
+
 
 block main
     if(role.permissions.includes("blogs_view"))
@@ -26,6 +28,7 @@ block main
                         if(role.permissions.includes("blogs_create"))
                             .col-2
                                 a.btn.btn-outline-success(href=`${prefixAdmin}/blogs/create`) + Thêm mới  
+                    +sort()
                     table.table.table-hover.table-sm(change-multi)
                         thead
                             tr

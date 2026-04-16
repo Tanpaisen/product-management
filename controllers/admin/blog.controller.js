@@ -45,11 +45,24 @@ module.exports.index = async (req, res) => {
     )
     //End pagination
 
+    //sort
+    let sort = {}
+    const sortKey = req.query.sortKey
+    const sortValue = req.query.sortValue
+    if(sortKey && sortValue){
+        sort[sortKey] = sortValue
+    }
+    else{
+        sort.position = 'desc'
+    }
+    //end sort
+
 
     const blogs = await Blog
         .find(find)
         .limit(pageObject.limitPage)
         .skip(pageObject.skipPage)
+        .sort(sort)
 
     res.render('admin/pages/blogs/index.pug', {
         pageTitle: 'Trang quản lý bài viết',
