@@ -5,6 +5,8 @@ const controller = require('../../controllers/client/user.controller')
 
 const userRegister = require('../../Validate/client/user.validate') 
 
+const userMiddleware = require('../../middlewares/client/authentication.middleware')
+
 router.get('/register', controller.register)
 
 router.post('/register', userRegister.register, controller.registerPost)
@@ -12,6 +14,8 @@ router.post('/register', userRegister.register, controller.registerPost)
 router.get('/login', controller.login)
 
 router.post('/login', userRegister.login, controller.loginPost)
+
+router.get('/info', userMiddleware.requireAuth, controller.info)
 
 router.get('/logout', controller.logout)
 

@@ -6,7 +6,7 @@ module.exports.user = async (req, res, next) => {
         deleted: false,
         status: 'active'
     }).select('-password')
-    console.log(user)
+
     res.locals.user = user;
     next();
 }
