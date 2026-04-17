@@ -3,20 +3,28 @@ const router = express.Router();
 
 const controller = require('../../controllers/client/user.controller')
 
-const validateRegister = require('../../Validate/client/user.validate') 
+const userRegister = require('../../Validate/client/user.validate') 
 
 router.get('/register', controller.register)
 
-router.post('/register', validateRegister.register, controller.registerPost)
+router.post('/register', userRegister.register, controller.registerPost)
 
 router.get('/login', controller.login)
 
-router.post('/login', validateRegister.login, controller.loginPost)
+router.post('/login', userRegister.login, controller.loginPost)
 
 router.get('/logout', controller.logout)
 
 router.get('/password/forgot', controller.forgotPassword)
 
-router.post('/password/forgot', validateRegister.forgotPassword, controller.forgotPasswordPost)
+router.post('/password/forgot', userRegister.forgotPassword, controller.forgotPasswordPost)
+
+router.get('/password/:email/otp', controller.otpPassword)
+
+router.post('/password/otp', controller.otpPasswordPost)
+
+router.get('/password/reset', controller.resetPassword)
+
+router.post('/password/reset', userRegister.resetPassword, controller.resetPasswordPost)
 
 module.exports = router

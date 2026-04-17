@@ -84,6 +84,9 @@ module.exports.forgotPassword = (req, res) => {
 
 //[POST]/user/password/forgot
 module.exports.forgotPasswordPost = async (req, res) => {
+ 
+    const email = req.body.email
+
     const existUser = await User.findOne({email: req.body.email})
 
     if(!existUser){
@@ -94,9 +97,9 @@ module.exports.forgotPasswordPost = async (req, res) => {
     else{
         const otp = generateHelper.generateRandomNumber(6)
         const objectForgot = {
-            email: req.body.email,
+            email: email,
             otp: otp,
-            expireAt: Date.now()
+            expireAt: 360
         }
         const forgotPassword = new ForgotPassword(objectForgot)
         forgotPassword.save()
@@ -104,5 +107,53 @@ module.exports.forgotPasswordPost = async (req, res) => {
 
         //Neu lay duoc ma thi lam gi do
     }
-    res.send('ok')
+    res.redirect(`/user/password/${email}/otp`)
+}
+
+//[GET]/user/password/:email/otp
+module.exports.otpPassword = (req, res) => {
+    const email = req.params.email
+    res.render('client/pages/auth/otp-password', {
+        pageTitle: 'Xác nhận OTP',
+        email: email
+    })
+}
+
+//[POST]/user/password/otp
+module.exports.otpPasswordPost = async (req, res) => {
+    const email = req.body.email;
+    const otp = req.body.otp;
+
+    const exitOTP = await ForgotPassword.findOne({
+        email: email,
+        otp: otp
+    })
+
+    if(!exitOTP){
+        req.flash('error','OTP không hợp lệ!')
+        res.redirect('back')
+        return;
+    }
+
+    const user = await User.findOne({email: email})
+
+    res.cookie('tokenUser',user.tokenUser)
+
+    res.redirect('/user/password/reset')
+}
+
+//[GET]/user/password/reset
+module.exports.resetPassword = (req, res) => {
+    res.render('client/pages/auth/reset-password', {
+        pageTitle: 'Đổi mật khẩu',
+    })
+}
+
+//[POST]/user/password/reset
+module.exports.resetPasswordPost = async (req, res) => {
+    console.log(req.body)
+    const password = md5(req.body.password)
+
+    await User.updateOne({tokenUser: req.cookies.tokenUser},{password: password})
+    res.redirect('/')
 }
