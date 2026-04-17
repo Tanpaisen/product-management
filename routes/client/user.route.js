@@ -19,7 +19,7 @@ router.get('/password/forgot', controller.forgotPassword)
 
 router.post('/password/forgot', userRegister.forgotPassword, controller.forgotPasswordPost)
 
-router.get('/password/:email/otp', controller.otpPassword)
+router.get('/password/otp', controller.otpPassword)
 
 router.post('/password/otp', controller.otpPasswordPost)
 

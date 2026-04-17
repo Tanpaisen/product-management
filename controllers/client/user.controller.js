@@ -99,7 +99,7 @@ module.exports.forgotPasswordPost = async (req, res) => {
         const objectForgot = {
             email: email,
             otp: otp,
-            expireAt: 360
+            expireAt: Date.now()
         }
         const forgotPassword = new ForgotPassword(objectForgot)
         forgotPassword.save()
@@ -107,12 +107,12 @@ module.exports.forgotPasswordPost = async (req, res) => {
 
         //Neu lay duoc ma thi lam gi do
     }
-    res.redirect(`/user/password/${email}/otp`)
+    res.redirect(`/user/password/otp?email=${email}`)
 }
 
-//[GET]/user/password/:email/otp
+//[GET]/user/password/otp
 module.exports.otpPassword = (req, res) => {
-    const email = req.params.email
+    const email = req.query.email
     res.render('client/pages/auth/otp-password', {
         pageTitle: 'Xác nhận OTP',
         email: email
