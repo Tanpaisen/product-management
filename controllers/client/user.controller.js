@@ -5,6 +5,7 @@ const ForgotPassword = require('../../models/forgot-password.model')
 
 
 const generateHelper = require('../../helper/generate')
+const sendMailHelper = require('../../helper/sendMail')
 
 //[GET]/user/register
 module.exports.register = (req, res) => {
@@ -99,13 +100,18 @@ module.exports.forgotPasswordPost = async (req, res) => {
         const objectForgot = {
             email: email,
             otp: otp,
-            expireAt: Date.now()
+            expireAt: new Date(Date.now())
         }
         const forgotPassword = new ForgotPassword(objectForgot)
         forgotPassword.save()
         
 
-        //Neu lay duoc ma thi lam gi do
+        //Neu lay duoc ma thi gui qua otp qua gmail
+        const subject = "Mã OTP xác nhận mật khẩu"
+        const html = `
+           Mã OTP xác nhận của bạn là: <b> ${otp} </b>. Mã xác nhận có hiệu lực 3 phút. Vui lòng không chia sẻ mã với bất kỳ ai!
+        `
+        sendMailHelper.sendMail(email, subject, html)
     }
     res.redirect(`/user/password/otp?email=${email}`)
 }
