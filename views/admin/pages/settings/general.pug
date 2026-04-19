@@ -1,0 +1,65 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert-flash.pug
+
+block main
+
+    h1(class="mb-4 ms-2") Cài đặt chung
+    +messages(5000)
+    form(
+      action=`${prefixAdmin}/settings/general`
+      id="form-setting"
+      method="POST"
+      enctype="multipart/form-data"
+    )
+      div(class="form-group")
+        label(for="websiteName") Tên Website
+        input.form-control(
+          type="text"
+          id="websiteName"
+          name="websiteName"
+          value=records.websiteName
+        )
+      div(class="form-group")
+        label(for="phone") Số điện thoại
+        input.form-control(
+          type="text"
+          id="phone"
+          name="phone"
+          value=records.phone
+        )
+      div(class="form-group")
+        label(for="email") Email
+        input.form-control(
+          type="text"
+          id="email"
+          name="email"
+          value=records.email
+        )
+
+      div(class="form-group preview" preview-upload)
+        label(for="logo") Logo
+        img(
+          src=records.logo
+          class="image-preview"
+          preview-upload-img
+        ) 
+        span(class="close-img" close-img) x
+        input.form-control(
+          type="file"
+          class="form-control form-control-sm"
+          id="logo"
+          name="logo"
+          accept="image/*"
+          preview-input-img
+        ) 
+      div(class="form-group")
+        label(for="copyright") Copyright
+        input.form-control(
+          type="text"
+          id="copyright"
+          name="copyright"
+          value=records.copyright
+        )
+    
+      .form-group.mb-2 
+        button.btn.btn-primary(type="submit") Cập nhật
