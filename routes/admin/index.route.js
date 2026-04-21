@@ -37,5 +37,6 @@ module.exports = (app) => {
     app.use(PATH_ADMIN + '/blogs-category', authMiddleware.requireAuth, blogCategoryRoute)
 
     app.use(PATH_ADMIN + '/auth', authRouter)
+
 }
 

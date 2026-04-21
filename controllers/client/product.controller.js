@@ -42,6 +42,11 @@ module.exports.slugCategory = async (req,res) => {
         status: "active",
         deleted: false
     })
+    if(!slugCategory){
+        req.flash('error','Danh mục không tồn tại!')
+        res.redirect('back')
+        return;
+    }
     const childIds = await findChildrenHelper.findAllChildrenIds(slugCategory.id,false)
     const products = await Product.find({
         product_category_id: { $in: childIds},

@@ -15,7 +15,7 @@ const moment = require('moment');
 
 //config
 const systemConfig = require('./config/system')
-const database =require("./config/database.js")
+const database = require("./config/database.js")
 
 database.connect()
 //router
@@ -29,7 +29,7 @@ const port = process.env.PORT;
 //File tĩnh
 app.set('views', `${__dirname}/views`)
 app.set('view engine', 'pug')
-app.use(express.static(__dirname+'/public'));
+app.use(express.static(__dirname + '/public'));
 
 //Body parse
 app.use(methodOverride('_method'))
@@ -38,7 +38,7 @@ app.use(bodyParser.json());
 
 //Express flash
 app.use(cookieParser('tanpaisen'));
-app.use(session({ cookie: { maxAge: 60000 }}));
+app.use(session({ cookie: { maxAge: 60000 } }));
 app.use(flash());
 
 //TinyMCE
@@ -52,6 +52,12 @@ app.locals.moment = moment;
 //Routes
 routes(app);
 routeAdmin(app)
+app.use('*', (req, res) => {
+  res.status(404).render('errors/404', {
+    pageTitle: "Error",
+  });
+});
+
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`)
