@@ -220,6 +220,23 @@ block main
             each item in data
               td(class="text-center")
                 input(type="checkbox")
+          //- Nhóm: Cài đặt chung
+          tr
+            td(colspan="3")
+              b Cài đặt chung
+          
+          tr(data-name="settings-general_view")
+            td Xem
+            each item in data
+              td(class="text-center")
+                input(type="checkbox")
+          
+          tr(data-name="settings-general_edit")
+            td Chỉnh sửa
+            each item in data
+              td(class="text-center")
+                input(type="checkbox")
+    
       form(
         id="form-change-permissions"
         method="POST"

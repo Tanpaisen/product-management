@@ -2,7 +2,7 @@ extends ../../layouts/default.pug
 include ../../mixins/alert-flash.pug
 
 block main
-
+  if(role.permissions.includes("settings-general_view"))
     h1(class="mb-4 ms-2") Cài đặt chung
     +messages(5000)
     form(
@@ -60,6 +60,6 @@ block main
           name="copyright"
           value=records.copyright
         )
-    
-      .form-group.mb-2 
-        button.btn.btn-primary(type="submit") Cập nhật
+      if(role.permissions.includes("settings-general_edit"))
+        .form-group.mb-2 
+          button.btn.btn-primary(type="submit") Cập nhật
