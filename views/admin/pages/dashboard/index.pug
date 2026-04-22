@@ -1,15 +1,91 @@
 extend ../../layouts/default
 
 block main
-    h1 Dashboard Admin Page
+    .m-2 
+        .row.mt-4 
+            .col-8
+                .container.my-4
+                    .card.shadow-sm
+                    .row.g-0
+                        .col-md-3.bg-light.d-flex.align-items-center.justify-content-center
+                        if (user.avatar)
+                            img.img-fluid.rounded-circle.p-3(src=user.avatar alt="Avatar")
+                        .col-md-9
+                        .card-body
+                            if (user.fullname)
+                            h2.card-title.mb-3 #{user.fullname}
 
-    div=user
+                            if (user.email)
+                            p.mb-2
+                                strong Email:
+                                |  #{user.email}
 
-    div=user.fullname
-    div ======
+                            if (user.phone)
+                            p.mb-2
+                                strong Số điện thoại:
+                                |  #{user.phone}
 
-    div=role
-    div #{role.permissions}
-    div =======
+                            if (role.title)
+                            p.mb-2
+                                strong Phân quyền:
+                                |  #{role.title}
 
-    
+            .col-6 
+                .card.mb-4
+                    .card-header 
+                        b Danh sách sản phẩm
+                    .card-body  
+                        p Số lượng: #{statistic.product.total}
+                        p Hoạt động: #{statistic.product.active}
+                        p Dừng hoạt động: #{statistic.product.inactive}
+            .col-6 
+                .card.mb-4
+                    .card-header 
+                        b Danh mục sản phẩm
+                    .card-body  
+                        p Số lượng: #{statistic.productCategory.total}
+                        p Hoạt động: #{statistic.productCategory.active}
+                        p Dừng hoạt động: #{statistic.productCategory.inactive}
+            .col-6 
+                .card.mb-4
+                    .card-header 
+                        b Danh sách tài khoản
+                    .card-body  
+                        p Số lượng: #{statistic.account.total}
+                        p Hoạt động: #{statistic.account.active}
+                        p Dừng hoạt động: #{statistic.account.inactive}
+            .col-6 
+                .card.mb-4
+                    .card-header 
+                        b Danh sách tài khoản admin
+                    .card-body  
+                        p Số lượng: #{statistic.account.total}
+                        p Hoạt động: #{statistic.account.active}
+                        p Dừng hoạt động: #{statistic.account.inactive}
+            .col-6 
+                .card.mb-4
+                    .card-header 
+                        b Danh sách tài khoản khách hàng
+                    .card-body  
+                        p Số lượng: #{statistic.user.total}
+                        p Hoạt động: #{statistic.user.active}
+                        p Dừng hoạt động: #{statistic.user.inactive}
+            .col-6 
+                .card.mb-4
+                    .card-header 
+                        b Danh sách bài viết
+                    .card-body  
+                        p Số lượng: #{statistic.blog.total}
+                        p Hoạt động: #{statistic.blog.active}
+                        p Dừng hoạt động: #{statistic.blog.inactive}
+            .col-6 
+                .card.mb-4
+                    .card-header 
+                        b Danh mục bài viết
+                    .card-body  
+                        p Số lượng: #{statistic.blogCategory.total}
+                        p Hoạt động: #{statistic.blogCategory.active}
+                        p Dừng hoạt động: #{statistic.blogCategory.inactive}
+
+
+                    
