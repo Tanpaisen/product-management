@@ -163,6 +163,34 @@ block main
             each item in data
               td(class="text-center")
                 input(type="checkbox")
+          //- Nhóm: Tài khoản Khách
+          tr
+            td(colspan="3")
+              b Tài khoản Khách
+          
+          tr(data-name="users_view")
+            td Xem
+            each item in data
+              td(class="text-center")
+                input(type="checkbox")
+          
+          tr(data-name="users_create")
+            td Thêm mới
+            each item in data
+              td(class="text-center")
+                input(type="checkbox")
+          
+          tr(data-name="users_edit")
+            td Chỉnh sửa
+            each item in data
+              td(class="text-center")
+                input(type="checkbox")
+          
+          tr(data-name="users_delete")
+            td Xóa
+            each item in data
+              td(class="text-center")
+                input(type="checkbox")
 
           //- Nhóm: Danh mục bài viết
           tr

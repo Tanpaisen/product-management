@@ -23,6 +23,10 @@ sider.sider
           a(href='/admin/roles/permissions') Phân quyền
       if(role.permissions.includes("accounts_view"))
         li
-          a(href='/admin/accounts') Quản lý tài khoản
-      li
-          a(href='/admin/settings/general') Cài đặt chung
+          a(href='/admin/accounts') Quản lý tài khoản Admin
+        //if(role.permissions.includes("users_view"))
+        li
+          a(href='/admin/users') Quản lý tài khoản Khách hàng
+      if(role.permissions.includes("settings-general_view"))  
+        li
+            a(href='/admin/settings/general') Cài đặt chung

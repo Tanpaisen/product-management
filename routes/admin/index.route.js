@@ -8,6 +8,7 @@ const myAccountRoute = require('../admin/my-account.route')
 const blogRoute = require('../admin/blog.route')
 const blogCategoryRoute = require('./blog.category.route')
 const settingRoute = require('./setting.route')
+const userRouter = require('./user.route')
 
 const authMiddleware = require('../../middlewares/admin/authentication')
 const system = require('../../config/system')
@@ -38,5 +39,7 @@ module.exports = (app) => {
 
     app.use(PATH_ADMIN + '/auth', authRouter)
 
+    app.use(PATH_ADMIN + '/users', authMiddleware.requireAuth, userRouter)
+    
 }
 
