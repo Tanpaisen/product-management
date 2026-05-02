@@ -9,9 +9,21 @@ const bodyParser = require('body-parser')
 const flash = require('express-flash')
 const cookieParser = require('cookie-parser')
 const session = require("express-session");
+const { createServer } = require('node:http');
+const { join } = require('node:path');
+const { Server } = require('socket.io');
 
 dotenv.config()
 const moment = require('moment');
+
+// Socket IO
+const server = createServer(app);
+const io = new Server(server);
+
+io.on('connection', (socket) => {
+    console.log('a user connected:'+ socket.id)
+});
+// End Socket IO
 
 //config
 const systemConfig = require('./config/system')
@@ -59,6 +71,6 @@ app.use('*', (req, res) => {
 });
 
 
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`)
 })

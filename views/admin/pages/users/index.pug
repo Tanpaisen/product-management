@@ -84,15 +84,15 @@ block main
                             class="badge bg-danger fs-6"
                             ) Dừng hoạt động
                     td
-                      if(item.id && role.permissions.includes("accounts_edit"))
+                      if(item.id && role.permissions.includes("users_edit"))
                         a(
                         class="btn btn-warning btn-sm"
-                        href=`${prefixAdmin}/accounts/edit/${item.id}`
+                        href=`${prefixAdmin}/users/edit/${item.id}`
                         ) Sửa
                       else
                         i(class="bi bi-dash-circle-fill")
 
-                      if(item.id && role.permissions.includes("accounts_delete"))    
+                      if(item.id && role.permissions.includes("users_delete"))    
                         button(
                           class="btn btn-danger btn-sm ms-1" 
                           data-id=item.id
@@ -101,20 +101,20 @@ block main
                     td
                       a(
                         class="btn btn-secondary btn-sm"
-                        href=`${prefixAdmin}/accounts/detail/${item.id}`
+                        href=`${prefixAdmin}/users/detail/${item.id}`
                       ) Chi tiết
 
     form(
       action="" 
       id="form-delete"
       method="post"
-      data-path=`${prefixAdmin}/accounts/deleteOne`
+      data-path=`${prefixAdmin}/users/deleteOne`
     ) 
     form(
       action="" 
       id="form-change"
       method="post"
-      data-path=`${prefixAdmin}/accounts/change-status`
+      data-path=`${prefixAdmin}/users/change-status`
     ) 
   else
     .alert.alert-warning
