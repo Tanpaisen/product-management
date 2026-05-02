@@ -3,6 +3,8 @@ const router = express.Router()
 
 const controller = require('../../controllers/client/chat.controller')
 
-router.get('/', controller.index)
+const middleware = require('../../middlewares/client/authentication.middleware')
+
+router.get('/', middleware.requireAuth, controller.index)
 
 module.exports = router;
