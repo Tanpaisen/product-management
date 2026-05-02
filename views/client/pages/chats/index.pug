@@ -1,0 +1,37 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert-flash.pug
+
+block main
+  .container.my-4
+    .row
+      .col-12
+        .card
+          .card-header.bg-primary.text-white
+            h5.mb-0 Chat 💬
+          .card-body
+            .chat
+              .inner-body
+                // Tin nhắn đến (incoming)
+                .inner-incoming
+                  .inner-name Em Yêu
+                  .inner-content
+                    | A ơi sang nhà e nha, nhà e không có ai ở nhà cả
+
+                // Tin nhắn đi (outgoing)
+                .inner-outgoing
+                  .inner-content
+                    | Thế à? Ok e iu
+
+                .inner-incoming
+                  .inner-name Em Yêu
+                  .inner-content
+                    | Nhanh nha nhanh nha
+
+                .inner-outgoing
+                  .inner-content
+                    | Đang đi đây
+
+          .card-footer
+            form.d-flex
+              input.form-control.me-2(type="text", placeholder="Nhập tin nhắn...")
+              button.btn.btn-primary(type="submit") Gửi
