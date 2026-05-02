@@ -9,7 +9,7 @@ block main
           .card-header.bg-primary.text-white
             h5.mb-0 Chat 💬
           .card-body
-            .chat
+            .chat(my-id=user.id)
               .inner-body
                 each chat in chats 
                   if(chat.user_id != user.id)
