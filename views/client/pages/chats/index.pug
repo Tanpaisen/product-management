@@ -26,6 +26,10 @@ block main
             .chat
               form.d-flex(class="inner-form")
                 input.form-control.me-2(type="text", placeholder="Nhập tin nhắn..." name="content")
+                span(class="emoji-icon btn btn-light mx-2") 
+                  i(class="fa-solid fa-face-smile")
                 button.btn.btn-primary(type="submit") Gửi
+  div(class="tooltip" role="tooltip")
+    emoji-picker
 block script
   script(type="module" src="/js/chat.js")
