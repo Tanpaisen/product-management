@@ -49,7 +49,7 @@ if (chatBody) {
 // Show Emoji Chat
 
 const btnEmoji = document.querySelector('.emoji-icon');
-if(btnEmoji) {
+if (btnEmoji) {
     const tooltip = document.querySelector('.tooltip');
     const inputChat = document.querySelector('.chat .inner-form input[name="content"]');
     const emojiPicker = document.querySelector('emoji-picker');
@@ -62,5 +62,47 @@ if(btnEmoji) {
             inputChat.value = inputChat.value + emoji;
         });
     }
+
+    //send typing
+    inputChat.addEventListener('keyup', () => {
+        socket.emit('CLIENT_SEND_TYPING', 'show');
+        setTimeout(() => {
+            socket.emit('CLIENT_SEND_TYPING', 'hidden')
+        }, 3000)
+    });
 }
 // End Show Emoji Chat
+
+
+//SERVER_RETURN_TYPING
+socket.on('SERVER_RETURN_TYPING', (data) => {
+    const boxChat = document.querySelector('.chat .inner-body');
+    const type = data.type;
+    if (boxChat) {
+
+        if (type == 'show') {
+            const existTyping = boxChat.querySelector(`.box-typing[typing-user-id="${data.user_id}"]`);
+            if (!existTyping) {
+
+                const div = document.createElement('div');
+                div.classList.add('box-typing');
+                div.setAttribute('typing-user-id', `${data.user_id}`);
+                div.innerHTML = `
+                <div class="inner-name"> ${data.fullname} </div>
+                <div class="inner-dots">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+            `
+                boxChat.appendChild(div);
+            }
+
+        } else {
+            const boxTyping = boxChat.querySelector(`.box-typing[typing-user-id="${data.user_id}"]`);
+            boxChat.removeChild(boxTyping)
+        }
+
+    }
+});
+//End SERVER_RETURN_TYPING

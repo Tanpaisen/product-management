@@ -12,7 +12,9 @@ block main
             .chat(my-id=user.id)
               .inner-body
                 each chat in chats 
+
                   if(chat.user_id != user.id)
+                  
                     .inner-incoming  
                       .inner-name #{chat.userInfo.fullname}
                       .inner-content

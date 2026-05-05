@@ -20,6 +20,15 @@ module.exports.index = async (req, res) => {
                 fullname: fullname,
             });
         });
+
+        //typing
+        socket.on('CLIENT_SEND_TYPING', (type) => {
+            socket.broadcast.emit('SERVER_RETURN_TYPING', {
+                user_id: userId,
+                fullname: fullname,
+                type: type,
+            });
+        })
     });
     const chats = await Chat.find({ deleted: false })
     for (const chat of chats) {
