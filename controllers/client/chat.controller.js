@@ -8,7 +8,6 @@ module.exports.index = async (req, res) => {
     _io.once('connection', async (socket) => {
         console.log('a user connected:' + socket.id)
         socket.on('CLIENT_SEND_MESSAGE', (msg) => {
-            console.log('message: ' + msg);
             const chat = new Chat({
                 user_id: userId,
                 content: msg,
