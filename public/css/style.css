@@ -404,8 +404,8 @@ input#amount {
 }
 
 .chat .inner-body .inner-images img {
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   object-fit: contain;
   background: #efefef;
   padding: 10px;
