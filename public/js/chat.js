@@ -1,5 +1,14 @@
 import * as Popper from 'https://cdn.jsdelivr.net/npm/@popperjs/core@^2/dist/esm/index.js'
+import { FileUploadWithPreview } from 'https://esm.run/file-upload-with-preview';
+
 var timeOut;
+// file-upload-with-preview
+const upload = new FileUploadWithPreview('upload-preview',{
+    multiple: true,
+    maxFileCount: 5,
+});
+
+// End file-upload-with-preview
 
 const socketTyping = () => {
     socket.emit('CLIENT_SEND_TYPING', 'show');
@@ -13,10 +22,18 @@ const formSendData = document.querySelector('.chat .inner-form');
 if (formSendData) {
     formSendData.addEventListener('submit', (e) => {
         e.preventDefault();
+        const images = upload.cachedFileArray;
         const content = e.target.elements.content.value;
-        if (content) {
-            socket.emit('CLIENT_SEND_MESSAGE', content);
+
+        const data = {
+            content: content,
+            images: images,
+        }
+        console.log(data)
+        if (content || images.length > 0) {
+            socket.emit('CLIENT_SEND_MESSAGE', data);
             e.target.elements.content.value = '';
+            upload.resetPreviewPanel(); 
             clearTimeout(timeOut);
             socket.emit('CLIENT_SEND_TYPING', 'hidden')
 
@@ -34,6 +51,8 @@ socket.on('SERVER_RETURN_MESSAGE', (data) => {
 
     let fullnameHTML = '';
     let contentHTML = '';
+    let imageHTML = '';
+
     const div = document.createElement('div');
 
     if (chatId == data.user_id) {
@@ -48,9 +67,20 @@ socket.on('SERVER_RETURN_MESSAGE', (data) => {
         contentHTML = `<div class='inner-content'>${data.content}</div>`
     }
 
+    if(data.images.length > 0) {
+        imageHTML += `<div class='inner-images'>`
+
+        for(const image of data.images) {
+            imageHTML += `<img src="${image}"  alt="Ảnh đính kèm" class="image-preview"/>`
+        }
+
+        imageHTML += `</div>`
+    }
+
     div.innerHTML = `
         ${fullnameHTML}
         ${contentHTML}
+        ${imageHTML}
     `
     chatBody.insertBefore(div, elementTyping);
 

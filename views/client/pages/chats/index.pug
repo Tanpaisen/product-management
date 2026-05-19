@@ -12,26 +12,37 @@ block main
             .chat(my-id=user.id)
               .inner-body
                 each chat in chats 
-
-                  if(chat.user_id != user.id)
-                  
+                  if(chat.user_id != user.id)                  
                     .inner-incoming  
                       .inner-name #{chat.userInfo.fullname}
-                      .inner-content
-                        | #{chat.content}
+                      if chat.content
+                        .inner-content #{chat.content}
+                      if chat.images.length > 0
+                        .inner-images  
+                          each image in chat.images
+                            img(src=image, alt="Ảnh đính kèm", class="image-preview")
                   else
                     .inner-outgoing
-                      .inner-content
-                        | #{chat.content}
+                      if chat.content
+                        .inner-content #{chat.content}
+                      if chat.images.length > 0
+                        .inner-images  
+                          each image in chat.images
+                            img(src=image, alt="Ảnh đính kèm", class="image-preview")
                 .inner-typing-list
+              .inner-preview-images 
+                div(class="custom-file-container" data-upload-id="upload-preview")
           .card-footer
             .chat
               form.d-flex(class="inner-form")
                 input.form-control.me-2(type="text", placeholder="Nhập tin nhắn..." name="content")
+                label(class="btn btn-light mx-2 mb-0" for="file-upload-with-preview-upload-preview" )
+                  i(class="fa-regular fa-image")
                 span(class="emoji-icon btn btn-light mx-2") 
                   i(class="fa-solid fa-face-smile")
                 button.btn.btn-primary(type="submit") Gửi
   div(class="tooltip" role="tooltip")
     emoji-picker
+
 block script
   script(type="module" src="/js/chat.js")
