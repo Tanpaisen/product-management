@@ -10,6 +10,10 @@ const upload = new FileUploadWithPreview('upload-preview',{
 
 // End file-upload-with-preview
 
+// Viewerjs
+const gallery = new Viewer(document.getElementById('inner-images'));
+// End Viewerjs
+
 const socketTyping = () => {
     socket.emit('CLIENT_SEND_TYPING', 'show');
     clearTimeout(timeOut);

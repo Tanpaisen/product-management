@@ -9,7 +9,7 @@ block main
           .card-header.bg-primary.text-white
             h5.mb-0 Chat 💬
           .card-body
-            .chat(my-id=user.id)
+            .chat(my-id=user.id)#inner-images
               .inner-body
                 each chat in chats 
                   if(chat.user_id != user.id)                  
@@ -18,7 +18,7 @@ block main
                       if chat.content
                         .inner-content #{chat.content}
                       if chat.images.length > 0
-                        .inner-images  
+                        .inner-images
                           each image in chat.images
                             img(src=image, alt="Ảnh đính kèm", class="image-preview")
                   else
@@ -26,7 +26,7 @@ block main
                       if chat.content
                         .inner-content #{chat.content}
                       if chat.images.length > 0
-                        .inner-images  
+                        .inner-images
                           each image in chat.images
                             img(src=image, alt="Ảnh đính kèm", class="image-preview")
                 .inner-typing-list
