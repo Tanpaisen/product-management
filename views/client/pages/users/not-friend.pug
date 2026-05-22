@@ -21,9 +21,14 @@ block main
                         .inner-info
                             .inner-name=user.fullname
                             .inner-buttons
-                                button.btn.btn-primary Kết bạn
+                                button.btn.btn-primary(
+                                    btn-add-friend=user.id
+                                ) Kết bạn
                                 button(
                                     class="btn btn-secondary ms-2",
+                                    btn-cancel-friend=user.id
                                 ) Hủy
         else
             p Chưa có người dùng nào khác ngoài bạn.
+block script 
+    script(src="/js/users.js") 
