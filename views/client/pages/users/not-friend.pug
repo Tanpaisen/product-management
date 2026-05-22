@@ -1,0 +1,29 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert-flash.pug
+include ../../mixins/box-head.pug
+
+
+block main
+  .container.my-4
+    .row
+        .col-12
+            include ../../partials/list-btn-friend
+    .row
+        .col-12
+            +box-head("Danh sách người dùng")
+    .row
+        if(users.length > 0)
+            each user in users
+                .col-6
+                    div(class="box-user")
+                        .inner-avatar
+                            img(src=user.avatar || "/images/avatar.png", alt=user.fullname)
+                        .inner-info
+                            .inner-name=user.fullname
+                            .inner-buttons
+                                button.btn.btn-primary Kết bạn
+                                button(
+                                    class="btn btn-secondary ms-2",
+                                ) Hủy
+        else
+            p Chưa có người dùng nào khác ngoài bạn.
