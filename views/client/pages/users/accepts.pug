@@ -1,0 +1,38 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert-flash.pug
+include ../../mixins/box-head.pug
+
+
+block main
+  .container.my-4
+    .row
+        .col-12
+            include ../../partials/list-btn-friend
+    .row
+        .col-12
+            +box-head("Danh sách lời mời kết bạn")
+    .row
+        if(users.length > 0)
+            each user in users
+                .col-6
+                    div(class="box-user")
+                        .inner-avatar
+                            img(src=user.avatar || "/images/avatar.png", alt=user.fullname)
+                        .inner-info
+                            .inner-name=user.fullname
+                            .inner-buttons
+                                button.btn.btn-primary(
+                                    btn-accept-friend=user.id
+                                ) Chấp nhận
+                                button(
+                                    class="btn btn-secondary ms-2",
+                                    btn-refuse-friend=user.id
+                                ) Xóa
+                                button(
+                                    class="btn btn-secondary ms-2"
+                                    btn-deleted-friend
+                                ) Đã hủy
+        else
+            p Bạn chưa gửi lời mời kết bạn nào.
+block script 
+    script(src="/js/users.js") 

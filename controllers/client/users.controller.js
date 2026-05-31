@@ -49,3 +49,27 @@ module.exports.requests = async (req, res) => {
         users: users
     })
 }
+
+// [GET /users/accept]
+module.exports.accept = async (req, res) => {
+    usersSocker(res)
+    const myUserID = res.locals.user.id;
+    const user = await User.findOne({_id: myUserID})
+    const acceptsFriend = user.acceptsFriend;
+    const users = await User.find({
+        //Cach 1
+        // _id: {$nin: [myUserID, ...requestsFriend]},
+        //Cach 2
+        $and: [
+            {_id: {$ne: myUserID}},
+            {_id: {$in: acceptsFriend}}
+        ],
+        deleted: false,
+        status: 'active',
+    }).select('id fullname avatar')
+
+    res.render('client/pages/users/accepts',{
+        pageTitle: 'Lời mời kết bạn',
+        users: users
+    })
+}
