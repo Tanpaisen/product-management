@@ -31,18 +31,21 @@ module.exports.requests = async (req, res) => {
     usersSocker(res)
     const myUserID = res.locals.user.id;
     const user = await User.findOne({_id: myUserID})
-    const acceptsFriend = user.acceptsFriend;
+    const requestsFriend = user.requestsFriend;
     const users = await User.find({
+        //Cach 1
+        // _id: {$nin: [myUserID, ...requestsFriend]},
+        //Cach 2
         $and: [
             {_id: {$ne: myUserID}},
-            {_id: {$in: acceptsFriend}}
+            {_id: {$in: requestsFriend}}
         ],
         deleted: false,
         status: 'active',
     }).select('id fullname avatar')
 
     res.render('client/pages/users/requests',{
-        pageTitle: 'Danh sách lời mời kết bạn',
+        pageTitle: 'Lời mời đã gửi',
         users: users
     })
 }

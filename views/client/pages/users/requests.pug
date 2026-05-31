@@ -10,29 +10,25 @@ block main
             include ../../partials/list-btn-friend
     .row
         .col-12
-            +box-head("Danh sách lời mời kết bạn")
+            +box-head("Danh sách người dùng đã gửi lời mời kết bạn")
     .row
         if(users.length > 0)
             each user in users
                 .col-6
-                    div(class="box-user")
+                    div(class="box-user add")
                         .inner-avatar
                             img(src=user.avatar || "/images/avatar.png", alt=user.fullname)
                         .inner-info
                             .inner-name=user.fullname
                             .inner-buttons
                                 button.btn.btn-primary(
-                                    btn-accept-friend=user.id
-                                ) Chấp nhận
+                                    btn-add-friend=user.id
+                                ) Kết bạn
                                 button(
                                     class="btn btn-secondary ms-2",
-                                    btn-refuse-friend=user.id
-                                ) Xóa
-                                button(
-                                    class="btn btn-secondary ms-2"
-                                    btn-deleted-friend
-                                ) Đã hủy
+                                    btn-cancel-friend=user.id
+                                ) Hủy
         else
-            p Bạn chưa gửi lời mời kết bạn nào.
+            p Chưa có người dùng nào khác ngoài bạn.
 block script 
     script(src="/js/users.js") 

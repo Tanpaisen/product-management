@@ -31,6 +31,7 @@ module.exports = (res) => {
         socket.on('CLIENT_CANCEL_FRIEND', async (userID) => {
             const myUserID = res.locals.user.id; //ID của A
             const userId = userID; //ID của B
+            console.log(userID, myUserID)
 
             const exitsUser = await User.findOne({ requestsFriend: userId })
             if (exitsUser) {
