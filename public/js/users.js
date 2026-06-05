@@ -45,3 +45,18 @@ if(listBtnRefuseFriend){
 }
 // End Từ chối lời mời kết bạn
 
+// Chấp nhận lời mời kết bạn
+const listBtnAcceptFriend = document.querySelectorAll('button[btn-accept-friend]');
+if(listBtnAcceptFriend){
+    listBtnAcceptFriend.forEach(button => {
+        button.addEventListener('click', () => {
+            const userID = button.getAttribute('btn-accept-friend');
+            const btnAcceptFriend = button.closest('.box-user')
+            btnAcceptFriend.classList.add('accepted');
+
+            // Gửi yêu cầu chấp nhận kết bạn đến server thời gian thực
+            socket.emit('CLIENT_ACCEPT_FRIEND', (userID))
+        })
+    })
+}
+//End Chấp nhận lời mời kết bạn
