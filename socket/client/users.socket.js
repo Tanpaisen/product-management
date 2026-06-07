@@ -40,8 +40,17 @@ module.exports = (res) => {
                 userId: userId,
                 requestLength: requestLength
             })
-            
+
             // End cập nhật giao diện số lượng lời mời kết bạn của B
+
+            //Hiển thị danh sách lời mời kết bạn mới của B
+            const infoUserA = await User.findOne({ _id: myUserID }).select("fullname avatar id");
+            socket.broadcast.emit('SERVER_RETURN_LIST_REQUEST_FRIEND', {
+                userId: userId,
+                infoUserA: infoUserA,
+            })
+            //End Hiển thị danh sách lời mời kết bạn mới của B
+
         })
         // End Khi A gửi yêu cầu kết bạn cho B
 

@@ -11,7 +11,7 @@ block main
     .row
         .col-12
             +box-head("Danh sách lời mời kết bạn")
-    .row
+    .row(data-list-accept-friend=user.id)
         if(users.length > 0)
             each user in users
                 .col-6
@@ -37,6 +37,6 @@ block main
                                     btn-accepted-friend
                                 ) Đã chấp nhận
         else
-            p Bạn chưa gửi lời mời kết bạn nào.
+            p(zero-accept) Bạn chưa gửi lời mời kết bạn nào.
 block script 
     script(src="/js/users.js") 

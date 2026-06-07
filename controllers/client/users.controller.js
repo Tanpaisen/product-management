@@ -8,13 +8,15 @@ module.exports.notFriend = async (req, res) => {
     const myUserID = res.locals.user.id;
     const user = await User.findOne({_id: myUserID})
     const requestsFriend = user.requestsFriend;
+    const listFriend = user.listFriend.map(friend => friend.userID);
     const users = await User.find({
         //Cach 1
         // _id: {$nin: [myUserID, ...requestsFriend]},
         //Cach 2
         $and: [
             {_id: {$ne: myUserID}},
-            {_id: {$nin: requestsFriend}}
+            {_id: {$nin: requestsFriend}},
+            {_id: {$nin: listFriend}}
         ],
         deleted: false,
         status: 'active',
