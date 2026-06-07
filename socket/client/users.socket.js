@@ -8,15 +8,23 @@ module.exports = (res) => {
             const myUserID = res.locals.user.id; //ID của A
             const userId = userID; //ID của B
 
-            const exitsUser = await User.findOne({ requestsFriend: userId })
-            if (!exitsUser) {
+            const exitIDAinB = await User.findOne({ 
+                _id: userId,
+                acceptsFriend: myUserID 
+            })
+            if (!exitIDAinB) {
                 //Thêm id của A vào acceptsFriend của B
                 await User.updateOne({
                     _id: userId
                 }, {
                     $push: { acceptsFriend: myUserID }
                 })
-
+            }
+            const exitIDBinA = await User.findOne({
+                _id: myUserID,
+                requestsFriend: userId 
+            })
+            if (!exitIDBinA) {
                 //Thêm id của B vào requestsFriend của A
                 await User.updateOne({
                     _id: myUserID
@@ -33,15 +41,23 @@ module.exports = (res) => {
             const userId = userID; //ID của B
             console.log(userID, myUserID)
 
-            const exitsUser = await User.findOne({ requestsFriend: userId })
-            if (exitsUser) {
+            const exitIDAinB = await User.findOne({ 
+                _id: userId,
+                acceptsFriend: myUserID 
+            })
+            if (exitIDAinB) {
                 //Xóa id của A khỏi acceptsFriend của B
                 await User.updateOne({
                     _id: userId
                 }, {
                     $pull: { acceptsFriend: myUserID }
                 })
-
+            }
+            const exitIDBinA = await User.findOne({ 
+                _id: myUserID,
+                requestsFriend: userId 
+            })
+            if (exitIDBinA) {
                 //Xóa id của B khỏi requestsFriend của A
                 await User.updateOne({
                     _id: myUserID
@@ -57,14 +73,23 @@ module.exports = (res) => {
             const myUserID = res.locals.user.id; //ID của B
             const userId = userID; //ID của A
 
-            const exitsUser = await User.findOne({ requestsFriend: myUserID })
-            if (exitsUser) {
+            const exitIDAinB = await User.findOne({ 
+                _id: myUserID,
+                acceptsFriend: userID 
+            })
+            if (exitIDAinB) {
                 //Xóa id của A khỏi acceptsFriend của B
                 await User.updateOne({
                     _id: myUserID
                 }, {
                     $pull: { acceptsFriend: userID }
                 })
+            }
+            const exitIDBinA = await User.findOne({ 
+                _id: userID,
+                requestsFriend: myUserID 
+            })
+            if (exitIDBinA) {
 
                 //Xóa id của B khỏi requestsFriend của A
                 await User.updateOne({
@@ -81,10 +106,11 @@ module.exports = (res) => {
             const myUserID = res.locals.user.id; //ID của B
             const userId = userID; //ID của A
 
-            const exitsUser = await User.findOne({ requestsFriend: myUserID })
-            
-
-            if (exitsUser) {
+            const exitIDAinB = await User.findOne({ 
+                _id: myUserID,
+                acceptsFriend: userID 
+            })
+            if (exitIDAinB) {
                 //Thêm user_id,room_chat_id của A vào friendList của B
                 //Xóa id của A khỏi acceptsFriend của B
                 await User.updateOne({
@@ -98,6 +124,12 @@ module.exports = (res) => {
                         },
                     }
                 })
+            }
+            const exitIDBinA = await User.findOne({ 
+                _id: userID,
+                requestsFriend: myUserID 
+            })
+            if (exitIDBinA) {
                 //Thêm user_id,room_chat_id của B vào friendList của A
                 //Xóa id của B khỏi requestsFriend của A
                 await User.updateOne({
