@@ -60,3 +60,13 @@ if(listBtnAcceptFriend){
     })
 }
 //End Chấp nhận lời mời kết bạn
+
+// Hiển thị số lượng lời mời kết bạn khi A gửi yêu cầu kết bạn đến B
+socket.on('SERVER_RETURN_REQUEST_LENGTH', (data) => {
+    const dataBadgeRequest = document.querySelector('[badge-request-length]')
+
+    if(dataBadgeRequest){
+        dataBadgeRequest.textContent = data.requestLength;
+    }
+})
+// End Hiển thị số lượng lời mời kết bạn khi A gửi yêu cầu kết bạn đến B

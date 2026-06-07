@@ -32,6 +32,15 @@ module.exports = (res) => {
                     $push: { requestsFriend: userId }
                 })
             }
+
+            // Cập nhật giao diện số lượng lời mời kết bạn của B
+            const userB = await User.findOne({ _id: userId })
+            const requestLength = userB.acceptsFriend.length;
+            socket.broadcast.emit('SERVER_RETURN_REQUEST_LENGTH',{
+                userId: userId,
+                requestLength: requestLength
+            })
+            // End cập nhật giao diện số lượng lời mời kết bạn của B
         })
         // End Khi A gửi yêu cầu kết bạn cho B
 
