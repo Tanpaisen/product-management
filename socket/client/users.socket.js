@@ -40,6 +40,7 @@ module.exports = (res) => {
                 userId: userId,
                 requestLength: requestLength
             })
+            
             // End cập nhật giao diện số lượng lời mời kết bạn của B
         })
         // End Khi A gửi yêu cầu kết bạn cho B
