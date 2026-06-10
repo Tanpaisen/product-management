@@ -81,36 +81,40 @@ socket.on('SERVER_RETURN_REQUEST_LENGTH', (data) => {
 
 // Cập nhật danh sách lời mời kết bạn mới khi A gửi yêu cầu kết bạn đến B
 socket.on('SERVER_RETURN_LIST_REQUEST_FRIEND', (data) => {
+    //Trang lời mời kết bạn
     const dataListRequest = document.querySelector('[data-list-accept-friend]')
-    const userID = dataListRequest.getAttribute('data-list-accept-friend');
-
-    const div = document.createElement('div');
-    div.classList.add('col-6');
-    div.innerHTML = `
-        <div class="box-user">
-            <div class="inner-avatar">
-                <img src="${data.infoUserA.avatar || '/images/avatar.png'}" alt="${data.infoUserA.fullname}">
-            </div>
-            <div class="inner-info">
-                <div class="inner-name">${data.infoUserA.fullname}</div>
-                <div class="inner-buttons">
-                    <button class="btn btn-primary" btn-accept-friend="${data.infoUserA._id}">
-                       Chấp nhận
-                    </button>
-                    <button class="btn btn-secondary ms-2" btn-refuse-friend="${data.infoUserA._id}">
-                       Xóa
-                    </button>
-                    <button class="btn btn-secondary ms-2 disabled" btn-deleted-friend="">
-                       Đã xóa
-                    </button>
-                    <button class="btn btn-secondary ms-2 disabled" btn-accepted-friend="">
-                       Đã chấp nhận
-                    </button>
-                </div>
-            </div>
-        </div>     
-    `
     if (dataListRequest) {
+        const userID = dataListRequest.getAttribute('data-list-accept-friend');
+
+        const div = document.createElement('div');
+
+        // Vẽ giao diện
+        div.classList.add('col-6');
+        div.setAttribute('user-id', data.infoUserA._id);
+        div.innerHTML = `
+            <div class="box-user">
+                <div class="inner-avatar">
+                    <img src="${data.infoUserA.avatar || '/images/avatar.png'}" alt="${data.infoUserA.fullname}">
+                </div>
+                <div class="inner-info">
+                    <div class="inner-name">${data.infoUserA.fullname}</div>
+                    <div class="inner-buttons">
+                        <button class="btn btn-primary" btn-accept-friend="${data.infoUserA._id}">
+                        Chấp nhận
+                        </button>
+                        <button class="btn btn-secondary ms-2" btn-refuse-friend="${data.infoUserA._id}">
+                        Xóa
+                        </button>
+                        <button class="btn btn-secondary ms-2 disabled" btn-deleted-friend="">
+                        Đã xóa
+                        </button>
+                        <button class="btn btn-secondary ms-2 disabled" btn-accepted-friend="">
+                        Đã chấp nhận
+                        </button>
+                    </div>
+                </div>
+            </div>     
+        `
         if (userID === data.userId) {
             dataListRequest.appendChild(div);
 
@@ -126,5 +130,21 @@ socket.on('SERVER_RETURN_LIST_REQUEST_FRIEND', (data) => {
             acceptFriend(btnAcceptFriend);
         }
     }
+
 })
 // End Cập nhật danh sách lời mời kết bạn mới khi A gửi yêu cầu kết bạn đến B
+
+//SERVER_RETURN_USER_ID_REQUEST
+socket.on('SERVER_RETURN_USER_ID_REQUEST', (data) => {
+    const dataListRequest = document.querySelector('[data-list-accept-friend]')
+    if (dataListRequest) {
+        const userID = dataListRequest.getAttribute('data-list-accept-friend');
+        if (userID === data.userIdofB) {
+            const boxRemove = document.querySelector(`.col-6[user-id="${data.userIDofA}"]`);
+            if (boxRemove) {
+                boxRemove.remove();
+            }
+        }
+    }
+})
+//End SERVER_RETURN_USER_ID_REQUEST
