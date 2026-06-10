@@ -11,10 +11,10 @@ block main
     .row
         .col-12
             +box-head("Danh sách người dùng")
-    .row
+    .row(data-list-not-friend=user.id)
         if(users.length > 0)
             each user in users
-                .col-6
+                .col-6(user-id=user.id)
                     div(class="box-user")
                         .inner-avatar
                             img(src=user.avatar || "/images/avatar.png", alt=user.fullname)

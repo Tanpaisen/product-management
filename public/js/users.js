@@ -131,6 +131,17 @@ socket.on('SERVER_RETURN_LIST_REQUEST_FRIEND', (data) => {
         }
     }
 
+    //Trang danh sách bạn bè
+    const dataNotFriend = document.querySelector('[data-list-not-friend]')
+    if (dataNotFriend) {
+        const userID = dataNotFriend.getAttribute('data-list-not-friend');
+        if (userID === data.userId) {
+            const boxRemove = document.querySelector(`.col-6[user-id="${data.infoUserA._id}"]`);
+            if (boxRemove) {
+                dataNotFriend.removeChild(boxRemove);
+            }
+        }
+    }
 })
 // End Cập nhật danh sách lời mời kết bạn mới khi A gửi yêu cầu kết bạn đến B
 
@@ -142,7 +153,7 @@ socket.on('SERVER_RETURN_USER_ID_REQUEST', (data) => {
         if (userID === data.userIdofB) {
             const boxRemove = document.querySelector(`.col-6[user-id="${data.userIDofA}"]`);
             if (boxRemove) {
-                boxRemove.remove();
+                dataListRequest.removeChild(boxRemove);
             }
         }
     }
