@@ -72,6 +72,7 @@ socket.on('SERVER_RETURN_REQUEST_LENGTH', (data) => {
     const dataBadgeRequest = document.querySelector('[badge-request-length]')
     const userID = dataBadgeRequest.getAttribute('badge-request-length');
     if (dataBadgeRequest) {
+        console.log(data.userId)
         if (userID === data.userId) {
             dataBadgeRequest.textContent = data.requestLength;
         }

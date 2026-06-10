@@ -3,6 +3,19 @@ const User = require('../../models/user.model');
 module.exports = (res) => {
 
     _io.once('connection', async (socket) => {
+        //Hàm lấy số lượng lời mời kết bạn của B
+        const updateRequestLength = async (userId) => {
+            // Cập nhật giao diện số lượng lời mời kết bạn của B
+            const userB = await User.findOne({ _id: userId })
+            const requestLength = userB.acceptsFriend.length;
+            _io.emit('SERVER_RETURN_REQUEST_LENGTH', {
+                userId: userId,
+                requestLength: requestLength
+            })
+            // End cập nhật giao diện số lượng lời mời kết bạn của B
+        }
+        //End Hàm lấy số lượng lời mời kết bạn của B
+
         // Khi A gửi yêu cầu kết bạn cho B
         socket.on('CLIENT_ADD_FRIEND', async (userID) => {
             const myUserID = res.locals.user.id; //ID của A
@@ -34,12 +47,7 @@ module.exports = (res) => {
             }
 
             // Cập nhật giao diện số lượng lời mời kết bạn của B
-            const userB = await User.findOne({ _id: userId })
-            const requestLength = userB.acceptsFriend.length;
-            socket.broadcast.emit('SERVER_RETURN_REQUEST_LENGTH', {
-                userId: userId,
-                requestLength: requestLength
-            })
+            await updateRequestLength(userId);
             // End cập nhật giao diện số lượng lời mời kết bạn của B
 
             //Hiển thị danh sách lời mời kết bạn mới của B
@@ -83,6 +91,11 @@ module.exports = (res) => {
                 })
             }
 
+            // Cập nhật giao diện số lượng lời mời kết bạn của B
+            await updateRequestLength(userId);
+            // End cập nhật giao diện số lượng lời mời kết bạn của B
+
+
             //Gửi id của A cho B
             socket.broadcast.emit('SERVER_RETURN_USER_ID_REQUEST', {
                 userIdofB: userId,
@@ -123,6 +136,10 @@ module.exports = (res) => {
                     $pull: { requestsFriend: myUserID }
                 })
             }
+
+            //Cập nhật số lượng lời mời kết bạn mới của B
+            await updateRequestLength(myUserID);
+            //End Cập nhật số lượng lời mời kết bạn mới của B
         })
         // End Khi B từ chối yêu cầu kết bạn cho A
 
@@ -169,6 +186,10 @@ module.exports = (res) => {
                     }
                 })
             }
+
+            //Cập nhật số lượng lời mời kết bạn mới của B
+            await updateRequestLength(myUserID);
+            //End Cập nhật số lượng lời mời kết bạn mới của B
         })
         //End Khi B chấp nhận yêu cầu kết bạn cho A
     });
