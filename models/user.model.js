@@ -17,6 +17,7 @@ const userShema = new mongoose.Schema({
         userID: String,
         room_chat_id: String,
     }],
+    statusOnline: String,
     status: {
         type: String,
         default: "active"

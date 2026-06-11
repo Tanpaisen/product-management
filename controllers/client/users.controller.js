@@ -8,6 +8,7 @@ module.exports.notFriend = async (req, res) => {
     const myUserID = res.locals.user.id;
     const user = await User.findOne({_id: myUserID})
     const requestsFriend = user.requestsFriend;
+    const acceptsFriend = user.acceptsFriend;
     const listFriend = user.listFriend.map(friend => friend.userID);
     const users = await User.find({
         //Cach 1
@@ -16,7 +17,8 @@ module.exports.notFriend = async (req, res) => {
         $and: [
             {_id: {$ne: myUserID}},
             {_id: {$nin: requestsFriend}},
-            {_id: {$nin: listFriend}}
+            {_id: {$nin: listFriend}},
+            {_id: {$nin: acceptsFriend}},
         ],
         deleted: false,
         status: 'active',
@@ -72,6 +74,28 @@ module.exports.accept = async (req, res) => {
 
     res.render('client/pages/users/accepts',{
         pageTitle: 'Lời mời kết bạn',
+        users: users
+    })
+}
+
+
+// [GET /users/friends]
+module.exports.friends = async (req, res) => {
+    usersSocker(res)
+    const myUserID = res.locals.user.id;
+    const user = await User.findOne({_id: myUserID})
+    const listFriend = user.listFriend.map(friend => friend.userID);
+    const users = await User.find({
+        $and: [
+            {_id: {$ne: myUserID}},
+            {_id: {$in: listFriend}}
+        ],
+        deleted: false,
+        status: 'active',
+    }).select('id fullname avatar statusOnline')
+
+    res.render('client/pages/users/friends',{
+        pageTitle: 'Danh sách bạn bè',
         users: users
     })
 }

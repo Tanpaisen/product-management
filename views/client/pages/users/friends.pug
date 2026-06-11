@@ -1,0 +1,35 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert-flash.pug
+include ../../mixins/box-head.pug
+
+
+block main
+  .container.my-4
+    .row
+        .col-12
+            include ../../partials/list-btn-friend
+    .row
+        .col-12
+            +box-head("Danh sách bạn bè")
+    .row(data-list-friend=user.id)
+        if(users.length > 0)
+            each user in users
+                .col-6(user-id=user.id)
+                    div(class="box-user")
+                        .inner-status(
+                            status=user.statusOnline
+                        ) <i class="fa-solid fa-circle"></i>
+                        .inner-avatar
+                            img(src=user.avatar || "/images/avatar.png", alt=user.fullname)
+                        .inner-info
+                            .inner-name=user.fullname
+                            .inner-buttons
+                                a.btn.btn-primary(
+                                    href='#'
+                                    btn-message-friend=user.id
+                                ) Nhắn tin
+                            
+        else
+            p(zero-accept) Bạn chưa gửi lời mời kết bạn nào.
+block script 
+    script(src="/js/users.js") 
