@@ -160,3 +160,16 @@ socket.on('SERVER_RETURN_USER_ID_REQUEST', (data) => {
     }
 })
 //End SERVER_RETURN_USER_ID_REQUEST
+
+//SERVER_RETURN_USER_STATUS_ONLINE
+socket.on('SERVER_RETURN_USER_STATUS_ONLINE', (data) => {
+    const dataListFriend = document.querySelector('[data-list-friend]')
+    if (dataListFriend) {
+        const boxUser = document.querySelector(`.col-6[user-id="${data.userId}"]`);
+        if (boxUser) {
+            const statusOnline = boxUser.querySelector('[status]')
+            statusOnline.setAttribute('status', data.statusOnline);
+        }
+    }
+})
+// End SERVER_RETURN_USER_STATUS_ONLINE

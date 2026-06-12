@@ -51,4 +51,3 @@ if (uploadImg) {
   });
 }
 //end upload image
-

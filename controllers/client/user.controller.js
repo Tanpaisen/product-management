@@ -83,6 +83,14 @@ module.exports.loginPost = async (req, res) => {
     }, {
         statusOnline: "online"
     })
+    //SERVER_RETURN_USER_STATUS_ONLINE
+    _io.once('connection', async (socket) => {
+        socket.broadcast.emit('SERVER_RETURN_USER_STATUS_ONLINE',{
+            userId: user.id,
+            statusOnline: "online"
+        })
+    })
+    //END SERVER_RETURN_USER_STATUS_ONLINE
     res.redirect('/')
 }
 
@@ -93,6 +101,16 @@ module.exports.logout = async (req, res) => {
     }, {
         statusOnline: "offline"
     })
+
+    //SERVER_RETURN_USER_STATUS_ONLINE
+    _io.once('connection', (socket) => {
+        socket.broadcast.emit('SERVER_RETURN_USER_STATUS_ONLINE',{
+            userId: res.locals.user.id,
+            statusOnline: "offline"
+        })
+    })
+    //END SERVER_RETURN_USER_STATUS_ONLINE
+
     res.clearCookie('tokenUser')
     res.clearCookie('cartId')
 
