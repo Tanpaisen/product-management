@@ -25,7 +25,7 @@ block main
                             .inner-name=user.fullname
                             .inner-buttons
                                 a.btn.btn-primary(
-                                    href='/chat'
+                                    href=`/chat/${user.infoFriend.room_chat_id}`
                                     btn-message-friend=user.id
                                 ) Nhắn tin
                             
