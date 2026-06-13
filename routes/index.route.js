@@ -12,7 +12,6 @@ const cartMiddleware = require('../middlewares/client/cart.middleware')
 const userMiddleware = require('../middlewares/client/user.middleware')
 const settingGeneralMiddleware = require('../middlewares/client/settings-general.middleware')
 const authenticationMiddleware = require('../middlewares/client/authentication.middleware')
-
 module.exports = (app) => {
 
     app.use(categoryMiddleware.category)
