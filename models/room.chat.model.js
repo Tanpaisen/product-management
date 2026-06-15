@@ -2,8 +2,7 @@ const mongoose = require('mongoose');
 const generate = require('../helper/generate');
 
 const roomChatSchema = new mongoose.Schema({
-    title: String,
-
+    roomName: String,
     avatar: String,
     statusOnline: String,
     status: String,

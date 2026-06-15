@@ -1,0 +1,40 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert-flash.pug
+include ../../mixins/box-head.pug
+
+block main
+    .container.my-3 
+        +messages(5000)
+        .row 
+            .col-12
+                +box-head('Tạo phòng')
+        .row 
+            .col-12
+                form(
+                    action=`/rooms-chat/create`
+                    method="POST"
+                )
+                    div(class="form-group")
+                        label(for="roomName") Tên nhóm: *
+                        input(
+                            type="text"
+                            class="form-control"
+                            id="roomName"
+                            name="roomName"
+                            required
+                        )
+                    each user in listFriend
+                        div.form-check
+                            input.form-check-input(
+                                type="checkbox"
+                                id=`user-${user._id}`
+                                name='userIDs'
+                                value=user._id
+                            )
+                            label.form-check-label(for=`user-${user._id}`) #{user.infoUser.fullname}
+                
+                    div(class="form-group")
+                        button(
+                        type="submit"
+                        class="btn btn-primary"
+                        ) Tạo mới

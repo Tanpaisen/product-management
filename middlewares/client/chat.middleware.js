@@ -1,11 +1,11 @@
-const User = require('../../models/user.model')
+const RoomChat = require('../../models/room.chat.model')
 
 module.exports.roomChat = async (req, res, next) => {
     const roomChatID = req.params.roomChatID;
     const userID = res.locals.user.id;
-    const existUserInRoomChat = await User.findOne({
-        _id: userID,
-        "listFriend.room_chat_id" : roomChatID,
+    const existUserInRoomChat = await RoomChat.findOne({
+        _id: roomChatID,
+        "users.userID" : userID,
         deleted: false,
     }) 
     if(existUserInRoomChat){
