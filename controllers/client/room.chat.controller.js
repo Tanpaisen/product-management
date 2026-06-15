@@ -2,9 +2,16 @@ const User = require('../../models/user.model')
 const RoomChat = require('../../models/room.chat.model')
 
 //[GET] /rooms-chat
-module.exports.index = (req, res) => {
+module.exports.index = async (req, res) => {
+    const groups = await RoomChat.find({
+        typeRoom: 'group',
+        deleted: false,
+        'users.userID': res.locals.user.id
+    })
+    console.log(groups)
     res.render('client/pages/room-chats/index.pug', {
-        pageTitle: 'Nhóm chat'
+        pageTitle: 'Nhóm chat',
+        groups: groups,
     })
 }
 

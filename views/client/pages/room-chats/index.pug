@@ -16,17 +16,18 @@ block main
             ) Tạo phòng chat
     .row
         .col-6  
+        each group in groups
             div(class='box-room')
                 div(class='inner-avatar')
                     img(
-                        src='https://robohash.org/hicveldicta.png'
-                        alt="Phòng abc"
+                        src=group.avatar
+                        alt=group.roomName
                     )
                 div(class='inner-info')
-                    div(class='inner-name') Phòng abc
+                    div(class='inner-name') #{group.roomName}
                     div(class='inner-buttons')
                         a(
-                            href='#'
+                            href=`/chat/${group.id}`
                             class='btn btn-sm btn-primary mr-1'
                         ) Nhắn tin
 
